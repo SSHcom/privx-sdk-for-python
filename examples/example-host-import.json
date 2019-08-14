@@ -1,0 +1,54 @@
+[
+	{
+		"name": "a-test-host",
+		"addresses": [
+			"123.123.123.123"
+		],
+		"services": [
+			{
+				"service": "SSH",
+				"address": "123.123.123.123",
+				"port": 22
+			}
+		],
+		"accounts": [
+			{
+				"name": "root",
+				"password": "secret",
+				"roles": [
+					"privx-admin",
+					"test-role"
+				]
+			}
+		]
+	},
+
+	{
+		"name": "a-test-host-2",
+		"addresses": [
+			"test.ssh.com"
+		],
+		"audited": 1,
+		"services": [
+			{
+				"service": "SSH",
+				"address": "test.ssh.com",
+				"port": 22
+			},
+			{
+				"service": "SSH",
+				"address": "tectia.ssh.com",
+				"port": 222
+			}
+		],
+		"accounts": [
+			{
+				"name": "root",
+				"password": "secret",
+				"roles": [
+					"privx-admin"
+				]
+			}
+		]
+	}
+]

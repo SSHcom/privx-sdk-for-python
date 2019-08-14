@@ -1,0 +1,19 @@
+Example scripts for using PrivX SDK.
+Requires Python 3.6+
+
+Before use, create an API client in
+    Settings ->
+    Deployment ->
+    Integrate With Using API Clients
+
+and fill in HOSTNAME, CA_CERT, OAUTH_CLIENT_SECRET fields in config.py
+
+HOSTNAME should point to PrivX instance.
+API_CA_CRT is PrivX public CA certificate, which can be found in API client
+page in 
+    Settings ->
+    Deployment ->
+    Integrate With Using API Clients ->
+    TLS Trust Anchor
+
+Examples require should be modified to include API client credentials.
