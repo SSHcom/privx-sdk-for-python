@@ -2,7 +2,7 @@
 
 HOSTNAME = 'example.privx.ssh.com'
 
-CA_CRT = u'''
+CA_CERT = u'''
 ADD PRIVX CA CERT HERE
 '''
 
