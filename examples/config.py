@@ -1,6 +1,7 @@
 # PrivX instance variables.
 
 HOSTNAME = 'example.privx.ssh.com'
+HOSTPORT = 443
 
 CA_CERT = u'''
 ADD PRIVX CA CERT HERE

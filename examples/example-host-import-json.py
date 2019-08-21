@@ -11,7 +11,7 @@ with open("example-host-import.json", 'r') as f:
     hosts = json.loads(f.read())
 
 # Initialize the API.
-api = privx_api.PrivXAPI(config.HOSTNAME, config.CA_CERT,
+api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
                          config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
 
 # Authenticate.

@@ -100,9 +100,10 @@ class PrivXAPI(object):
     """
     Instance for Privx API library.
     """
-    def __init__(self, hostname, ca_cert, oauth_client_id,
+    def __init__(self, hostname, hostport, ca_cert, oauth_client_id,
                  oauth_client_secret):
         self._hostname = hostname
+        self._hostport = hostport
         self._access_token = ""
         self._ca_cert = ca_cert
         self._oauth_client_id = oauth_client_id
@@ -122,7 +123,7 @@ class PrivXAPI(object):
 
     def _get_connection(self) -> http.client.HTTPSConnection:
         return http.client.HTTPSConnection(
-            self._hostname, port=8443, context=self._get_context())
+            self._hostname, port=self._hostport, context=self._get_context())
 
     def _authenticate(self, username: str, password: str):
         conn = self._get_connection()
