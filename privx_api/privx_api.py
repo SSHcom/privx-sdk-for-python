@@ -28,6 +28,7 @@ URLS = {
 
     "hoststore.hosts": "/host-store/api/v1/hosts",
     "hoststore.host": "/host-store/api/v1/hosts/{}",
+    "hoststore.hosts.search": "/host-store/api/v1/hosts/search",
 
     "rolestore.roles": "/role-store/api/v1/roles",
     "rolestore.sources": "/role-store/api/v1/sources",
@@ -265,6 +266,25 @@ class PrivXAPI(object):
             PrivXAPIResponse
         """
         response = self._http_get("hoststore.hosts")
+        return PrivXAPIResponse(response, 200)
+
+    def search_hosts(self, offset: int = None, limit: int = None,
+                     sortkey: str = None, sortdir: str = None,
+                     filter: str = None, **kw) -> PrivXAPIResponse:
+
+        search_params = kw
+        if offset is not None:
+            search_params['offset'] = offset
+        if limit is not None:
+            search_params['limit'] = limit
+        if sortkey is not None:
+            search_params['sortkey'] = sortkey
+        if sortdir is not None:
+            search_params['sortdir'] = sortdir
+        if filter is not None:
+            search_params['filter'] = filter
+
+        response = self._http_post("hoststore.hosts.search", search_params)
         return PrivXAPIResponse(response, 200)
 
     #
