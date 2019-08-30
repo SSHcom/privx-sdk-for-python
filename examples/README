@@ -6,14 +6,15 @@ Before use, create an API client in
     Deployment ->
     Integrate With PrivX Using API Clients
 
-and fill in HOSTNAME, CA_CERT, OAUTH_CLIENT_SECRET fields in config.py
+The permissions for the client varies on the use case, check the PrivX
+documentation for permission explanation.
 
-HOSTNAME should point to PrivX instance.
-API_CA_CRT is PrivX public CA certificate, which can be found in API client
-page in 
-    Settings ->
-    Deployment ->
-    Integrate With PrivX Using API Clients ->
-    TLS Trust Anchor
+After the API client creation, you can find the secrets for the client
+under credentials section. The example scripts must include the API client ID
+("API Client ID") and secret ("API Client Secret"), config.py must include
+the OAuth client secret ("OAuth Client Secret").
 
-Examples should be modified to include API client credentials.
+Fill in the missing fields in config.py
+* HOSTNAME, the PrivX instance address, like "my.privx.intance.net"
+* CA_CERT, the CA certificate, found on the API clients page ("TLS Trust Anchor")
+* OAUTH_CLIENT_SECRET, found on the API clients page ("OAuth Client Secret")
