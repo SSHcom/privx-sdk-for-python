@@ -1,6 +1,6 @@
 # PrivX SDK for Python 3
 
-The **PrivX Software Development Kit (SDK)** facilitates you with an automation of lean access management for privileged users. It offers a high-level abstraction to programmatically configure you IAM policies.
+The **PrivX Software Development Kit (SDK)** facilitates you with an automation of lean access management for privileged users. It offers a high-level abstraction to programmatically configure your IAM policies.
 
 
 
