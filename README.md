@@ -85,4 +85,4 @@ If you experience any issues with the library, please let us know via [GitHub is
 
 ## License
 
-[![See LICENSE](https://img.shields.io/github/license/SSScom/privx-sdk-for-python.svg?style=for-the-badge)](LICENSE)
+[![See LICENSE](https://img.shields.io/github/license/SSHcom/privx-sdk-for-python.svg?style=for-the-badge)](LICENSE)
