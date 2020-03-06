@@ -176,7 +176,7 @@ class PrivXAPI(object):
 
         return conn.getresponse()
 
-    def _http_get_with_param(self, urlname: str, elem_id: str, data: dict = {}) -> http.client.HTTPResponse:
+    def _http_get_with_param(self, urlname: str, elem_id: str) -> http.client.HTTPResponse:
 
         conn = self._get_connection()
 
