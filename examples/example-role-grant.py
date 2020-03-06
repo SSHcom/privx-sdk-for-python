@@ -16,7 +16,7 @@ api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
-api.authenticate("7f577418-e543-4089-513d-71f9768b4589", "nGcNpvRHEeLaoFMO12FWiHb4JYdZdVRCv4lqCZBVL00=")
+api.authenticate("API client ID", "API client secret")
 
 email = "joe.firewall@testdomain.com"
 roleName = "NQXusers"
