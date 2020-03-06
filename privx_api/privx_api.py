@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019 SSH Communications Security Corp.
+# Copyright (c) 2020 SSH Communications Security Corp.
 #
 # See the LICENSE file for the details on licensing.
 #
@@ -20,7 +20,6 @@ import http.client
 import base64
 import json
 
-
 # Privx URLs.
 URLS = {
     "auth.authorize": "/auth/api/v1/oauth/authorize",
@@ -32,6 +31,8 @@ URLS = {
 
     "rolestore.roles": "/role-store/api/v1/roles",
     "rolestore.sources": "/role-store/api/v1/sources",
+    "rolestore.users.search": "/role-store/api/v1/users/search",
+    "rolestore.user.roles": "/role-store/api/v1/users/{}/roles",
 
     "userstore.status": "/local-user-store/api/v1/status",
     "userstore.users": "/local-user-store/api/v1/users",
@@ -174,6 +175,19 @@ class PrivXAPI(object):
         )
 
         return conn.getresponse()
+
+    def _http_get_with_param(self, urlname: str, elem_id: str, data: dict = {}) -> http.client.HTTPResponse:
+
+        conn = self._get_connection()
+
+        conn.request(
+            "GET",
+            self._get_url(urlname).format(elem_id),
+            headers=self._get_headers(),
+        )
+
+        return conn.getresponse()
+
 
     def _http_get_no_auth(self, urlname: str) -> http.client.HTTPResponse:
         headers = self._get_headers()
@@ -332,3 +346,43 @@ class PrivXAPI(object):
         """
         response = self._http_post("userstore.users", data)
         return PrivXAPIResponse(response, 201)
+
+
+    def search_users(self, offset: int = None, limit: int = None,
+                     sortkey: str = None, sortdir: str = None,
+                     filter: str = None, **kw) -> PrivXAPIResponse:
+
+        search_params = kw
+        if offset is not None:
+            search_params['offset'] = offset
+        if limit is not None:
+            search_params['limit'] = limit
+        if sortkey is not None:
+            search_params['sortkey'] = sortkey
+        if sortdir is not None:
+            search_params['sortdir'] = sortdir
+        if filter is not None:
+            search_params['filter'] = filter
+
+        response = self._http_post("rolestore.users.search", search_params)
+        return PrivXAPIResponse(response, 200)
+
+    def get_user_roles(self, user_id: str) -> PrivXAPIResponse:
+        """
+        Get user roles.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_get_with_param("rolestore.user.roles", user_id)
+        return PrivXAPIResponse(response, 200)
+
+    def update_user_roles(self, user_id: str, data: dict) -> PrivXAPIResponse:
+        """
+        Update user roles, see required fields from API docs.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_put("rolestore.user.roles", user_id, data)
+        return PrivXAPIResponse(response, 200)
