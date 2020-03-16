@@ -32,7 +32,7 @@ URLS = {
     "rolestore.roles": "/role-store/api/v1/roles",
     "rolestore.sources": "/role-store/api/v1/sources",
     "rolestore.users.search": "/role-store/api/v1/users/search",
-    "rolestore.user.roles": "/role-store/api/v1/users/{}/roles",
+    "rolestore.user.roles": "/role-store/api/v1/users/{user_id}/roles",
 
     "userstore.status": "/local-user-store/api/v1/status",
     "userstore.users": "/local-user-store/api/v1/users",
@@ -166,28 +166,17 @@ class PrivXAPI(object):
             "Authorization": "Bearer {}".format(self._access_token),
         }
 
-    def _http_get(self, urlname: str) -> http.client.HTTPResponse:
+    def _http_get(self, urlname: str, params: dict = {}) -> http.client.HTTPResponse:
         conn = self._get_connection()
+        url = self._get_url(urlname).format(**params)
+
         conn.request(
             "GET",
-            self._get_url(urlname),
+            url,
             headers=self._get_headers(),
         )
 
         return conn.getresponse()
-
-    def _http_get_with_param(self, urlname: str, elem_id: str) -> http.client.HTTPResponse:
-
-        conn = self._get_connection()
-
-        conn.request(
-            "GET",
-            self._get_url(urlname).format(elem_id),
-            headers=self._get_headers(),
-        )
-
-        return conn.getresponse()
-
 
     def _http_get_no_auth(self, urlname: str) -> http.client.HTTPResponse:
         headers = self._get_headers()
@@ -219,17 +208,18 @@ class PrivXAPI(object):
 
         return conn.getresponse()
 
-    def _http_put(self, urlname: str, elem_id: str, data: dict = {},
+    def _http_put(self, urlname: str, params: dict = {},
                   body: str = "") -> http.client.HTTPResponse:
 
         conn = self._get_connection()
 
-        if not body:
-            body = json.dumps(data)
+        body = json.dumps(body)
+
+        url = self._get_url(urlname).format(**params)
 
         conn.request(
             "PUT",
-            self._get_url(urlname).format(elem_id),
+            url,
             headers=self._get_headers(),
             body=body,
         )
@@ -374,7 +364,9 @@ class PrivXAPI(object):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_get_with_param("rolestore.user.roles", user_id)
+
+        params = {"user_id": user_id}
+        response = self._http_get("rolestore.user.roles", params)
         return PrivXAPIResponse(response, 200)
 
     def update_user_roles(self, user_id: str, data: dict) -> PrivXAPIResponse:
@@ -384,5 +376,6 @@ class PrivXAPI(object):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_put("rolestore.user.roles", user_id, data)
+        params = {"user_id": user_id}
+        response = self._http_put("rolestore.user.roles", params, data)
         return PrivXAPIResponse(response, 200)

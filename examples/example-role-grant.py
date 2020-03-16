@@ -59,10 +59,18 @@ else:
     sys.exit(1)
 
 
-userRoles = api.get_user_roles(userID).data().get("items")
+print("Fetching user roles")
+userRolesQuery = api.get_user_roles(userID)
+if userRolesQuery.ok():
+        print(userRolesQuery.data())
+else:
+        print(userRolesQuery.data())
+        sys.exit(1)
+
+userRoles = userRolesQuery.data().get("items")
 
 print("Updating roles for user")
-# Floating role validity period in hours, clock starts running after user permiossions are checked. 
+# Floating role validity period in hours, clock starts running after user permiossions are checked.
 #role = {
 #    "id": roleID,
 #    "name": "NQXusers",
