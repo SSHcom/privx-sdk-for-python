@@ -188,36 +188,36 @@ class PrivXAPI(object):
 
         return conn.getresponse()
 
-    def _http_post(self, urlname: str, data: dict = {},
-                   body: str = "") -> http.client.HTTPResponse:
+    def _http_post(self,
+                   urlname: str,
+                   data: dict = {},
+                   query_params: dict = {}) -> http.client.HTTPResponse:
 
         conn = self._get_connection()
 
-        if not body:
-            body = json.dumps(data)
+        params = urllib.parse.urlencode(query_params)
+        url = self._get_url(urlname)
+        if params:
+            url = "{}?{}".format(url, params)
 
         conn.request(
             "POST",
-            self._get_url(urlname),
+            url,
             headers=self._get_headers(),
-            body=body,
+            body=json.dumps(data),
         )
 
         return conn.getresponse()
 
     def _http_put(self, urlname: str, elem_id: str, data: dict = {},
-                  body: str = "") -> http.client.HTTPResponse:
+                  ) -> http.client.HTTPResponse:
 
         conn = self._get_connection()
-
-        if not body:
-            body = json.dumps(data)
-
         conn.request(
             "PUT",
             self._get_url(urlname).format(elem_id),
             headers=self._get_headers(),
-            body=body,
+            body=json.dumps(data),
         )
 
         return conn.getresponse()
@@ -272,7 +272,7 @@ class PrivXAPI(object):
                      sortkey: str = None, sortdir: str = None,
                      filter: str = None, **kw) -> PrivXAPIResponse:
 
-        search_params = kw
+        search_params = {}
         if offset is not None:
             search_params['offset'] = offset
         if limit is not None:
@@ -284,7 +284,7 @@ class PrivXAPI(object):
         if filter is not None:
             search_params['filter'] = filter
 
-        response = self._http_post("hoststore.hosts.search", search_params)
+        response = self._http_post("hoststore.hosts.search", kw, search_params)
         return PrivXAPIResponse(response, 200)
 
     #
