@@ -196,11 +196,9 @@ class PrivXAPI(object):
 
         conn = self._get_connection()
         body = json.dumps(body)
-        print(body)
 
         query_params = urllib.parse.urlencode(query_params)
         url = self._get_url(urlname).format(**path_params)+"?"+query_params
-        print(url)
 
         conn.request(
             "POST",
