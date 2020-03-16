@@ -23,7 +23,7 @@ roleName = "NQXusers"
 
 # Get user.
 print("Searching user ",email)
-resp = api.search_users(email)
+resp = api.search_users(keywords=email)
 if resp.ok():
     for item in resp.data().get("items"):
         if item.get("email") == email:
@@ -32,7 +32,6 @@ if resp.ok():
 else:
     print(resp.data())
     sys.exit(1)
-
 
 if userID == "":
     print("did not find user ID")

@@ -191,17 +191,20 @@ class PrivXAPI(object):
 
         return conn.getresponse()
 
-    def _http_post(self, urlname: str, data: dict = {},
+    def _http_post(self, urlname: str, query_params: dict = {}, path_params: dict = {},
                    body: str = "") -> http.client.HTTPResponse:
 
         conn = self._get_connection()
+        body = json.dumps(body)
+        print(body)
 
-        if not body:
-            body = json.dumps(data)
+        query_params = urllib.parse.urlencode(query_params)
+        url = self._get_url(urlname).format(**path_params)+"?"+query_params
+        print(url)
 
         conn.request(
             "POST",
-            self._get_url(urlname),
+            url,
             headers=self._get_headers(),
             body=body,
         )
@@ -249,7 +252,7 @@ class PrivXAPI(object):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_post("hoststore.hosts", data)
+        response = self._http_post("hoststore.hosts", body=data)
         return PrivXAPIResponse(response, 201)
 
     def update_host(self, host_id: str, data: dict) -> PrivXAPIResponse:
@@ -272,23 +275,18 @@ class PrivXAPI(object):
         response = self._http_get("hoststore.hosts")
         return PrivXAPIResponse(response, 200)
 
-    def search_hosts(self, offset: int = None, limit: int = None,
-                     sortkey: str = None, sortdir: str = None,
-                     filter: str = None, **kw) -> PrivXAPIResponse:
+    def search_hosts(self, offset: int = 0, limit: int = 50,
+                     sortkey: str = "common_name", sortdir: str = "asc",
+                     filter: str = "", **kw) -> PrivXAPIResponse:
 
-        search_params = kw
-        if offset is not None:
-            search_params['offset'] = offset
-        if limit is not None:
-            search_params['limit'] = limit
-        if sortkey is not None:
-            search_params['sortkey'] = sortkey
-        if sortdir is not None:
-            search_params['sortdir'] = sortdir
-        if filter is not None:
-            search_params['filter'] = filter
+        query_params = {}
+        query_params['offset'] = offset
+        query_params['limit'] = limit
+        query_params['sortkey'] = sortkey
+        query_params['sortdir'] = sortdir
+        query_params['filter'] = filter
 
-        response = self._http_post("hoststore.hosts.search", search_params)
+        response = self._http_post("hoststore.hosts.search", query_params=query_params, body=kw)
         return PrivXAPIResponse(response, 200)
 
     #
@@ -301,7 +299,7 @@ class PrivXAPI(object):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_post("rolestore.roles", data)
+        response = self._http_post("rolestore.roles", body=data)
         return PrivXAPIResponse(response, 201)
 
     def get_roles(self) -> PrivXAPIResponse:
@@ -334,27 +332,27 @@ class PrivXAPI(object):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_post("userstore.users", data)
+        response = self._http_post("userstore.users", body=data)
         return PrivXAPIResponse(response, 201)
 
+    def search_users(self, offset: int = 0, limit: int = 50,
+                     sortkey: str = "common_name", sortdir: str = "asc",
+                     filter: str = "", **keywords) -> PrivXAPIResponse:
 
-    def search_users(self, offset: int = None, limit: int = None,
-                     sortkey: str = None, sortdir: str = None,
-                     filter: str = None, **kw) -> PrivXAPIResponse:
+        """
+        Search users.
 
-        search_params = kw
-        if offset is not None:
-            search_params['offset'] = offset
-        if limit is not None:
-            search_params['limit'] = limit
-        if sortkey is not None:
-            search_params['sortkey'] = sortkey
-        if sortdir is not None:
-            search_params['sortdir'] = sortdir
-        if filter is not None:
-            search_params['filter'] = filter
+        Returns:
+            PrivXAPIResponse
+        """
+        query_params = {}
+        query_params['offset'] = offset
+        query_params['limit'] = limit
+        query_params['sortkey'] = sortkey
+        query_params['sortdir'] = sortdir
+        query_params['filter'] = filter
 
-        response = self._http_post("rolestore.users.search", search_params)
+        response = self._http_post("rolestore.users.search", query_params=query_params, body=keywords)
         return PrivXAPIResponse(response, 200)
 
     def get_user_roles(self, user_id: str) -> PrivXAPIResponse:
