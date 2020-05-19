@@ -1,3 +1,5 @@
+[![Build Status](https://img.shields.io/github/workflow/status/SSHcom/privx-sdk-for-python/Python%20package)](https://github.com/SSHcom/privx-sdk-for-python/actions)
+
 # PrivX SDK for Python 3
 
 The **PrivX Software Development Kit (SDK)** facilitates you with an automation of lean access management for privileged users. It offers a high-level abstraction to programmatically configure your IAM policies.
