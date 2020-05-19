@@ -323,15 +323,15 @@ class PrivXAPI(object):
         response = self._http_get("rolestore.sources")
         return PrivXAPIResponse(response, 200)
         
-    def get_role_members(self, data: str) -> PrivXAPIResponse:
+    def get_role_members(self, role_id: str) -> PrivXAPIResponse:
         """
         Get Role Members.
 
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_get("rolestore.roles.members", data)
-        return PrivXAPIResponse(response, 200)  
+        response = self._http_get("rolestore.roles.members", role_id)
+        return PrivXAPIResponse(response, 200)
 
     #
     # User store API.

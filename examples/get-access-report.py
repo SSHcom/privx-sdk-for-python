@@ -11,16 +11,14 @@ import config
 
 # Initialize the API.
 api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
-                                                 config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
+                         config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
-api.authenticate(config.API_CLIENT_ID,config.API_CLIENT_SECRET)
+api.authenticate("API client ID", "API client secret")
 
-header_printed = False
-user = "ALL"
 
-def GetRoles():
+def get_roles():
     resp = api.get_roles()
     if resp.ok():
         data_load = resp.data()
@@ -31,9 +29,10 @@ def GetRoles():
         return roles_data
     else:
         error = "Get Roles operation failed:"
-        ProcessError(error)
-        
-def GetUsers(role_id):
+        process_error(error)
+
+
+def get_users(role_id):
     resp = api.get_role_members(role_id)
     if resp.ok():
         data_load = resp.data()
@@ -44,17 +43,19 @@ def GetUsers(role_id):
         return users_data
     else:
         error = "Get users operation failed:"
-        ProcessError(error)
+        process_error(error)
 
-def GetConnectionData(uid, user):
-    resp = api.search_connections(user_id = [uid])
+
+def get_connection_data(uid, user):
+    resp = api.search_connections(user_id=[uid])
     if resp.ok():
         data_load = resp.data()
         connections_data = {}
         all_data = []
         connections_data["user"] = user
         for connection_data in data_load['items']:
-            data = "type,target_host_address,target_host_account,connected,disconnected"
+            data = ("type,target_host_address,"
+                    "target_host_account,connected,disconnected")
             data_list = data.split(',')
             for p in data_list:
                 if p in ("connected", "disconnected"):
@@ -64,10 +65,10 @@ def GetConnectionData(uid, user):
         return all_data
     else:
         error = "Get users Connection data operation failed:"
-        ProcessError(error)
-        
-def PrintConnectionData(user, users_data):
-    global header_printed
+        process_error(error)
+
+
+def export_connection_data(user, users_data, header_printed=False):
     output_csvfile = user+"_connection_data.csv"
     users = {}
     if user == "ALL":
@@ -75,32 +76,35 @@ def PrintConnectionData(user, users_data):
     else:
         users[user] = users_data[user]
     with open(output_csvfile, "w") as f:
-        print("Writting Connection data to", output_csvfile, end = ' ')
+        print("Writing Connection data to", output_csvfile, end=' ')
         for user, uid in users.items():
-            connection_data = GetConnectionData(uid, user)
+            connection_data = get_connection_data(uid, user)
             for data in connection_data:
                 w = csv.DictWriter(f, data.keys())
-                if header_printed == False: 
+                if not header_printed:
                     w.writeheader()
                     header_printed = True
                 w.writerow(data)
     print("\nDone")
 
+
 def usage():
     print("")
-    print(sys.argv[0]," -h or --help")
-    print(sys.argv[0]," -u user1")
-    print(sys.argv[0]," --user ALL")
+    print(sys.argv[0], " -h or --help")
+    print(sys.argv[0], " -u user1")
+    print(sys.argv[0], " --user ALL")
 
-def ProcessError(messages):
+
+def process_error(messages):
     print(messages)
     sys.exit(2)
-    
+
+
 def main():
-    global user
+    user = "ALL"
     if (len(sys.argv) > 3):
         usage()
-        raise SystemExit
+        sys.exit(2)
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hu:", ["help", "user="])
     except getopt.GetoptError:
@@ -114,11 +118,11 @@ def main():
             user = arg
         else:
             usage()
-    roles_data = GetRoles()
+    roles_data = get_roles()
     role_id = roles_data['privx-user']
-    users_data = GetUsers(role_id)
+    users_data = get_users(role_id)
     if (user == "ALL" or user in users_data.keys()):
-        PrintConnectionData(user, users_data)
+        export_connection_data(user, users_data)
     else:
         print(user+" user not found")
         sys.exit(2)
