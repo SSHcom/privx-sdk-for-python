@@ -32,9 +32,12 @@ URLS = {
 
     "rolestore.roles": "/role-store/api/v1/roles",
     "rolestore.sources": "/role-store/api/v1/sources",
+    "rolestore.roles.members": "/role-store/api/v1/roles/{}/members",
 
     "userstore.status": "/local-user-store/api/v1/status",
     "userstore.users": "/local-user-store/api/v1/users",
+    
+    "connection.manager.search": "/connection-manager/api/v1/connections/search",
 }
 
 
@@ -165,11 +168,11 @@ class PrivXAPI(object):
             "Authorization": "Bearer {}".format(self._access_token),
         }
 
-    def _http_get(self, urlname: str) -> http.client.HTTPResponse:
+    def _http_get(self, urlname: str, elem_id: str = "") -> http.client.HTTPResponse:
         conn = self._get_connection()
         conn.request(
             "GET",
-            self._get_url(urlname),
+            self._get_url(urlname).format(elem_id),
             headers=self._get_headers(),
         )
 
@@ -319,6 +322,16 @@ class PrivXAPI(object):
         """
         response = self._http_get("rolestore.sources")
         return PrivXAPIResponse(response, 200)
+        
+    def get_role_members(self, role_id: str) -> PrivXAPIResponse:
+        """
+        Get Role Members.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_get("rolestore.roles.members", role_id)
+        return PrivXAPIResponse(response, 200)
 
     #
     # User store API.
@@ -332,3 +345,22 @@ class PrivXAPI(object):
         """
         response = self._http_post("userstore.users", data)
         return PrivXAPIResponse(response, 201)
+        
+    #
+    # Connection manager API.
+    #
+    def search_connections(self, offset: int = None, limit: int = None,
+                     sortkey: str = None, sortdir: str = None, **kw) -> PrivXAPIResponse:
+
+        search_params = kw
+        if offset is not None:
+            search_params['offset'] = offset
+        if limit is not None:
+            search_params['limit'] = limit
+        if sortkey is not None:
+            search_params['sortkey'] = sortkey
+        if sortdir is not None:
+            search_params['sortdir'] = sortdir
+
+        response = self._http_post("connection.manager.search", search_params)
+        return PrivXAPIResponse(response, 200)
