@@ -27,12 +27,12 @@ URLS = {
     "auth.token": "/auth/api/v1/oauth/token",
 
     "hoststore.hosts": "/host-store/api/v1/hosts",
-    "hoststore.host": "/host-store/api/v1/hosts/{}",
+    "hoststore.host": "/host-store/api/v1/hosts/{host_id}",
     "hoststore.hosts.search": "/host-store/api/v1/hosts/search",
 
     "rolestore.roles": "/role-store/api/v1/roles",
     "rolestore.sources": "/role-store/api/v1/sources",
-    "rolestore.roles.members": "/role-store/api/v1/roles/{}/members",
+    "rolestore.roles.members": "/role-store/api/v1/roles/{role_id}/members",
 
     "userstore.status": "/local-user-store/api/v1/status",
     "userstore.users": "/local-user-store/api/v1/users",
@@ -98,6 +98,12 @@ class PrivXAPIResponse(object):
         return self._data
 
 
+def format_path_components(format_str: str, **kw) -> str:
+    components = {k: urllib.parse.quote(v, safe='')
+                  for k, v in kw.items()}
+    return format_str.format(**components)
+
+
 #
 # Privx API.
 #
@@ -117,10 +123,25 @@ class PrivXAPI(object):
     #
     # Internal functions.
     #
-    def _get_url(self, name: str) -> str:
+    @classmethod
+    def _get_url(cls, name: str) -> str:
         url = URLS.get(name)
         if not url:
             raise InternalAPIException("URL missing: ", name)
+        return url
+
+    @classmethod
+    def _build_url(cls, name: str,
+                   path_params: dict = {},
+                   query_params: dict = {}) -> str:
+
+        url = cls._get_url(name)
+        if path_params:
+            url = format_path_components(url, **path_params)
+        if query_params:
+            params = urllib.parse.urlencode(query_params)
+            url = "{}?{}".format(url, params)
+
         return url
 
     def _get_context(self) -> ssl.SSLContext:
@@ -170,12 +191,14 @@ class PrivXAPI(object):
         }
 
     def _http_get(self, urlname: str,
-                  elem_id: str = "") -> http.client.HTTPResponse:
+                  path_params: dict = {},
+                  query_params: dict = {}) -> http.client.HTTPResponse:
 
         conn = self._get_connection()
+
         conn.request(
             "GET",
-            self._get_url(urlname).format(elem_id),
+            self._build_url(urlname, path_params, query_params),
             headers=self._get_headers(),
         )
 
@@ -188,7 +211,7 @@ class PrivXAPI(object):
         conn = self._get_connection()
         conn.request(
             "GET",
-            self._get_url(urlname),
+            self._build_url(urlname),
             headers=headers,
         )
 
@@ -196,34 +219,32 @@ class PrivXAPI(object):
 
     def _http_post(self,
                    urlname: str,
-                   data: dict = {},
+                   body: dict = {},
+                   path_params: dict = {},
                    query_params: dict = {}) -> http.client.HTTPResponse:
 
         conn = self._get_connection()
 
-        params = urllib.parse.urlencode(query_params)
-        url = self._get_url(urlname)
-        if params:
-            url = "{}?{}".format(url, params)
-
         conn.request(
             "POST",
-            url,
+            self._build_url(urlname, path_params, query_params),
             headers=self._get_headers(),
-            body=json.dumps(data),
+            body=json.dumps(body),
         )
 
         return conn.getresponse()
 
-    def _http_put(self, urlname: str, elem_id: str, data: dict = {},
-                  ) -> http.client.HTTPResponse:
+    def _http_put(self, urlname: str,
+                  body: dict = {},
+                  path_params: dict = {},
+                  query_params: dict = {}) -> http.client.HTTPResponse:
 
         conn = self._get_connection()
         conn.request(
             "PUT",
-            self._get_url(urlname).format(elem_id),
+            self._build_url(urlname, path_params, query_params),
             headers=self._get_headers(),
-            body=json.dumps(data),
+            body=json.dumps(body),
         )
 
         return conn.getresponse()
@@ -244,24 +265,25 @@ class PrivXAPI(object):
     #
     # Host store API.
     #
-    def create_host(self, data: dict) -> PrivXAPIResponse:
+    def create_host(self, host: dict) -> PrivXAPIResponse:
         """
         Create a host, see required fields from API docs.
 
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_post("hoststore.hosts", data)
+        response = self._http_post("hoststore.hosts", body=host)
         return PrivXAPIResponse(response, 201)
 
-    def update_host(self, host_id: str, data: dict) -> PrivXAPIResponse:
+    def update_host(self, host_id: str, host: dict) -> PrivXAPIResponse:
         """
         Update a host, see required fields from API docs.
 
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_put("hoststore.host", host_id, data)
+        response = self._http_put("hoststore.host",
+                                  path_params={'host_id': host_id}, body=host)
         return PrivXAPIResponse(response, 200)
 
     def get_hosts(self) -> PrivXAPIResponse:
@@ -290,20 +312,22 @@ class PrivXAPI(object):
         if filter is not None:
             search_params['filter'] = filter
 
-        response = self._http_post("hoststore.hosts.search", kw, search_params)
+        response = self._http_post("hoststore.hosts.search",
+                                   query_params=search_params,
+                                   body=search_params)
         return PrivXAPIResponse(response, 200)
 
     #
     # Role store API.
     #
-    def create_role(self, data: dict) -> PrivXAPIResponse:
+    def create_role(self, role: dict) -> PrivXAPIResponse:
         """
         Create a role, see required fields from API docs.
 
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_post("rolestore.roles", data)
+        response = self._http_post("rolestore.roles", body=role)
         return PrivXAPIResponse(response, 201)
 
     def get_roles(self) -> PrivXAPIResponse:
@@ -333,20 +357,21 @@ class PrivXAPI(object):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_get("rolestore.roles.members", role_id)
+        response = self._http_get("rolestore.roles.members",
+                                  path_params={'role_id': role_id})
         return PrivXAPIResponse(response, 200)
 
     #
     # User store API.
     #
-    def create_user(self, data: dict) -> PrivXAPIResponse:
+    def create_user(self, user: dict) -> PrivXAPIResponse:
         """
         Create a user, see required fields from API docs.
 
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_post("userstore.users", data)
+        response = self._http_post("userstore.users", body=user)
         return PrivXAPIResponse(response, 201)
 
     #
@@ -366,5 +391,6 @@ class PrivXAPI(object):
         if sortdir is not None:
             search_params['sortdir'] = sortdir
 
-        response = self._http_post("connection.manager.search", search_params)
+        response = self._http_post("connection.manager.search",
+                                   body=search_params)
         return PrivXAPIResponse(response, 200)
