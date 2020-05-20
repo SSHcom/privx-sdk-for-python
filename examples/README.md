@@ -36,7 +36,7 @@ Fill in the missing fields in config.py
 Get role mapping data (Access Report)
 ```
 $ python3 get-roles-mapping-report.py
-Writting role mapping data to access_report.csv
+Writing role mapping data to access_report.csv
 Done
 $ head -n2 access_report.csv
 user_id,role_name,target_hosts,target_accounts
@@ -51,14 +51,14 @@ get-access-report.py  -h or --help
 get-access-report.py  -u user1
 get-access-report.py  --user ALL
 $ python3 get-access-report.py
-Writting Connection data to ALL_connection_data.csv
+Writing Connection data to ALL_connection_data.csv
 Done
 $ head -n2 ALL_connection_data.csv
 user,type,target_host_address,target_host_account,connected,disconnected
 jsingh,RDP,ec2-35-171-101-102.eu-west-2.compute.amazonaws.com,jsingh,2020-05-04T09:17:06,2020-05-04T09:41:31
 
 $ python3 get-access-report.py -u kkumar
-Writting Connection data to kkumar_connection_data.csv
+Writing Connection data to kkumar_connection_data.csv
 Done
 $ head -n2 kkumar_connection_data.csv
 user,type,target_host_address,target_host_account,connected,disconnected
