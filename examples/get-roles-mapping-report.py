@@ -33,7 +33,6 @@ def get_roles():
 
 
 def get_role_mapping_data(role_id, role_name):
-    global header_printed
     resp = api.search_hosts(role=[role_id])
     if resp.ok():
         data_load = resp.data()
