@@ -314,7 +314,7 @@ class PrivXAPI(object):
 
         response = self._http_post("hoststore.hosts.search",
                                    query_params=search_params,
-                                   body=search_params)
+                                   body=kw)
         return PrivXAPIResponse(response, 200)
 
     #
@@ -381,7 +381,7 @@ class PrivXAPI(object):
                            sortkey: str = None,
                            sortdir: str = None, **kw) -> PrivXAPIResponse:
 
-        search_params = kw
+        search_params = {}
         if offset is not None:
             search_params['offset'] = offset
         if limit is not None:
@@ -392,5 +392,6 @@ class PrivXAPI(object):
             search_params['sortdir'] = sortdir
 
         response = self._http_post("connection.manager.search",
-                                   body=search_params)
+                                   query_params=search_params,
+                                   body=kw)
         return PrivXAPIResponse(response, 200)
