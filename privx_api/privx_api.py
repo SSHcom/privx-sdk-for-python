@@ -33,6 +33,7 @@ URLS = {
     "rolestore.roles": "/role-store/api/v1/roles",
     "rolestore.sources": "/role-store/api/v1/sources",
     "rolestore.roles.members": "/role-store/api/v1/roles/{role_id}/members",
+    "rolestore.role": "/role-store/api/v1/roles/{role_id}",
 
     "userstore.status": "/local-user-store/api/v1/status",
     "userstore.users": "/local-user-store/api/v1/users",
@@ -359,6 +360,17 @@ class PrivXAPI(object):
         """
         response = self._http_get("rolestore.roles.members",
                                   path_params={'role_id': role_id})
+        return PrivXAPIResponse(response, 200)
+
+    def update_role(self, role_id: str, role: dict) -> PrivXAPIResponse:
+        """
+        Update a role, see required fields from API docs.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_put("rolestore.role",
+                                  path_params={'role_id': role_id}, body=role)
         return PrivXAPIResponse(response, 200)
 
     #
