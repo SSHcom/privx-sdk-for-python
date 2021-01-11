@@ -402,7 +402,7 @@ class PrivXAPI(object):
         response = self._http_post("userstore.users", body=user)
         return PrivXAPIResponse(response, 201)
 
-    def get_users(self) -> PrivXAPIResponse:
+    def get_local_users(self) -> PrivXAPIResponse:
         """
         Get users.
 
