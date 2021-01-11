@@ -392,7 +392,7 @@ class PrivXAPI(object):
     #
     # User store API.
     #
-    def create_user(self, user: dict) -> PrivXAPIResponse:
+    def create_local_user(self, user: dict) -> PrivXAPIResponse:
         """
         Create a user, see required fields from API docs.
 
@@ -412,7 +412,7 @@ class PrivXAPI(object):
         response = self._http_get("userstore.users")
         return PrivXAPIResponse(response, 200)
 
-    def delete_user(self, user_id: str) -> PrivXAPIResponse:
+    def delete_local_user(self, user_id: str) -> PrivXAPIResponse:
         """
         Delete a local user, required field user_id.
 
