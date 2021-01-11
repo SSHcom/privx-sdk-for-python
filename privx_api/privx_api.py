@@ -37,6 +37,7 @@ URLS = {
 
     "userstore.status": "/local-user-store/api/v1/status",
     "userstore.users": "/local-user-store/api/v1/users",
+    "userstore.user": "/local-user-store/api/v1/users/{user_id}",
 
     "connection.manager.search":
         "/connection-manager/api/v1/connections/search",
@@ -250,6 +251,21 @@ class PrivXAPI(object):
 
         return conn.getresponse()
 
+    def _http_delete(self, urlname: str,
+                  body: dict = {},
+                  path_params: dict = {},
+                  query_params: dict = {}) -> http.client.HTTPResponse:
+
+        conn = self._get_connection()
+        conn.request(
+            "DELETE",
+            self._build_url(urlname, path_params, query_params),
+            headers=self._get_headers(),
+            body=json.dumps(body),
+        )
+
+        return conn.getresponse()
+
     #
     # Public functions.
     #
@@ -386,6 +402,27 @@ class PrivXAPI(object):
         response = self._http_post("userstore.users", body=user)
         return PrivXAPIResponse(response, 201)
 
+    def get_users(self) -> PrivXAPIResponse:
+        """
+        Get users.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_get("userstore.users")
+        return PrivXAPIResponse(response, 200)
+
+    def delete_user(self, user_id: str) -> PrivXAPIResponse:
+        """
+        Delete a local user, required field user_id.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_delete("userstore.user",
+                                     path_params={'user_id': user_id})
+        return PrivXAPIResponse(response, 200)
+
     #
     # Connection manager API.
     #
@@ -407,3 +444,4 @@ class PrivXAPI(object):
                                    query_params=search_params,
                                    body=kw)
         return PrivXAPIResponse(response, 200)
+
