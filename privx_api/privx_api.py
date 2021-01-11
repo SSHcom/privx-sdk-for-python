@@ -134,8 +134,10 @@ class PrivXAPI(object):
 
     @classmethod
     def _build_url(cls, name: str,
-                   path_params: dict = {},
-                   query_params: dict = {}) -> str:
+                   path_params=None,
+                   query_params=None) -> str:
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         url = cls._get_url(name)
         if path_params:
@@ -193,8 +195,10 @@ class PrivXAPI(object):
         }
 
     def _http_get(self, urlname: str,
-                  path_params: dict = {},
-                  query_params: dict = {}) -> http.client.HTTPResponse:
+                  path_params=None,
+                  query_params=None) -> http.client.HTTPResponse:
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         conn = self._get_connection()
 
@@ -221,9 +225,12 @@ class PrivXAPI(object):
 
     def _http_post(self,
                    urlname: str,
-                   body: dict = {},
-                   path_params: dict = {},
-                   query_params: dict = {}) -> http.client.HTTPResponse:
+                   body=None,
+                   path_params=None,
+                   query_params=None) -> http.client.HTTPResponse:
+        body = body or {}
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         conn = self._get_connection()
 
@@ -237,9 +244,12 @@ class PrivXAPI(object):
         return conn.getresponse()
 
     def _http_put(self, urlname: str,
-                  body: dict = {},
-                  path_params: dict = {},
-                  query_params: dict = {}) -> http.client.HTTPResponse:
+                  body=None,
+                  path_params=None,
+                  query_params=None) -> http.client.HTTPResponse:
+        body = body or {}
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         conn = self._get_connection()
         conn.request(
@@ -252,9 +262,12 @@ class PrivXAPI(object):
         return conn.getresponse()
 
     def _http_delete(self, urlname: str,
-                  body: dict = {},
-                  path_params: dict = {},
-                  query_params: dict = {}) -> http.client.HTTPResponse:
+                  body=None,
+                  path_params=None,
+                  query_params=None) -> http.client.HTTPResponse:
+        body = body or {}
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         conn = self._get_connection()
         conn.request(
