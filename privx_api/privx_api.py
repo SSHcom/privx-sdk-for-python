@@ -426,7 +426,7 @@ class PrivXAPI(object):
         if username is not None:
             search_params['username'] = username
         if user_id is not None:
-            search_params['user_id'] = user_id
+            search_params['id'] = user_id
 
         response = self._http_get("userstore.users",
                                   query_params=search_params)
