@@ -37,6 +37,7 @@ URLS = {
 
     "userstore.status": "/local-user-store/api/v1/status",
     "userstore.users": "/local-user-store/api/v1/users",
+    "userstore.user": "/local-user-store/api/v1/users/{user_id}",
 
     "connection.manager.search":
         "/connection-manager/api/v1/connections/search",
@@ -133,8 +134,10 @@ class PrivXAPI(object):
 
     @classmethod
     def _build_url(cls, name: str,
-                   path_params: dict = {},
-                   query_params: dict = {}) -> str:
+                   path_params=None,
+                   query_params=None) -> str:
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         url = cls._get_url(name)
         if path_params:
@@ -192,8 +195,10 @@ class PrivXAPI(object):
         }
 
     def _http_get(self, urlname: str,
-                  path_params: dict = {},
-                  query_params: dict = {}) -> http.client.HTTPResponse:
+                  path_params=None,
+                  query_params=None) -> http.client.HTTPResponse:
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         conn = self._get_connection()
 
@@ -220,9 +225,12 @@ class PrivXAPI(object):
 
     def _http_post(self,
                    urlname: str,
-                   body: dict = {},
-                   path_params: dict = {},
-                   query_params: dict = {}) -> http.client.HTTPResponse:
+                   body=None,
+                   path_params=None,
+                   query_params=None) -> http.client.HTTPResponse:
+        body = body or {}
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         conn = self._get_connection()
 
@@ -236,13 +244,34 @@ class PrivXAPI(object):
         return conn.getresponse()
 
     def _http_put(self, urlname: str,
-                  body: dict = {},
-                  path_params: dict = {},
-                  query_params: dict = {}) -> http.client.HTTPResponse:
+                  body=None,
+                  path_params=None,
+                  query_params=None) -> http.client.HTTPResponse:
+        body = body or {}
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         conn = self._get_connection()
         conn.request(
             "PUT",
+            self._build_url(urlname, path_params, query_params),
+            headers=self._get_headers(),
+            body=json.dumps(body),
+        )
+
+        return conn.getresponse()
+
+    def _http_delete(self, urlname: str,
+                  body=None,
+                  path_params=None,
+                  query_params=None) -> http.client.HTTPResponse:
+        body = body or {}
+        path_params = path_params or {}
+        query_params = query_params or {}
+
+        conn = self._get_connection()
+        conn.request(
+            "DELETE",
             self._build_url(urlname, path_params, query_params),
             headers=self._get_headers(),
             body=json.dumps(body),
@@ -376,7 +405,7 @@ class PrivXAPI(object):
     #
     # User store API.
     #
-    def create_user(self, user: dict) -> PrivXAPIResponse:
+    def create_local_user(self, user: dict) -> PrivXAPIResponse:
         """
         Create a user, see required fields from API docs.
 
@@ -385,6 +414,40 @@ class PrivXAPI(object):
         """
         response = self._http_post("userstore.users", body=user)
         return PrivXAPIResponse(response, 201)
+
+    def get_local_users(self, username=None, user_id=None,
+                        offset: int = None,
+                        limit: int = None,) -> PrivXAPIResponse:
+        """
+        Get users.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        search_params = {}
+        if offset is not None:
+            search_params['offset'] = offset
+        if limit is not None:
+            search_params['limit'] = limit
+        if username is not None:
+            search_params['username'] = username
+        if user_id is not None:
+            search_params['id'] = user_id
+
+        response = self._http_get("userstore.users",
+                                  query_params=search_params)
+        return PrivXAPIResponse(response, 200)
+
+    def delete_local_user(self, user_id: str) -> PrivXAPIResponse:
+        """
+        Delete a local user, required field user_id.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_delete("userstore.user",
+                                     path_params={'user_id': user_id})
+        return PrivXAPIResponse(response, 200)
 
     #
     # Connection manager API.
