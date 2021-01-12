@@ -415,7 +415,9 @@ class PrivXAPI(object):
         response = self._http_post("userstore.users", body=user)
         return PrivXAPIResponse(response, 201)
 
-    def get_local_users(self, username=None, user_id=None) -> PrivXAPIResponse:
+    def get_local_users(self, username=None, user_id=None,
+                        offset: int = None,
+                        limit: int = None,) -> PrivXAPIResponse:
         """
         Get users.
 
@@ -423,6 +425,10 @@ class PrivXAPI(object):
             PrivXAPIResponse
         """
         search_params = {}
+        if offset is not None:
+            search_params['offset'] = offset
+        if limit is not None:
+            search_params['limit'] = limit
         if username is not None:
             search_params['username'] = username
         if user_id is not None:
