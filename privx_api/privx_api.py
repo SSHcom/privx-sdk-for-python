@@ -415,14 +415,21 @@ class PrivXAPI(object):
         response = self._http_post("userstore.users", body=user)
         return PrivXAPIResponse(response, 201)
 
-    def get_local_users(self) -> PrivXAPIResponse:
+    def get_local_users(self, username=None, user_id=None) -> PrivXAPIResponse:
         """
         Get users.
 
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_get("userstore.users")
+        search_params = {}
+        if username is not None:
+            search_params['username'] = username
+        if user_id is not None:
+            search_params['user_id'] = user_id
+
+        response = self._http_get("userstore.users",
+                                  query_params=search_params)
         return PrivXAPIResponse(response, 200)
 
     def delete_local_user(self, user_id: str) -> PrivXAPIResponse:
