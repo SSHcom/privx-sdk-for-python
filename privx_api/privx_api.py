@@ -34,13 +34,14 @@ URLS = {
     "rolestore.sources": "/role-store/api/v1/sources",
     "rolestore.roles.members": "/role-store/api/v1/roles/{role_id}/members",
     "rolestore.role": "/role-store/api/v1/roles/{role_id}",
+    "rolestore.awsroles": "/role-store/api/v1/users/current/awsroles",
+    "rolestore.awstoken": "/role-store/api/v1/roles/{awsrole_id}/awstoken",
 
     "userstore.status": "/local-user-store/api/v1/status",
     "userstore.users": "/local-user-store/api/v1/users",
     "userstore.user": "/local-user-store/api/v1/users/{user_id}",
 
-    "connection.manager.search":
-        "/connection-manager/api/v1/connections/search",
+    "connection.manager.search": "/connection-manager/api/v1/connections/search",
 }
 
 
@@ -149,7 +150,8 @@ class PrivXAPI(object):
         return url
 
     def _get_context(self) -> ssl.SSLContext:
-        return ssl.create_default_context(cadata=self._ca_cert)
+        return ssl._create_unverified_context()
+#        return ssl.create_default_context(cadata=self._ca_cert)
 
     def _get_connection(self) -> http.client.HTTPSConnection:
         return http.client.HTTPSConnection(
@@ -177,7 +179,7 @@ class PrivXAPI(object):
             headers=headers,
         )
         response = conn.getresponse()
-        if response.status != 200:
+        if response.status >= 400:
             raise InternalAPIException(
                 "Invalid response: ", response.status)
 
@@ -207,8 +209,12 @@ class PrivXAPI(object):
             self._build_url(urlname, path_params, query_params),
             headers=self._get_headers(),
         )
+        response = conn.getresponse()
+        if response.status >= 400:
+            raise InternalAPIException(
+                "Invalid response: ", response.status)
 
-        return conn.getresponse()
+        return response
 
     def _http_get_no_auth(self, urlname: str) -> http.client.HTTPResponse:
         headers = self._get_headers()
@@ -220,8 +226,12 @@ class PrivXAPI(object):
             self._build_url(urlname),
             headers=headers,
         )
+        response = conn.getresponse()
+        if response.status >= 400:
+            raise InternalAPIException(
+                "Invalid response: ", response.status)
 
-        return conn.getresponse()
+        return response
 
     def _http_post(self,
                    urlname: str,
@@ -240,8 +250,12 @@ class PrivXAPI(object):
             headers=self._get_headers(),
             body=json.dumps(body),
         )
+        response = conn.getresponse()
+        if response.status >= 400:
+            raise InternalAPIException(
+                "Invalid response: ", response.status)
 
-        return conn.getresponse()
+        return response
 
     def _http_put(self, urlname: str,
                   body=None,
@@ -258,8 +272,12 @@ class PrivXAPI(object):
             headers=self._get_headers(),
             body=json.dumps(body),
         )
+        response = conn.getresponse()
+        if response.status >= 400:
+            raise InternalAPIException(
+                "Invalid response: ", response.status)
 
-        return conn.getresponse()
+        return response
 
     def _http_delete(self, urlname: str,
                   body=None,
@@ -276,8 +294,12 @@ class PrivXAPI(object):
             headers=self._get_headers(),
             body=json.dumps(body),
         )
+        response = conn.getresponse()
+        if response.status >= 400:
+            raise InternalAPIException(
+                "Invalid response: ", response.status)
 
-        return conn.getresponse()
+        return response
 
     #
     # Public functions.
@@ -436,7 +458,7 @@ class PrivXAPI(object):
 
         response = self._http_get("userstore.users",
                                   query_params=search_params)
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, response.status)
 
     def delete_local_user(self, user_id: str) -> PrivXAPIResponse:
         """
@@ -447,7 +469,7 @@ class PrivXAPI(object):
         """
         response = self._http_delete("userstore.user",
                                      path_params={'user_id': user_id})
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, response.status)
 
     #
     # Connection manager API.
@@ -469,4 +491,32 @@ class PrivXAPI(object):
         response = self._http_post("connection.manager.search",
                                    query_params=search_params,
                                    body=kw)
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, response.status)
+
+
+    # List accessible AWS roles.
+    #
+    def list_awsroles(self) -> PrivXAPIResponse:
+        """
+        Get AWS roles.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_get("rolestore.awsroles")
+        return PrivXAPIResponse(response, response.status)
+
+    # Fetch temporary AWS token for given AWS role name and TTL.
+    # User needs to have the requested AWS role mapped to the available PrivX role by PrivX admin.
+    # Allowed TTL values 900-3600 seconds for assume-role (configurable max 43200) and 900-129600 for federation token.
+    def get_awstoken(self, awsrole_id: str, ttl: int = 900) -> PrivXAPIResponse:
+        """
+        Get temporary AWS token for given AWS role.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_get("rolestore.awstoken",
+                                  path_params={'awsrole_id': awsrole_id},
+                                  query_params={'ttl': ttl})
+        return PrivXAPIResponse(response, response.status)
