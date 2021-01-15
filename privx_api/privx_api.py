@@ -150,8 +150,7 @@ class PrivXAPI(object):
         return url
 
     def _get_context(self) -> ssl.SSLContext:
-        return ssl._create_unverified_context()
-#        return ssl.create_default_context(cadata=self._ca_cert)
+        return ssl.create_default_context(cadata=self._ca_cert)
 
     def _get_connection(self) -> http.client.HTTPSConnection:
         return http.client.HTTPSConnection(
