@@ -34,13 +34,14 @@ URLS = {
     "rolestore.sources": "/role-store/api/v1/sources",
     "rolestore.roles.members": "/role-store/api/v1/roles/{role_id}/members",
     "rolestore.role": "/role-store/api/v1/roles/{role_id}",
+    "rolestore.awsroles": "/role-store/api/v1/users/current/awsroles",
+    "rolestore.awstoken": "/role-store/api/v1/roles/{awsrole_id}/awstoken",
 
     "userstore.status": "/local-user-store/api/v1/status",
     "userstore.users": "/local-user-store/api/v1/users",
     "userstore.user": "/local-user-store/api/v1/users/{user_id}",
 
-    "connection.manager.search":
-        "/connection-manager/api/v1/connections/search",
+    "connection.manager.search": "/connection-manager/api/v1/connections/search",
 }
 
 
@@ -469,4 +470,32 @@ class PrivXAPI(object):
         response = self._http_post("connection.manager.search",
                                    query_params=search_params,
                                    body=kw)
+        return PrivXAPIResponse(response, 200)
+
+
+    # List accessible AWS roles.
+    #
+    def list_awsroles(self) -> PrivXAPIResponse:
+        """
+        Get AWS roles.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_get("rolestore.awsroles")
+        return PrivXAPIResponse(response, response.status)
+
+    # Fetch temporary AWS token for given AWS role name and TTL.
+    # User needs to have the requested AWS role mapped to the available PrivX role by PrivX admin.
+    # Allowed TTL values 900-3600 seconds for assume-role (configurable max 43200) and 900-129600 for federation token.
+    def get_awstoken(self, awsrole_id: str, ttl: int = 900) -> PrivXAPIResponse:
+        """
+        Get temporary AWS token for given AWS role.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_get("rolestore.awstoken",
+                                  path_params={'awsrole_id': awsrole_id},
+                                  query_params={'ttl': ttl})
         return PrivXAPIResponse(response, 200)
