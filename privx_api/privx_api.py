@@ -448,7 +448,7 @@ class PrivXAPI(object):
         """
         response = self._http_delete("userstore.user",
                                      path_params={'user_id': user_id})
-        return PrivXAPIResponse(response, response.status)
+        return PrivXAPIResponse(response, 200)
 
     #
     # Connection manager API.
