@@ -1,6 +1,5 @@
 # Requires Python 3.6+
 import sys
-import csv
 import getopt
 
 # Import the PrivX python library.
