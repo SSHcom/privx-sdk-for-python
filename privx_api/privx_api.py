@@ -36,6 +36,7 @@ URLS = {
     "rolestore.role": "/role-store/api/v1/roles/{role_id}",
     "rolestore.awsroles": "/role-store/api/v1/users/current/awsroles",
     "rolestore.awstoken": "/role-store/api/v1/roles/{awsrole_id}/awstoken",
+    "rolestore.users.search": "/role-store/api/v1/users/search",
 
     "userstore.status": "/local-user-store/api/v1/status",
     "userstore.users": "/local-user-store/api/v1/users",
@@ -402,6 +403,26 @@ class PrivXAPI(object):
         response = self._http_put("rolestore.role",
                                   path_params={'role_id': role_id}, body=role)
         return PrivXAPIResponse(response, 200)
+
+    def search_users(self, offset: int = None, limit: int = None,
+                           sortkey: str = None,
+                           sortdir: str = None, **kw) -> PrivXAPIResponse:
+
+        search_params = {}
+        if offset is not None:
+            search_params['offset'] = offset
+        if limit is not None:
+            search_params['limit'] = limit
+        if sortkey is not None:
+            search_params['sortkey'] = sortkey
+        if sortdir is not None:
+            search_params['sortdir'] = sortdir
+
+        response = self._http_post("rolestore.users.search",
+                                   query_params=search_params,
+                                   body=kw)
+        return PrivXAPIResponse(response, 200)
+
 
     #
     # User store API.
