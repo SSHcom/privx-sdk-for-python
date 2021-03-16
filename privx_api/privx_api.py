@@ -349,6 +349,17 @@ class PrivXAPI(object):
                                    body=kw)
         return PrivXAPIResponse(response, 200)
 
+    def delete_host(self, host_id: str) -> PrivXAPIResponse:
+        """
+        Delete host record, required field host_id.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_delete("hoststore.host",
+                                     path_params={'host_id': host_id})
+        return PrivXAPIResponse(response, 200)
+
     #
     # Role store API.
     #
