@@ -4,7 +4,7 @@ import privx_api
 import config
 
 # Replace with the name of the secret you want to fetch
-SECRET_NAME="Name of the secret"
+SECRET_NAME = "Name of the secret"
 
 # Initialize the API.
 api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
@@ -13,6 +13,7 @@ api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
 api.authenticate("API client ID", "API client secret")
+
 
 def get_secret(name: str) -> str:
     """
@@ -29,9 +30,11 @@ def get_secret(name: str) -> str:
     else:
         return secret.data()["details"]
 
+
 def main():
     secret = get_secret(SECRET_NAME)
     print(json.dumps(secret, indent=4))
+
 
 if __name__ == '__main__':
     main()
