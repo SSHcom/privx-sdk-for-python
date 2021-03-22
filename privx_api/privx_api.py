@@ -43,6 +43,8 @@ URLS = {
     "userstore.user": "/local-user-store/api/v1/users/{user_id}",
 
     "connection.manager.search": "/connection-manager/api/v1/connections/search",
+
+    "vault.secret": "/vault/api/v1/secrets/{name}",
 }
 
 
@@ -530,4 +532,9 @@ class PrivXAPI(object):
         response = self._http_get("rolestore.awstoken",
                                   path_params={'awsrole_id': awsrole_id},
                                   query_params={'ttl': ttl})
+        return PrivXAPIResponse(response, 200)
+
+    def get_secret(self, name: str) -> PrivXAPIResponse:
+        response = self._http_get("vault.secret",
+                                  path_params={'name': name})
         return PrivXAPIResponse(response, 200)
