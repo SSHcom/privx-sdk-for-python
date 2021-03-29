@@ -57,8 +57,8 @@ def export_host_data(header_printed=False):
         hosts_data = get_host_data()
         print("Writing hosts data to", output_csvfile, end=' ')
         for data in hosts_data:
-            w = csv.DictWriter(f, data.keys())
             if not header_printed:
+                w = csv.DictWriter(f, data.keys())
                 w.writeheader()
                 header_printed = True
             w.writerow(data)
@@ -76,3 +76,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

@@ -94,6 +94,7 @@ def main():
         for data in all_role_data:
             w = csv.DictWriter(f, data.keys())
             if not header_printed:
+                w = csv.DictWriter(f, data.keys())
                 w.writeheader()
                 header_printed = True
             w.writerow(data)
@@ -102,3 +103,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

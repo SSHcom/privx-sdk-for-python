@@ -83,8 +83,8 @@ def export_connection_data(user, user_id=None, header_printed=False):
         connection_data = get_connection_data(user_id)
         print("Writing Connection data to", output_csvfile, end=' ')
         for data in connection_data:
-            w = csv.DictWriter(f, data.keys())
             if not header_printed:
+                w = csv.DictWriter(f, data.keys())
                 w.writeheader()
                 header_printed = True
             w.writerow(data)
@@ -130,3 +130,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
