@@ -53,7 +53,7 @@ get-access-report.py  --user ALL
 $ python3 get-access-report.py
 Writing Connection data to ALL_connection_data.csv
 Done
-$ head -n2 ALL_connection_data.csv
+$ head -n3 ALL_connection_data.csv
 user,type,mode,authentication_method,target_host_address,target_host_account,connected,disconnected
 dwishart,RDP,UI,CERT,ec2-35-176-205-41.eu-west-2.compute.amazonaws.com,dwishart,2020-02-28T18:11:09,2020-02-28T18:12:29
 nfsadmin,SSH,UI,CERT,ec2-35-177-231-225.eu-west-2.compute.amazonaws.com:22,centos,2020-10-01T09:16:03,2020-10-01T09:21:07
@@ -62,8 +62,19 @@ nfsadmin,SSH,UI,CERT,ec2-35-177-231-225.eu-west-2.compute.amazonaws.com:22,cento
 $ python3 get-access-report.py -u kkumar
 Writing Connection data to kkumar_connection_data.csv
 Done
-$ head -n2 kkumar_connection_data.csv
+$ head -n3 kkumar_connection_data.csv
 user,type,mode,authentication_method,target_host_address,target_host_account,connected,disconnected
 kkumar,SSH,UI,CERT,extender1/ec2-3-10-55-30.eu-west-2.compute.amazonaws.com:22,centos,2020-02-12T12:31:33,2020-02-12T12:31:38
 kkumar,SSH,UI,CERT,ec2-18-130-138-218.eu-west-2.compute.amazonaws.com:22,centos,2020-09-21T09:41:49,2020-09-21T17:37:26
+```
+
+Get hosts data
+```
+$ python3 get-hosts-report.py
+Writing hosts data to hosts_data.csv
+Done
+$ head -n3 hosts_data.csv
+common_name,addresses,users,protocol,audit_enabled,created,updated,updated_by
+Ora2PG-VISA,ip-172-31-43-205.eu-west-2.compute.internal,centos,SSH,False,2020-09-16T14:50:13,2021-03-29T12:53:05,
+Ora2PG-DOCS,ip-172-31-42-16.eu-west-2.compute.internal,centos,SSH,False,2020-09-29T10:03:47,2021-03-29T12:53:05,
 ```
