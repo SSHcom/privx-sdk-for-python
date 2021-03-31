@@ -77,17 +77,19 @@ def get_connection_data(user_id):
         process_error(error)
 
 
-def export_connection_data(user, user_id=None, header_printed=False):
+def export_connection_data(user, user_id=None):
     output_csvfile = user+"_connection_data.csv"
-    with open(output_csvfile, "w") as f:
-        connection_data = get_connection_data(user_id)
+    connection_data = get_connection_data(user_id)
+    if len(connection_data) == 0:
+        print("no connection data")
+    else:
+        connection_keys = connection_data[0].keys()
         print("Writing Connection data to", output_csvfile, end=' ')
-        for data in connection_data:
-            w = csv.DictWriter(f, data.keys())
-            if not header_printed:
-                w.writeheader()
-                header_printed = True
-            w.writerow(data)
+        with open(output_csvfile, "w") as f:
+            w = csv.DictWriter(f, connection_keys)
+            w.writeheader()
+            for data in connection_data:
+                w.writerow(data)
     print("\nDone")
 
 
@@ -130,3 +132,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
