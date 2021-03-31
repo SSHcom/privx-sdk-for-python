@@ -51,17 +51,22 @@ def get_host_data():
         error = "Get hosts Connection data operation failed:"
         process_error(error)
 
-def export_host_data(header_printed=False):
+def export_host_data():
     output_csvfile = "hosts_data.csv"
-    with open(output_csvfile, "w") as f:
-        hosts_data = get_host_data()
+    hosts_data = get_host_data()
+    if len(hosts_data) == 0:
+        print("no host data")
+    else:
+        host_keys = hosts_data[0].keys()
+        header_printed = False
         print("Writing hosts data to", output_csvfile, end=' ')
-        for data in hosts_data:
-            if not header_printed:
-                w = csv.DictWriter(f, data.keys())
-                w.writeheader()
-                header_printed = True
-            w.writerow(data)
+        with open(output_csvfile, "w") as f:
+            w = csv.DictWriter(f, host_keys)
+            for data in hosts_data:
+                if not header_printed:
+                    w.writeheader()
+                    header_printed = True
+                w.writerow(data)
     print("\nDone")
 
 

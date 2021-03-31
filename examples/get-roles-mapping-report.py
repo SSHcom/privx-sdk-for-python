@@ -89,12 +89,12 @@ def main():
         if role_data:
             for data in role_data:
                 all_role_data.append(dict(data))
+    all_role_keys = all_role_data[0].keys()
+    print("Writing role mapping data to", output_csvfile, end=' ')
     with open(output_csvfile, "w") as f:
-        print("Writing role mapping data to", output_csvfile, end=' ')
+        w = csv.DictWriter(f, all_role_keys)
         for data in all_role_data:
-            w = csv.DictWriter(f, data.keys())
             if not header_printed:
-                w = csv.DictWriter(f, data.keys())
                 w.writeheader()
                 header_printed = True
             w.writerow(data)
@@ -103,3 +103,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
