@@ -58,14 +58,11 @@ def export_host_data():
         print("no host data")
     else:
         host_keys = hosts_data[0].keys()
-        header_printed = False
         print("Writing hosts data to", output_csvfile, end=' ')
         with open(output_csvfile, "w") as f:
             w = csv.DictWriter(f, host_keys)
+            w.writeheader()
             for data in hosts_data:
-                if not header_printed:
-                    w.writeheader()
-                    header_printed = True
                 w.writerow(data)
     print("\nDone")
 

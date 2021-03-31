@@ -84,14 +84,11 @@ def export_connection_data(user, user_id=None):
         print("no connection data")
     else:
         connection_keys = connection_data[0].keys()
-        header_printed = False
         print("Writing Connection data to", output_csvfile, end=' ')
         with open(output_csvfile, "w") as f:
             w = csv.DictWriter(f, connection_keys)
+            w.writeheader()
             for data in connection_data:
-                if not header_printed:
-                    w.writeheader()
-                    header_printed = True
                 w.writerow(data)
     print("\nDone")
 

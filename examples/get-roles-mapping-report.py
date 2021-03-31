@@ -80,7 +80,6 @@ def process_error(messages):
 
 
 def main():
-    header_printed = False
     output_csvfile = "access_report.csv"
     roles_data = get_roles()
     all_role_data = []
@@ -93,10 +92,8 @@ def main():
     print("Writing role mapping data to", output_csvfile, end=' ')
     with open(output_csvfile, "w") as f:
         w = csv.DictWriter(f, all_role_keys)
+        w.writeheader()
         for data in all_role_data:
-            if not header_printed:
-                w.writeheader()
-                header_printed = True
             w.writerow(data)
     print("\nDone")
 
