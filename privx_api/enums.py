@@ -50,9 +50,7 @@ class RoleStoreEnum:
         RESOLVE: "/role-store/api/v1/roles/resolve",
         EVALUATE: "/role-store/api/v1/roles/evaluate",
         PRINCIPAL_KEYS: "/role-store/api/v1/roles/{role_id}/principalkeys",
-        PRINCIPAL_KEY: (
-            "/role-store/api/v1/roles/{role_id}/principalkeys/{principal_key_id}"
-        ),
+        PRINCIPAL_KEY: ("/role-store/api/v1/roles/{role_id}/principalkeys/{key_id}"),
         GENERATE_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/generate",
         IMPORT_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/import",
         AWS_ROLES: "/role-store/api/v1/users/current/awsroles",
@@ -114,7 +112,8 @@ class UrlEnum:
                 ),
             )
         )
-        if len(list_urls) != 1 and list_urls is not None:
+        # create ONLY unique url names!
+        if len(list_urls) >= 2:
             raise InternalAPIException
         if list_urls:
             return list_urls[0].urls.get(url_name)
