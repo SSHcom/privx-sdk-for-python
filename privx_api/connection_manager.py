@@ -22,7 +22,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         )
 
         response = self._http_post(
-            UrlEnum.CONNECTION_MANAGER.SEARCH_CONNECTION,
+            UrlEnum.CONNECTION_MANAGER.SEARCH,
             query_params=search_params,
             body=kw,
         )

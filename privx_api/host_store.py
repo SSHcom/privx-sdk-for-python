@@ -59,7 +59,7 @@ class HostStoreAPI(BasePrivXAPI):
         )
 
         response = self._http_post(
-            UrlEnum.HOST_STORE.SEARCH_HOST, query_params=search_params, body=kw
+            UrlEnum.HOST_STORE.SEARCH, query_params=search_params, body=kw
         )
         return PrivXAPIResponse(response, 200)
 

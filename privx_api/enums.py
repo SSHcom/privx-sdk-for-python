@@ -6,8 +6,8 @@ from privx_api.exceptions import InternalAPIException
 
 
 class AuthEnum:
-    AUTHORIZE = "AUTHORIZE"
-    TOKEN = "TOKEN"
+    AUTHORIZE = "AUTH.AUTHORIZE"
+    TOKEN = "AUTH.TOKEN"
 
     urls = {
         AUTHORIZE: "/auth/api/v1/oauth/authorize",
@@ -16,31 +16,31 @@ class AuthEnum:
 
 
 class HostStoreEnum:
-    HOSTS = "HOSTS"
-    HOST = "HOST"
-    SEARCH_HOST = "SEARCH_HOST"
+    HOSTS = "HOST_STORE.HOSTS"
+    HOST = "HOST_STORE.HOST"
+    SEARCH = "HOST_STORE.SEARCH"
 
     urls = {
         HOSTS: "/host-store/api/v1/hosts",
         HOST: "/host-store/api/v1/hosts/{host_id}",
-        SEARCH_HOST: "/host-store/api/v1/hosts/search",
+        SEARCH: "/host-store/api/v1/hosts/search",
     }
 
 
 class RoleStoreEnum:
-    ROLES = "ROLES"
-    SOURCES = "SOURCES"
-    MEMBERS = "MEMBERS"
-    ROLE = "ROLE"
-    RESOLVE = "RESOLVE"
-    EVALUATE = "EVALUATE"
-    PRINCIPAL_KEYS = "PRINCIPAL_KEYS"
-    PRINCIPAL_KEY = "PRINCIPAL_KEY"
-    GENERATE_PRINCIPAL_KEY = "GENERATE_PRINCIPAL_KEY"
-    IMPORT_PRINCIPAL_KEY = "IMPORT_PRINCIPAL_KEY"
-    AWS_ROLES = "AWS_ROLES"
-    AWS_TOKEN = "AWS_TOKEN"
-    SEARCH_USERS = "SEARCH_USERS"
+    ROLES = "ROLE_STORE.ROLES"
+    SOURCES = "ROLE_STORE.SOURCES"
+    MEMBERS = "ROLE_STORE.MEMBERS"
+    ROLE = "ROLE_STORE.ROLE"
+    RESOLVE = "ROLE_STORE.RESOLVE"
+    EVALUATE = "ROLE_STORE.EVALUATE"
+    PRINCIPAL_KEYS = "ROLE_STORE.PRINCIPAL_KEYS"
+    PRINCIPAL_KEY = "ROLE_STORE.PRINCIPAL_KEY"
+    GENERATE_PRINCIPAL_KEY = "ROLE_STORE.GENERATE_PRINCIPAL_KEY"
+    IMPORT_PRINCIPAL_KEY = "ROLE_STORE.IMPORT_PRINCIPAL_KEY"
+    AWS_ROLES = "ROLE_STORE.AWS_ROLES"
+    AWS_TOKEN = "ROLE_STORE.AWS_TOKEN"
+    SEARCH_USERS = "ROLE_STORE.SEARCH_USERS"
 
     urls = {
         ROLES: "/role-store/api/v1/roles",
@@ -60,9 +60,9 @@ class RoleStoreEnum:
 
 
 class UserStoreEnum:
-    STATUS = "STATUS"
-    USERS = "USERS"
-    USER = "USER"
+    STATUS = "USER_STORE.STATUS"
+    USERS = "USER_STORE.USERS"
+    USER = "USER_STORE.USER"
 
     urls = {
         STATUS: "/local-user-store/api/v1/status",
@@ -72,13 +72,13 @@ class UserStoreEnum:
 
 
 class ConnectionManagerEnum:
-    SEARCH_CONNECTION = "SEARCH_CONNECTION"
+    SEARCH = "CONNECTION_MANAGER.SEARCH"
 
-    urls = {SEARCH_CONNECTION: "/connection-manager/api/v1/connections/search"}
+    urls = {SEARCH: "/connection-manager/api/v1/connections/search"}
 
 
 class VaultEnum:
-    SECRET = "SECRET"
+    SECRET = "VAULT.SECRET"
 
     urls = {SECRET: "/vault/api/v1/secrets/{name}"}
 
@@ -112,8 +112,6 @@ class UrlEnum:
                 ),
             )
         )
-        # create ONLY unique url names!
-        if len(list_urls) >= 2:
+        if len(list_urls) != 1:
             raise InternalAPIException
-        if list_urls:
-            return list_urls[0].urls.get(url_name)
+        return list_urls[0].urls.get(url_name)

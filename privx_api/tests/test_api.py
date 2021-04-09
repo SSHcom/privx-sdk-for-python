@@ -42,14 +42,10 @@ def test_build_url(urlname, path_params, query_params, expected):
 @pytest.mark.parametrize(
     "url_name, expected_url",
     [
-        ("AUTHORIZE", "/auth/api/v1/oauth/authorize"),
-        ("HOST", "/host-store/api/v1/hosts/{host_id}"),
-        ("SEARCH_HOST", "/host-store/api/v1/hosts/search"),
-        ("SEARCH_CONNECTION", "/connection-manager/api/v1/connections/search"),
-        ("FAKE", None),
-        ("", None),
-        (None, None),
-        (123, None),
+        ("AUTH.AUTHORIZE", "/auth/api/v1/oauth/authorize"),
+        ("HOST_STORE.HOST", "/host-store/api/v1/hosts/{host_id}"),
+        ("HOST_STORE.SEARCH", "/host-store/api/v1/hosts/search"),
+        ("CONNECTION_MANAGER.SEARCH", "/connection-manager/api/v1/connections/search"),
     ],
 )
 def test_url_enum_get(url_name, expected_url):
@@ -60,6 +56,10 @@ def test_url_enum_get(url_name, expected_url):
     "url_name, expected_url",
     [
         ("TEST", "/asdasd/asd/test"),
+        ("FAKE", None),
+        ("", None),
+        (None, None),
+        (123, None),
     ],
 )
 def test_url_enum_get_exception_similar_url_name(url_name, expected_url):
