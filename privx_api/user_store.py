@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from privx_api.response import PrivXAPIResponse
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
@@ -15,8 +17,8 @@ class UserStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response, data = self._http_post(UrlEnum.USER_STORE.USERS, body=user)
-        return PrivXAPIResponse(response, 201, data)
+        response_status, data = self._http_post(UrlEnum.USER_STORE.USERS, body=user)
+        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
     def get_local_users(
         self,
@@ -35,10 +37,10 @@ class UserStoreAPI(BasePrivXAPI):
             offset=offset, limit=limit, username=username, id=user_id
         )
 
-        response, data = self._http_get(
+        response_status, data = self._http_get(
             UrlEnum.USER_STORE.USERS, query_params=search_params
         )
-        return PrivXAPIResponse(response, 200, data)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def delete_local_user(self, user_id: str) -> PrivXAPIResponse:
         """
@@ -47,7 +49,7 @@ class UserStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response, data = self._http_delete(
+        response_status, data = self._http_delete(
             UrlEnum.USER_STORE.USER, path_params={"user_id": user_id}
         )
-        return PrivXAPIResponse(response, 200, data)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)

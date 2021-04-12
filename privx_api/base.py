@@ -133,7 +133,7 @@ class BasePrivXAPI:
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
             response = conn.getresponse()
-            return response, response.read()
+            return response.status, response.read()
 
     def _http_get_no_auth(self, urlname: str) -> tuple:
         headers = self._get_headers()
@@ -149,7 +149,7 @@ class BasePrivXAPI:
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
             response = conn.getresponse()
-            return response, response.read()
+            return response.status, response.read()
 
     def _http_post(
         self, urlname: str, body=None, path_params=None, query_params=None
@@ -169,7 +169,7 @@ class BasePrivXAPI:
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
             response = conn.getresponse()
-            return response, response.read()
+            return response.status, response.read()
 
     def _http_put(
         self, urlname: str, body=None, path_params=None, query_params=None
@@ -189,7 +189,7 @@ class BasePrivXAPI:
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
             response = conn.getresponse()
-            return response, response.read()
+            return response.status, response.read()
 
     def _http_delete(
         self, urlname: str, body=None, path_params=None, query_params=None
@@ -209,4 +209,4 @@ class BasePrivXAPI:
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
             response = conn.getresponse()
-            return response, response.read()
+            return response.status, response.read()
