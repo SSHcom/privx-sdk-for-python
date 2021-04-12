@@ -15,8 +15,8 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_post(UrlEnum.ROLE_STORE.ROLES, body=role)
-        return PrivXAPIResponse(response, 201)
+        response, data = self._http_post(UrlEnum.ROLE_STORE.ROLES, body=role)
+        return PrivXAPIResponse(response, 201, data)
 
     def delete_role(self, role_id: str) -> PrivXAPIResponse:
         """
@@ -25,10 +25,10 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_delete(
+        response, data = self._http_delete(
             UrlEnum.ROLE_STORE.ROLE, path_params={"role_id": role_id}
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, 200, data)
 
     def delete_principal_key(self, role_id: str, key_id: str) -> PrivXAPIResponse:
         """
@@ -37,11 +37,11 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_delete(
+        response, data = self._http_delete(
             UrlEnum.ROLE_STORE.PRINCIPAL_KEY,
             path_params={"role_id": role_id, "key_id": key_id},
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, 200, data)
 
     def evaluate_role(self, role_params: dict) -> PrivXAPIResponse:
         """
@@ -50,8 +50,8 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_post(UrlEnum.ROLE_STORE.EVALUATE, body=role_params)
-        return PrivXAPIResponse(response, 200)
+        response, data = self._http_post(UrlEnum.ROLE_STORE.EVALUATE, body=role_params)
+        return PrivXAPIResponse(response, 200, data)
 
     def import_principal_key(self, role_id: str, primary_key: dict) -> PrivXAPIResponse:
         """
@@ -62,12 +62,12 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_post(
+        response, data = self._http_post(
             UrlEnum.ROLE_STORE.IMPORT_PRINCIPAL_KEY,
             path_params={"role_id": role_id},
             body=primary_key,
         )
-        return PrivXAPIResponse(response, 201)
+        return PrivXAPIResponse(response, 201, data)
 
     def get_roles(self) -> PrivXAPIResponse:
         """
@@ -76,8 +76,8 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_get(UrlEnum.ROLE_STORE.ROLES)
-        return PrivXAPIResponse(response, 200)
+        response, data = self._http_get(UrlEnum.ROLE_STORE.ROLES)
+        return PrivXAPIResponse(response, 200, data)
 
     def get_role_by_id(self, role_id: str) -> PrivXAPIResponse:
         """
@@ -86,10 +86,10 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_get(
+        response, data = self._http_get(
             UrlEnum.ROLE_STORE.ROLE, path_params={"role_id": role_id}
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, 200, data)
 
     def get_sources(self) -> PrivXAPIResponse:
         """
@@ -98,8 +98,8 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivxAPIResponse
         """
-        response = self._http_get(UrlEnum.ROLE_STORE.SOURCES)
-        return PrivXAPIResponse(response, 200)
+        response, data = self._http_get(UrlEnum.ROLE_STORE.SOURCES)
+        return PrivXAPIResponse(response, 200, data)
 
     def get_role_members(
         self,
@@ -118,12 +118,12 @@ class RoleStoreAPI(BasePrivXAPI):
         search_params = self._get_search_params(
             offset=offset, limit=limit, sortkey=sortkey, sortdir=sortdir
         )
-        response = self._http_get(
+        response, data = self._http_get(
             UrlEnum.ROLE_STORE.MEMBERS,
             path_params={"role_id": role_id},
             query_params=search_params,
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, 200, data)
 
     def get_principal_keys(self, role_id: str) -> PrivXAPIResponse:
         """
@@ -132,10 +132,10 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_get(
+        response, data = self._http_get(
             UrlEnum.ROLE_STORE.PRINCIPAL_KEYS, path_params={"role_id": role_id}
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, 200, data)
 
     def get_principal_key(self, role_id: str, key_id: str) -> PrivXAPIResponse:
         """
@@ -144,11 +144,11 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_get(
+        response, data = self._http_get(
             UrlEnum.ROLE_STORE.PRINCIPAL_KEY,
             path_params={"role_id": role_id, "key_id": key_id},
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, 200, data)
 
     def generate_principal_key(self, role_id: str) -> PrivXAPIResponse:
         """
@@ -157,11 +157,11 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_post(
+        response, data = self._http_post(
             UrlEnum.ROLE_STORE.GENERATE_PRINCIPAL_KEY,
             path_params={"role_id": role_id},
         )
-        return PrivXAPIResponse(response, 201)
+        return PrivXAPIResponse(response, 201, data)
 
     def update_role(self, role_id: str, role: dict) -> PrivXAPIResponse:
         """
@@ -170,10 +170,10 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_put(
+        response, data = self._http_put(
             UrlEnum.ROLE_STORE.ROLE, path_params={"role_id": role_id}, body=role
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, 200, data)
 
     def search_users(
         self,
@@ -188,10 +188,10 @@ class RoleStoreAPI(BasePrivXAPI):
             offset=offset, limit=limit, sortkey=sortkey, sortdir=sortdir
         )
 
-        response = self._http_post(
+        response, data = self._http_post(
             UrlEnum.ROLE_STORE.SEARCH_USERS, query_params=search_params, body=kw
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, 200, data)
 
     def resolve_role(self, role_names: list) -> PrivXAPIResponse:
         """
@@ -200,8 +200,8 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_post(UrlEnum.ROLE_STORE.RESOLVE, body=role_names)
-        return PrivXAPIResponse(response, 200)
+        response, data = self._http_post(UrlEnum.ROLE_STORE.RESOLVE, body=role_names)
+        return PrivXAPIResponse(response, 200, data)
 
     #
     # List accessible AWS roles.
@@ -214,8 +214,8 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_get(UrlEnum.ROLE_STORE.AWS_ROLES)
-        return PrivXAPIResponse(response, response.status)
+        response, data = self._http_get(UrlEnum.ROLE_STORE.AWS_ROLES)
+        return PrivXAPIResponse(response, response.status, data)
 
     # Fetch temporary AWS token for given AWS role name and TTL.
     # User needs to have the requested AWS role mapped to the available PrivX role by PrivX admin.
@@ -232,9 +232,9 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         search_params = self._get_search_params(ttl=ttl, tokencode=tokencode)
-        response = self._http_get(
+        response, data = self._http_get(
             UrlEnum.ROLE_STORE.AWS_TOKEN,
             path_params={"awsrole_id": awsrole_id},
             query_params=search_params,
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, 200, data)

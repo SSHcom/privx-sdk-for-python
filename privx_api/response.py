@@ -8,28 +8,23 @@ class PrivXAPIResponse:
 
     Args:
         response: The response object to handle.
-        expstatus: The expected response status.
+        expected_status: The expected response status.
+        data: data from the response.read() method.
     """
 
-    def __init__(self, response: http.client.HTTPResponse, expstatus: int):
-        if expstatus == response.status:
+    def __init__(
+        self, response: http.client.HTTPResponse, expected_status: int, data: bytes
+    ):
+        if expected_status == response.status:
             self._ok = True
-            self._data = {}
-
-            content = response.read().strip()
-            if len(content):
-                self._data = json.loads(content)
+            self._data = json.loads(data) if data else {}
         else:
             self._ok = False
-            data = {
+            response_struct = {
                 "status": response.status,
-                "details": {},
+                "details": json.loads(data) if data else {},
             }
-            self._data = data
-
-            content = response.read().strip()
-            if len(content.strip()):
-                data["details"] = json.loads(content)
+            self._data = response_struct
 
     def ok(self) -> bool:
         """

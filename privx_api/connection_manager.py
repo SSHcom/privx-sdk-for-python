@@ -21,9 +21,9 @@ class ConnectionManagerAPI(BasePrivXAPI):
             offset=offset, limit=limit, sortkey=sortkey, sortdir=sortdir
         )
 
-        response = self._http_post(
+        response, data = self._http_post(
             UrlEnum.CONNECTION_MANAGER.SEARCH,
             query_params=search_params,
             body=kw,
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response, 200, data)
