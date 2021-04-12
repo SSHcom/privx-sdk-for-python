@@ -244,3 +244,127 @@ class RoleStoreAPI(BasePrivXAPI):
             query_params=search_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_user_by_id(self, user_id: str) -> PrivXAPIResponse:
+        """
+        Get specific user & roles.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.USERS, path_params={"user_id": user_id}
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_user_settings(self, user_id: str) -> PrivXAPIResponse:
+        """
+        Get specific user settings.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.USER_SETTINGS, path_params={"user_id": user_id}
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def set_user_settings(self, user_id: str, settings: dict) -> PrivXAPIResponse:
+        """
+        Set specific user's settings.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.ROLE_STORE.USER_SETTINGS,
+            path_params={"user_id": user_id},
+            body=settings,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_user_roles(self, user_id: str) -> PrivXAPIResponse:
+        """
+        Get specific user's roles.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.USER_ROLES, path_params={"user_id": user_id}
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def set_user_role(self, user_id: str, roles: list) -> PrivXAPIResponse:
+        """
+        Set specific user's roles. These are granted in addition to mapped roles.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.ROLE_STORE.USER_ROLES, path_params={"user_id": user_id}, body=roles
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def enable_user_mfa(self, users: list) -> PrivXAPIResponse:
+        """
+        Turn on multifactor authentication for an array of user IDs.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.ENABLE_MFA, body=users
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def disable_user_mfa(self, users: list) -> PrivXAPIResponse:
+        """
+        Turn off multifactor authentication for an array of user IDs.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.DISABLE_MFA, body=users
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def reset_user_mfa(self, users: list) -> PrivXAPIResponse:
+        """
+        Reset multifactor authentication for an array of user IDs.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.RESET_MFA, body=users
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def resolve_user(self, user_id: str) -> PrivXAPIResponse:
+        """
+        Get specific user's roles.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.RESOLVE_USER,
+            path_params={"user_id": user_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def search_users_by_external_params(
+        self,
+        external_params: dict,
+    ) -> PrivXAPIResponse:
+        """
+        Search users with user search parameters.
+        """
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.EXTERNAL_SEARCH,
+            body=external_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)

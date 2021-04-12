@@ -41,6 +41,14 @@ class RoleStoreEnum:
     AWS_ROLES = "ROLE_STORE.AWS_ROLES"
     AWS_TOKEN = "ROLE_STORE.AWS_TOKEN"
     SEARCH_USERS = "ROLE_STORE.SEARCH_USERS"
+    EXTERNAL_SEARCH = "ROLE_STORE.EXTERNAL_SEARCH"
+    USERS = "ROLE_STORE.USERS"
+    USER_SETTINGS = "ROLE_STORE.USER_SETTINGS"
+    USER_ROLES = "ROLE_STORE.USER_ROLES"
+    ENABLE_MFA = "ROLE_STORE.ENABLE_MFA"
+    DISABLE_MFA = "ROLE_STORE.DISABLE_MFA"
+    RESET_MFA = "ROLE_STORE.RESET_MFA"
+    RESOLVE_USER = "ROLE_STORE.RESOLVE_USER"
 
     urls = {
         ROLES: "/role-store/api/v1/roles",
@@ -50,12 +58,20 @@ class RoleStoreEnum:
         RESOLVE: "/role-store/api/v1/roles/resolve",
         EVALUATE: "/role-store/api/v1/roles/evaluate",
         PRINCIPAL_KEYS: "/role-store/api/v1/roles/{role_id}/principalkeys",
-        PRINCIPAL_KEY: ("/role-store/api/v1/roles/{role_id}/principalkeys/{key_id}"),
+        PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/{key_id}",
         GENERATE_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/generate",
         IMPORT_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/import",
         AWS_ROLES: "/role-store/api/v1/users/current/awsroles",
         AWS_TOKEN: "/role-store/api/v1/roles/{awsrole_id}/awstoken",
         SEARCH_USERS: "/role-store/api/v1/users/search",
+        EXTERNAL_SEARCH: "/role-store/api/v1/users/search/external",
+        USERS: "/role-store/api/v1/users/{user_id}",
+        USER_SETTINGS: "/role-store/api/v1/users/{user_id}/settings",
+        USER_ROLES: "/role-store/api/v1/users/{user_id}/roles",
+        ENABLE_MFA: "/role-store/api/v1/users/mfa/enable",
+        DISABLE_MFA: "/role-store/api/v1/users/mfa/disable",
+        RESET_MFA: "/role-store/api/v1/users/mfa/reset",
+        RESOLVE_USER: "/role-store/api/v1/users/{user_id}/resolve",
     }
 
 
