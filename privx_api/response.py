@@ -7,29 +7,24 @@ class PrivXAPIResponse:
     Response object for PrivX API library.
 
     Args:
-        response: The response object to handle.
-        expstatus: The expected response status.
+        response_status: The response object to handle.
+        expected_status: The expected response status.
+        data: data from the response.read() method.
     """
 
-    def __init__(self, response: http.client.HTTPResponse, expstatus: int):
-        if expstatus == response.status:
+    def __init__(
+        self, response_status: http.HTTPStatus, expected_status: int, data: bytes
+    ):
+        if expected_status == response_status:
             self._ok = True
-            self._data = {}
-
-            content = response.read().strip()
-            if len(content):
-                self._data = json.loads(content)
+            self._data = json.loads(data) if data else {}
         else:
             self._ok = False
-            data = {
-                "status": response.status,
-                "details": {},
+            response_struct = {
+                "status": response_status,
+                "details": json.loads(data) if data else {},
             }
-            self._data = data
-
-            content = response.read().strip()
-            if len(content.strip()):
-                data["details"] = json.loads(content)
+            self._data = response_struct
 
     def ok(self) -> bool:
         """

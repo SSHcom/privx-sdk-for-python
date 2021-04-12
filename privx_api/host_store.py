@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from privx_api.response import PrivXAPIResponse
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
@@ -15,8 +17,8 @@ class HostStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_post(UrlEnum.HOST_STORE.HOSTS, body=host)
-        return PrivXAPIResponse(response, 201)
+        response_status, data = self._http_post(UrlEnum.HOST_STORE.HOSTS, body=host)
+        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
     def update_host(self, host_id: str, host: dict) -> PrivXAPIResponse:
         """
@@ -25,10 +27,10 @@ class HostStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_put(
+        response_status, data = self._http_put(
             UrlEnum.HOST_STORE.HOST, path_params={"host_id": host_id}, body=host
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_hosts(self) -> PrivXAPIResponse:
         """
@@ -37,8 +39,8 @@ class HostStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_get(UrlEnum.HOST_STORE.HOSTS)
-        return PrivXAPIResponse(response, 200)
+        response_status, data = self._http_get(UrlEnum.HOST_STORE.HOSTS)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def search_hosts(
         self,
@@ -58,10 +60,10 @@ class HostStoreAPI(BasePrivXAPI):
             filter=filter_param,
         )
 
-        response = self._http_post(
+        response_status, data = self._http_post(
             UrlEnum.HOST_STORE.SEARCH, query_params=search_params, body=kw
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def delete_host(self, host_id: str) -> PrivXAPIResponse:
         """
@@ -70,7 +72,7 @@ class HostStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response = self._http_delete(
+        response_status, data = self._http_delete(
             UrlEnum.HOST_STORE.HOST, path_params={"host_id": host_id}
         )
-        return PrivXAPIResponse(response, 200)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
