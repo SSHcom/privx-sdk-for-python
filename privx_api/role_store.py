@@ -295,7 +295,7 @@ class RoleStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def set_user_role(self, user_id: str, roles: list) -> PrivXAPIResponse:
+    def set_user_roles(self, user_id: str, roles: list) -> PrivXAPIResponse:
         """
         Set specific user's roles. These are granted in addition to mapped roles.
 
@@ -307,7 +307,7 @@ class RoleStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def enable_user_mfa(self, users: list) -> PrivXAPIResponse:
+    def enable_user_mfa(self, user_ids: list) -> PrivXAPIResponse:
         """
         Turn on multifactor authentication for an array of user IDs.
 
@@ -315,11 +315,11 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.ROLE_STORE.ENABLE_MFA, body=users
+            UrlEnum.ROLE_STORE.ENABLE_MFA, body=user_ids
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def disable_user_mfa(self, users: list) -> PrivXAPIResponse:
+    def disable_user_mfa(self, user_ids: list) -> PrivXAPIResponse:
         """
         Turn off multifactor authentication for an array of user IDs.
 
@@ -327,11 +327,11 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.ROLE_STORE.DISABLE_MFA, body=users
+            UrlEnum.ROLE_STORE.DISABLE_MFA, body=user_ids
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def reset_user_mfa(self, users: list) -> PrivXAPIResponse:
+    def reset_user_mfa(self, user_ids: list) -> PrivXAPIResponse:
         """
         Reset multifactor authentication for an array of user IDs.
 
@@ -339,7 +339,7 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.ROLE_STORE.RESET_MFA, body=users
+            UrlEnum.ROLE_STORE.RESET_MFA, body=user_ids
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
