@@ -118,9 +118,21 @@ class ConnectionManagerEnum:
 
 
 class VaultEnum:
+    STATUS = "VAULT.STATUS"
+    SECRETS = "VAULT.SECRETS"
     SECRET = "VAULT.SECRET"
+    METADATA = "VAULT.METADATA"
+    SEARCH = "VAULT.SEARCH"
+    SCHEMAS = "VAULT.SCHEMAS"
 
-    urls = {SECRET: "/vault/api/v1/secrets/{name}"}
+    urls = {
+        STATUS: "/vault/api/v1/status",
+        SECRETS: "/vault/api/v1/secrets",
+        SECRET: "/vault/api/v1/secrets/{name}",
+        METADATA: "/vault/api/v1/metadata/secrets/{name}",
+        SEARCH: "/vault/api/v1/search/secrets",
+        SCHEMAS: "/vault/api/v1/schemas",
+    }
 
 
 class UrlEnum:
