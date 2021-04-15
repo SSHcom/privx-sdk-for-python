@@ -368,3 +368,313 @@ class RoleStoreAPI(BasePrivXAPI):
             body=external_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_user_authorized_keys(self, user_id: str) -> PrivXAPIResponse:
+        """
+        List user's authorized keys
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.USER_AUTHORIZED_KEYS,
+            path_params={"user_id": user_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def register_user_authorized_key(
+        self,
+        user_id: str,
+        key_params: dict,
+    ) -> PrivXAPIResponse:
+        """
+        Register an authorized key for user.
+        """
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.USER_AUTHORIZED_KEYS,
+            path_params={"user_id": user_id},
+            body=key_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+
+    def get_user_authorized_key(self, user_id: str, key_id: str) -> PrivXAPIResponse:
+        """
+        Get user's authorized key.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.USER_AUTHORIZED_KEY_ID,
+            path_params={"user_id": user_id, "key_id": key_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def update_user_authorized_key(
+        self, user_id: str, key_id: str, key_params: dict
+    ) -> PrivXAPIResponse:
+        """
+        Update an authorized key for user.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.ROLE_STORE.USER_AUTHORIZED_KEY_ID,
+            path_params={"user_id": user_id, "key_id": key_id},
+            body=key_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def delete_user_authorized_key(self, user_id: str, key_id: str) -> PrivXAPIResponse:
+        """
+        Delete a user's authorized key.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_delete(
+            UrlEnum.ROLE_STORE.USER_AUTHORIZED_KEY_ID,
+            path_params={"user_id": user_id, "key_id": key_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_log_conf_collectors(self) -> PrivXAPIResponse:
+        """
+        Get logconf collectors.
+
+        Returns:
+             PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.LOG_CONF_COLLECTORS,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def create_log_conf_collector(self, collector: dict) -> PrivXAPIResponse:
+        """
+        Create logconf collector.
+
+        Returns:
+             PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.LOG_CONF_COLLECTORS,
+            body=collector,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+
+    def get_log_conf_collector(self, collector_id: str) -> PrivXAPIResponse:
+        """
+        Get logconf collector.
+
+        Returns:
+             PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.LOG_CONF_COLLECTOR,
+            path_params={"collector_id": collector_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def update_log_conf_collector(
+        self, collector_id: str, collector_params: dict
+    ) -> PrivXAPIResponse:
+        """
+        Update logconf collector.
+
+        Returns:
+             PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.ROLE_STORE.LOG_CONF_COLLECTOR,
+            path_params={"collector_id": collector_id},
+            body=collector_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def delete_log_conf_collector(self, collector_id: str) -> PrivXAPIResponse:
+        """
+        Delete logconf collector.
+
+        Returns:
+             PrivXAPIResponse
+        """
+        response_status, data = self._http_delete(
+            UrlEnum.ROLE_STORE.LOG_CONF_COLLECTOR,
+            path_params={"collector_id": collector_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_all_authorized_keys(
+        self,
+        offset: int = None,
+        limit: int = None,
+        sortkey: str = None,
+        sortdir: str = None,
+    ) -> PrivXAPIResponse:
+        """
+        List all authorized keys.
+
+        Returns:
+             PrivXAPIResponse
+        """
+        search_params = self._get_search_params(
+            offset=offset, limit=limit, sortkey=sortkey, sortdir=sortdir
+        )
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.ALL_AUTHORIZED_KEYS,
+            query_params=search_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def resolve_authorized_keys(self, authorized_keys: dict) -> PrivXAPIResponse:
+        """
+        Resolve authorized keys.
+
+        Returns:
+             PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.RESOLVE_AUTHORIZED_KEYS,
+            body=authorized_keys,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_all_aws_roles(self, refresh: bool = False) -> PrivXAPIResponse:
+        """
+        Get all AWS roles from all sources.
+
+        Returns:
+             PrivXAPIResponse
+        """
+        search_params = self._get_search_params(
+            refresh=refresh,
+        )
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.AWS_ROLES,
+            query_params=search_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_aws_role_by_id(self, aws_role_id: str) -> PrivXAPIResponse:
+        """
+        Create a new source definition. Id, author,
+        created & updated are automatically populated by the server.
+
+        Returns:
+             PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.AWS_ROLE,
+            path_params={"awsrole_id": aws_role_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def delete_aws_role(self, aws_role_id: str) -> PrivXAPIResponse:
+        """
+        Delete cached AWS role and its mappings on PrivX.
+        Does not affect the AWS service, if the role still exists on AWS,
+        it will re-appear on the next role scan..
+
+         Returns:
+              PrivXAPIResponse
+        """
+        response_status, data = self._http_delete(
+            UrlEnum.ROLE_STORE.AWS_ROLE,
+            path_params={"awsrole_id": aws_role_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def update_aws_role(self, aws_role_id: str, privx_roles: list) -> PrivXAPIResponse:
+        """
+        Update a AWS role granting PrivX roles.
+
+         Returns:
+              PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.ROLE_STORE.AWS_ROLE_PRIVX_ROLES,
+            path_params={"awsrole_id": aws_role_id},
+            body=privx_roles,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_aws_role_with_privx_roles(self, aws_role_id: str) -> PrivXAPIResponse:
+        """
+        Get AWS role granting PrivX roles..
+
+         Returns:
+              PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.AWS_ROLE_PRIVX_ROLES,
+            path_params={"awsrole_id": aws_role_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def create_source(self, source_params: dict) -> PrivXAPIResponse:
+        """
+        Create a new source definition.
+        Id, author, created & updated are automatically populated by the PrivX server.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.SOURCES,
+            body=source_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+
+    def delete_source(self, source_id: str) -> PrivXAPIResponse:
+        """
+        Delete source by ID.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_delete(
+            UrlEnum.ROLE_STORE.SOURCE,
+            path_params={"source_id": source_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def update_source(self, source_id: str, source_params: dict) -> PrivXAPIResponse:
+        """
+        Update a source.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.ROLE_STORE.SOURCE,
+            path_params={"source_id": source_id},
+            body=source_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def refresh_source(self, source_ids: list) -> PrivXAPIResponse:
+        """
+        Fetch hosts from local host directory,
+        or users from any user directory.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.REFRESH_SOURCES,
+            body=source_ids,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_role_store_status(self) -> PrivXAPIResponse:
+        """
+        Get microservice status.
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.STATUS,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)

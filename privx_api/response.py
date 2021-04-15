@@ -17,12 +17,12 @@ class PrivXAPIResponse:
     ):
         if expected_status == response_status:
             self._ok = True
-            self._data = json.loads(data) if data else {}
+            self._data = json.loads(data) if data.strip() else {}
         else:
             self._ok = False
             response_struct = {
                 "status": response_status,
-                "details": json.loads(data) if data else {},
+                "details": json.loads(data) if data.strip() else {},
             }
             self._data = response_struct
 
