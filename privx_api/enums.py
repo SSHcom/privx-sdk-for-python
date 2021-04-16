@@ -16,14 +16,30 @@ class AuthEnum:
 
 
 class HostStoreEnum:
+    STATUS = "HOST_STORE.STATUS"
     HOSTS = "HOST_STORE.HOSTS"
     HOST = "HOST_STORE.HOST"
     SEARCH = "HOST_STORE.SEARCH"
+    RESOLVE = "HOST_STORE.RESOLVE"
+    DEPLOY = "HOST_STORE.DEPLOY"
+    DEPLOYABLE = "HOST_STORE.DEPLOYABLE"
+    DISABLE = "HOST_STORE.DISABLE"
+    TAGS = "HOST_STORE.TAGS"
+    REALM = "HOST_STORE.REALM"
+    SETTINGS = "HOST_STORE.SETTINGS"
 
     urls = {
+        STATUS: "/host-store/api/v1/status",
         HOSTS: "/host-store/api/v1/hosts",
         HOST: "/host-store/api/v1/hosts/{host_id}",
         SEARCH: "/host-store/api/v1/hosts/search",
+        RESOLVE: "/host-store/api/v1/hosts/resolve",
+        DEPLOY: "/host-store/api/v1/hosts/deploy",
+        DEPLOYABLE: "/host-store/api/v1/hosts/{host_id}/deployable",
+        DISABLE: "/host-store/api/v1/hosts/{host_id}/disabled",
+        TAGS: "/host-store/api/v1/hosts/tags",
+        REALM: "/host-store/api/v1/realm/resolve",
+        SETTINGS: "/host-store/api/v1/settings/default_service_options",
     }
 
 
