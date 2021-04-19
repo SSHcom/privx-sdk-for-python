@@ -119,11 +119,25 @@ class UserStoreEnum:
     STATUS = "USER_STORE.STATUS"
     USERS = "USER_STORE.USERS"
     USER = "USER_STORE.USER"
+    PASSWORD = "USER_STORE.PASSWORD"
+    TAGS = "USER_STORE.TAGS"
+    TRUSTED_CLIENTS = "USER_STORE.TRUSTED_CLIENTS"
+    TRUSTED_CLIENT = "USER_STORE.TRUSTED_CLIENT"
+    EXTENDER_CLIENTS = "USER_STORE.EXTENDER_CLIENTS"
+    API_CLIENTS = "USER_STORE.API_CLIENTS"
+    API_CLIENT = "USER_STORE.API_CLIENT"
 
     urls = {
         STATUS: "/local-user-store/api/v1/status",
         USERS: "/local-user-store/api/v1/users",
         USER: "/local-user-store/api/v1/users/{user_id}",
+        PASSWORD: "/local-user-store/api/v1/users/{user_id}/password",
+        TAGS: "/local-user-store/api/v1/users/tags",
+        TRUSTED_CLIENTS: "/local-user-store/api/v1/trusted-clients",
+        TRUSTED_CLIENT: "/local-user-store/api/v1/trusted-clients/{trusted_client_id}",
+        EXTENDER_CLIENTS: "/local-user-store/api/v1/extender-clients",
+        API_CLIENTS: "/local-user-store/api/v1/api-clients",
+        API_CLIENT: "/local-user-store/api/v1/api-clients/{api_client_id}",
     }
 
 
