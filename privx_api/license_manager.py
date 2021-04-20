@@ -26,7 +26,7 @@ class LicenseManagerAPI(BasePrivXAPI):
         response_status, data = self._http_get(UrlEnum.LICENSE.LICENSE)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def create_license(self, license_params: str) -> PrivXAPIResponse:
+    def set_license(self, license_code: str) -> PrivXAPIResponse:
         """
         Post a new license to server.
 
@@ -35,7 +35,7 @@ class LicenseManagerAPI(BasePrivXAPI):
         """
         response_status, data = self._http_post(
             UrlEnum.LICENSE.LICENSE,
-            body=license_params,
+            body=license_code,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
