@@ -17,12 +17,12 @@ class PrivXAPIResponse:
     ):
         if expected_status == response_status:
             self._ok = True
-            self._data = json.loads(data) if data.strip() else {}
+            self._data = json.loads(data) if self.is_json(data) else {}
         else:
             self._ok = False
             response_struct = {
                 "status": response_status,
-                "details": json.loads(data) if data.strip() else {},
+                "details": json.loads(data) if self.is_json(data) else {},
             }
             self._data = response_struct
 
@@ -39,3 +39,10 @@ class PrivXAPIResponse:
             The response data
         """
         return self._data
+
+    def is_json(self, json_data):
+        try:
+            json.loads(json_data)
+        except ValueError:
+            return False
+        return True

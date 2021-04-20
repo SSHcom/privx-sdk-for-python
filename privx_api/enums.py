@@ -165,6 +165,22 @@ class VaultEnum:
     }
 
 
+class LicenseManagerEnum:
+    STATUS = "LICENSE_MANAGER.STATUS"
+    LICENSE = "LICENSE_MANAGER.LICENSE"
+    REFRESH = "LICENSE_MANAGER.REFRESH"
+    OPT_IN = "LICENSE_MANAGER.OPT_IN"
+    DEACTIVATE = "LICENSE_MANAGER.DEACTIVATE"
+
+    urls = {
+        STATUS: "/license-manager/api/v1/status",
+        LICENSE: "/license-manager/api/v1/license",
+        REFRESH: "/license-manager/api/v1/license/refresh",
+        OPT_IN: "/license-manager/api/v1/license/optin",
+        DEACTIVATE: "/license-manager/api/v1/license/deactivate",
+    }
+
+
 class UrlEnum:
     AUTH = AuthEnum
     CONNECTION_MANAGER = ConnectionManagerEnum
@@ -172,6 +188,7 @@ class UrlEnum:
     ROLE_STORE = RoleStoreEnum
     USER_STORE = UserStoreEnum
     VAULT = VaultEnum
+    LICENSE = LicenseManagerEnum
 
     @classmethod
     def get(cls, url_name: str) -> Union[str, None]:
