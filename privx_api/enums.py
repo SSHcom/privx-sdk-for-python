@@ -181,6 +181,28 @@ class LicenseManagerEnum:
     }
 
 
+class MonitorServiceEnum:
+    STATUS = "MONITOR.STATUS"
+    COMPONENTS = "MONITOR.COMPONENTS"
+    COMPONENT = "MONITOR.COMPONENT"
+    SEARCH_AUDIT_EVENTS = "MONITOR.SEARCH_AUDIT_EVENTS"
+    AUDIT_EVENTS = "MONITOR.AUDIT_EVENTS"
+    AUDIT_EVENT_CODES = "MONITOR.AUDIT_EVENT_CODES"
+    INSTANCE_STATUS = "MONITOR.INSTANCE_STATUS"
+    TERMINATE_INSTANCES = "MONITOR.TERMINATE_INSTANCES"
+
+    urls = {
+        STATUS: "/monitor-service/api/v1/status",
+        COMPONENTS: "/monitor-service/api/v1/components",
+        COMPONENT: "/monitor-service/api/v1/components/{hostname}",
+        SEARCH_AUDIT_EVENTS: "/monitor-service/api/v1/auditevents/search",
+        AUDIT_EVENTS: "/monitor-service/api/v1/auditevents",
+        AUDIT_EVENT_CODES: "/monitor-service/api/v1/auditevents/codes",
+        INSTANCE_STATUS: "/monitor-service/api/v1/instance/status",
+        TERMINATE_INSTANCES: "/monitor-service/api/v1/instance/exit",
+    }
+
+
 class PrivXSettingsEnum:
     STATUS = "SETTINGS.STATUS"
     SCOPE = "SETTINGS.SCOPE"
@@ -201,6 +223,7 @@ class UrlEnum:
     AUTH = AuthEnum
     CONNECTION_MANAGER = ConnectionManagerEnum
     HOST_STORE = HostStoreEnum
+    MONITOR = MonitorServiceEnum
     ROLE_STORE = RoleStoreEnum
     SETTINGS = PrivXSettingsEnum
     USER_STORE = UserStoreEnum
