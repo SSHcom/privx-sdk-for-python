@@ -77,3 +77,18 @@ def test_url_enum_get_exception_similar_url_name(url_name, expected_url):
 
     with pytest.raises(InternalAPIException):
         FakeEnum.get(url_name)
+
+
+@pytest.mark.parametrize(
+    "value, expected_value",
+    [
+        ({"key": 123123}, '{"key": 123123}'),
+        (
+            "9293a478-0db1-4090-638d-22684820e230",
+            "9293a478-0db1-4090-638d-22684820e230",
+        ),
+        ("{'key': 'value'}", "{'key': 'value'}"),
+    ],
+)
+def test_make_body_params(value, expected_value):
+    assert PrivXAPI._make_body_params(value) == expected_value

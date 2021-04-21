@@ -164,7 +164,7 @@ class BasePrivXAPI:
                     "POST",
                     self._build_url(urlname, path_params, query_params),
                     headers=self._get_headers(),
-                    body=json.dumps(body),
+                    body=self._make_body_params(body),
                 )
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
@@ -184,7 +184,7 @@ class BasePrivXAPI:
                     "PUT",
                     self._build_url(urlname, path_params, query_params),
                     headers=self._get_headers(),
-                    body=json.dumps(body),
+                    body=self._make_body_params(body),
                 )
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
@@ -204,9 +204,13 @@ class BasePrivXAPI:
                     "DELETE",
                     self._build_url(urlname, path_params, query_params),
                     headers=self._get_headers(),
-                    body=json.dumps(body),
+                    body=self._make_body_params(body),
                 )
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
             response = conn.getresponse()
             return response.status, response.read()
+
+    @staticmethod
+    def _make_body_params(data: Union[dict, str]) -> str:
+        return data if isinstance(data, str) else json.dumps(data)
