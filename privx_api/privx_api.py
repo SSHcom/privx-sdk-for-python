@@ -24,6 +24,7 @@ from privx_api.vault import VaultAPI
 from privx_api.role_store import RoleStoreAPI
 from privx_api.license_manager import LicenseManagerAPI
 from privx_api.monitor_service import MonitorServiceAPI
+from privx_api.privx_settings import PrivXSettingsAPI
 
 
 class PrivXAPI(
@@ -31,6 +32,7 @@ class PrivXAPI(
     ConnectionManagerAPI,
     HostStoreAPI,
     LicenseManagerAPI,
+    PrivXSettingsAPI,
     MonitorServiceAPI,
     RoleStoreAPI,
     UserStoreAPI,

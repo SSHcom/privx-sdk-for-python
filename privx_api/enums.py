@@ -203,12 +203,29 @@ class MonitorServiceEnum:
     }
 
 
+class PrivXSettingsEnum:
+    STATUS = "SETTINGS.STATUS"
+    SCOPE = "SETTINGS.SCOPE"
+    SCOPE_SECTION = "SETTINGS.SCOPE_SECTION"
+    SCOPE_SCHEMA = "SETTINGS.SCOPE_SCHEMA"
+    SCOPE_SECTION_SCHEMA = "SETTINGS.SCOPE_SECTION_SCHEMA"
+
+    urls = {
+        STATUS: "/settings/api/v1/status",
+        SCOPE: "/settings/api/v1/settings/{scope}",
+        SCOPE_SECTION: "/settings/api/v1/settings/{scope}/{section}",
+        SCOPE_SCHEMA: "/settings/api/v1/schema/{scope}",
+        SCOPE_SECTION_SCHEMA: "/settings/api/v1/schema/{scope}/{section}",
+    }
+
+
 class UrlEnum:
     AUTH = AuthEnum
     CONNECTION_MANAGER = ConnectionManagerEnum
     HOST_STORE = HostStoreEnum
     MONITOR = MonitorServiceEnum
     ROLE_STORE = RoleStoreEnum
+    SETTINGS = PrivXSettingsEnum
     USER_STORE = UserStoreEnum
     VAULT = VaultEnum
     LICENSE = LicenseManagerEnum
