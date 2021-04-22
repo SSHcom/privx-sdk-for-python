@@ -25,6 +25,7 @@ from privx_api.role_store import RoleStoreAPI
 from privx_api.license_manager import LicenseManagerAPI
 from privx_api.monitor_service import MonitorServiceAPI
 from privx_api.privx_settings import PrivXSettingsAPI
+from privx_api.workflow_engine import WorkFlowEngineAPI
 
 
 class PrivXAPI(
@@ -37,6 +38,7 @@ class PrivXAPI(
     RoleStoreAPI,
     UserStoreAPI,
     VaultAPI,
+    WorkFlowEngineAPI,
 ):
     """
     Instance for PrivX API library.

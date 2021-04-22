@@ -219,6 +219,30 @@ class PrivXSettingsEnum:
     }
 
 
+class WokFlowEngineEnum:
+    STATUS = "WORKFLOW_ENGINE.STATUS"
+    WORKFLOWS = "WORKFLOW_ENGINE.WORKFLOWS"
+    WORKFLOW = "WORKFLOW_ENGINE.WORKFLOW"
+    REQUESTS = "WORKFLOW_ENGINE.REQUESTS"
+    REQUEST = "WORKFLOW_ENGINE.REQUEST"
+    DECISION = "WORKFLOW_ENGINE.DECISION"
+    SEARCH_REQUESTS = "WORKFLOW_ENGINE.SEARCH_REQUESTS"
+    SETTINGS = "WORKFLOW_ENGINE.SEARCH_REQUESTS"
+    TEST_SETTINGS = "WORKFLOW_ENGINE.TEST_SETTINGS"
+
+    urls = {
+        STATUS: "/workflow-engine/api/v1/status",
+        WORKFLOWS: "/workflow-engine/api/v1/workflows",
+        WORKFLOW: "/workflow-engine/api/v1/workflows/{workflow_id}",
+        REQUESTS: "/workflow-engine/api/v1/requests",
+        REQUEST: "/workflow-engine/api/v1/requests/{request_id}",
+        DECISION: "/workflow-engine/api/v1/requests/{request_id}/decision",
+        SEARCH_REQUESTS: "/workflow-engine/api/v1/requests/search",
+        SETTINGS: "/workflow-engine/api/v1/settings",
+        TEST_SETTINGS: "/workflow-engine/api/v1/testsmtp",
+    }
+
+
 class UrlEnum:
     AUTH = AuthEnum
     CONNECTION_MANAGER = ConnectionManagerEnum
@@ -229,6 +253,7 @@ class UrlEnum:
     USER_STORE = UserStoreEnum
     VAULT = VaultEnum
     LICENSE = LicenseManagerEnum
+    WORKFLOW_ENGINE = WokFlowEngineEnum
 
     @classmethod
     def get(cls, url_name: str) -> Union[str, None]:
