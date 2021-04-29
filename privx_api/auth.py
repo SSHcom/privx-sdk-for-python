@@ -1,4 +1,8 @@
+from http import HTTPStatus
+
 from privx_api.base import BasePrivXAPI
+from privx_api.enums import UrlEnum
+from privx_api.response import PrivXAPIResponse
 
 
 class AuthAPI(BasePrivXAPI):
@@ -15,3 +19,13 @@ class AuthAPI(BasePrivXAPI):
         """
         # TODO: should return PrivXAPIResponse
         self._authenticate(username, password)
+
+    def get_auth_service_status(self) -> PrivXAPIResponse:
+        """
+        Get microservice status.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(UrlEnum.AUTH.STATUS)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
