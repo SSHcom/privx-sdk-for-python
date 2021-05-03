@@ -35,7 +35,7 @@ SECRET_DATA = \
 
 def main():
     try:
-        check_secret_already_exists()
+        _check_secret_already_exists()
         role_ids = _get_role_data()
     except Exception as e:
         print(e)
@@ -80,7 +80,7 @@ def _get_role_data() -> dict:
     return roles
 
 
-def check_secret_already_exists():
+def _check_secret_already_exists():
     """
     Helper function to check if secret with SECRET_NAME already exists
 
