@@ -102,14 +102,11 @@ class PrivXStreamResponse(BaseResponse):
         Generator for reading and returning response by chunk
         """
 
-        def consume():
+        try:
             while True:
                 chunk = self._response.read(chunk_size)
                 if not chunk:
                     break
                 yield chunk
-
-        try:
-            yield from consume()
         finally:
             self._response.close()
