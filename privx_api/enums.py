@@ -46,74 +46,74 @@ class HostStoreEnum:
 
 
 class RoleStoreEnum:
-    STATUS = "ROLE_STORE.STATUS"
-    ROLES = "ROLE_STORE.ROLES"
-    SOURCES = "ROLE_STORE.SOURCES"
-    SOURCE = "ROLE_STORE.SOURCE"
-    REFRESH_SOURCES = "ROLE_STORE.REFRESH_SOURCES"
-    MEMBERS = "ROLE_STORE.MEMBERS"
-    ROLE = "ROLE_STORE.ROLE"
-    RESOLVE = "ROLE_STORE.RESOLVE"
-    EVALUATE = "ROLE_STORE.EVALUATE"
-    PRINCIPAL_KEYS = "ROLE_STORE.PRINCIPAL_KEYS"
-    PRINCIPAL_KEY = "ROLE_STORE.PRINCIPAL_KEY"
-    GENERATE_PRINCIPAL_KEY = "ROLE_STORE.GENERATE_PRINCIPAL_KEY"
-    IMPORT_PRINCIPAL_KEY = "ROLE_STORE.IMPORT_PRINCIPAL_KEY"
-    CURRENT_AWS_ROLES = "ROLE_STORE.CURRENT_AWS_ROLES"
-    AWS_ROLES = "ROLE_STORE.AWS_ROLES"
+    ALL_AUTHORIZED_KEYS = "ROLE_STORE.ALL_AUTHORIZED_KEYS"
     AWS_ROLE = "ROLE_STORE.AWS_ROLE"
+    AWS_ROLES = "ROLE_STORE.AWS_ROLES"
     AWS_ROLE_PRIVX_ROLES = "ROLE_STORE.AWS_ROLE_PRIVX_ROLES"
     AWS_TOKEN = "ROLE_STORE.AWS_TOKEN"
-    SEARCH_USERS = "ROLE_STORE.SEARCH_USERS"
-    EXTERNAL_SEARCH = "ROLE_STORE.EXTERNAL_SEARCH"
-    USERS = "ROLE_STORE.USERS"
-    USER_SETTINGS = "ROLE_STORE.USER_SETTINGS"
-    USER_ROLES = "ROLE_STORE.USER_ROLES"
-    ENABLE_MFA = "ROLE_STORE.ENABLE_MFA"
+    CURRENT_AWS_ROLES = "ROLE_STORE.CURRENT_AWS_ROLES"
     DISABLE_MFA = "ROLE_STORE.DISABLE_MFA"
+    ENABLE_MFA = "ROLE_STORE.ENABLE_MFA"
+    EVALUATE = "ROLE_STORE.EVALUATE"
+    EXTERNAL_SEARCH = "ROLE_STORE.EXTERNAL_SEARCH"
+    GENERATE_PRINCIPAL_KEY = "ROLE_STORE.GENERATE_PRINCIPAL_KEY"
+    IMPORT_PRINCIPAL_KEY = "ROLE_STORE.IMPORT_PRINCIPAL_KEY"
+    LOG_CONF_COLLECTOR = "ROLE_STORE.LOG_CONF_COLLECTOR"
+    LOG_CONF_COLLECTORS = "ROLE_STORE.LOG_CONF_COLLECTORS"
+    MEMBERS = "ROLE_STORE.MEMBERS"
+    PRINCIPAL_KEY = "ROLE_STORE.PRINCIPAL_KEY"
+    PRINCIPAL_KEYS = "ROLE_STORE.PRINCIPAL_KEYS"
+    REFRESH_SOURCES = "ROLE_STORE.REFRESH_SOURCES"
     RESET_MFA = "ROLE_STORE.RESET_MFA"
+    RESOLVE = "ROLE_STORE.RESOLVE"
+    RESOLVE_AUTHORIZED_KEYS = "ROLE_STORE.RESOLVE_AUTHORIZED_KEYS"
     RESOLVE_USER = "ROLE_STORE.RESOLVE_USER"
+    ROLE = "ROLE_STORE.ROLE"
+    ROLES = "ROLE_STORE.ROLES"
+    SEARCH_USERS = "ROLE_STORE.SEARCH_USERS"
+    SOURCE = "ROLE_STORE.SOURCE"
+    SOURCES = "ROLE_STORE.SOURCES"
+    STATUS = "ROLE_STORE.STATUS"
+    USERS = "ROLE_STORE.USERS"
     USER_AUTHORIZED_KEYS = "ROLE_STORE.USER_AUTHORIZED_KEYS"
     USER_AUTHORIZED_KEY_ID = "ROLE_STORE.USER_AUTHORIZED_KEY_ID"
-    ALL_AUTHORIZED_KEYS = "ROLE_STORE.ALL_AUTHORIZED_KEYS"
-    RESOLVE_AUTHORIZED_KEYS = "ROLE_STORE.RESOLVE_AUTHORIZED_KEYS"
-    LOG_CONF_COLLECTORS = "ROLE_STORE.LOG_CONF_COLLECTORS"
-    LOG_CONF_COLLECTOR = "ROLE_STORE.LOG_CONF_COLLECTOR"
+    USER_ROLES = "ROLE_STORE.USER_ROLES"
+    USER_SETTINGS = "ROLE_STORE.USER_SETTINGS"
 
     urls = {
-        STATUS: "/role-store/api/v1/status",
-        ROLES: "/role-store/api/v1/roles",
-        SOURCES: "/role-store/api/v1/sources",
-        SOURCE: "/role-store/api/v1/sources/{source_id}",
-        REFRESH_SOURCES: "/role-store/api/v1/sources/refresh",
-        MEMBERS: "/role-store/api/v1/roles/{role_id}/members",
-        ROLE: "/role-store/api/v1/roles/{role_id}",
-        RESOLVE: "/role-store/api/v1/roles/resolve",
-        EVALUATE: "/role-store/api/v1/roles/evaluate",
-        PRINCIPAL_KEYS: "/role-store/api/v1/roles/{role_id}/principalkeys",
-        PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/{key_id}",
-        GENERATE_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/generate",
-        IMPORT_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/import",
-        CURRENT_AWS_ROLES: "/role-store/api/v1/users/current/awsroles",
-        AWS_ROLES: "/role-store/api/v1/awsroles",
+        ALL_AUTHORIZED_KEYS: "/role-store/api/v1/authorizedkeys",
         AWS_ROLE: "/role-store/api/v1/awsroles/{awsrole_id}",
+        AWS_ROLES: "/role-store/api/v1/awsroles",
         AWS_ROLE_PRIVX_ROLES: "/role-store/api/v1/awsroles/{awsrole_id}/roles",
         AWS_TOKEN: "/role-store/api/v1/roles/{awsrole_id}/awstoken",
-        SEARCH_USERS: "/role-store/api/v1/users/search",
-        EXTERNAL_SEARCH: "/role-store/api/v1/users/search/external",
-        USERS: "/role-store/api/v1/users/{user_id}",
-        USER_SETTINGS: "/role-store/api/v1/users/{user_id}/settings",
-        USER_ROLES: "/role-store/api/v1/users/{user_id}/roles",
-        ENABLE_MFA: "/role-store/api/v1/users/mfa/enable",
+        CURRENT_AWS_ROLES: "/role-store/api/v1/users/current/awsroles",
         DISABLE_MFA: "/role-store/api/v1/users/mfa/disable",
+        ENABLE_MFA: "/role-store/api/v1/users/mfa/enable",
+        EVALUATE: "/role-store/api/v1/roles/evaluate",
+        EXTERNAL_SEARCH: "/role-store/api/v1/users/search/external",
+        GENERATE_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/generate",
+        IMPORT_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/import",
+        LOG_CONF_COLLECTOR: "/role-store/api/v1/logconf/collectors/{collector_id}",
+        LOG_CONF_COLLECTORS: "/role-store/api/v1/logconf/collectors",
+        MEMBERS: "/role-store/api/v1/roles/{role_id}/members",
+        PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/{key_id}",
+        PRINCIPAL_KEYS: "/role-store/api/v1/roles/{role_id}/principalkeys",
+        REFRESH_SOURCES: "/role-store/api/v1/sources/refresh",
         RESET_MFA: "/role-store/api/v1/users/mfa/reset",
+        RESOLVE: "/role-store/api/v1/roles/resolve",
+        RESOLVE_AUTHORIZED_KEYS: "/role-store/api/v1/authorizedkeys/resolve",
         RESOLVE_USER: "/role-store/api/v1/users/{user_id}/resolve",
+        ROLE: "/role-store/api/v1/roles/{role_id}",
+        ROLES: "/role-store/api/v1/roles",
+        SEARCH_USERS: "/role-store/api/v1/users/search",
+        SOURCE: "/role-store/api/v1/sources/{source_id}",
+        SOURCES: "/role-store/api/v1/sources",
+        STATUS: "/role-store/api/v1/status",
+        USERS: "/role-store/api/v1/users/{user_id}",
         USER_AUTHORIZED_KEYS: "/role-store/api/v1/users/{user_id}/authorizedkeys",
         USER_AUTHORIZED_KEY_ID: "/role-store/api/v1/users/{user_id}/authorizedkeys/{key_id}",
-        ALL_AUTHORIZED_KEYS: "/role-store/api/v1/authorizedkeys",
-        RESOLVE_AUTHORIZED_KEYS: "/role-store/api/v1/authorizedkeys/resolve",
-        LOG_CONF_COLLECTORS: "/role-store/api/v1/logconf/collectors",
-        LOG_CONF_COLLECTOR: "/role-store/api/v1/logconf/collectors/{collector_id}",
+        USER_ROLES: "/role-store/api/v1/users/{user_id}/roles",
+        USER_SETTINGS: "/role-store/api/v1/users/{user_id}/settings",
     }
 
 
