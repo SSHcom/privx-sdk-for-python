@@ -1,34 +1,47 @@
 from http import HTTPStatus
+from typing import Optional
 
-from privx_api.response import PrivXAPIResponse
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
+from privx_api.response import PrivXAPIResponse
 
 
 class HostStoreAPI(BasePrivXAPI):
-    """
-    Host store API.
-    """
-
-    def create_host(self, host: dict) -> PrivXAPIResponse:
+    def get_host_store_status(self) -> PrivXAPIResponse:
         """
-        Create a host, see required fields from API docs.
+        Get microservice status.
 
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_post(UrlEnum.HOST_STORE.HOSTS, body=host)
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        response_status, data = self._http_get(UrlEnum.HOST_STORE.STATUS)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def update_host(self, host_id: str, host: dict) -> PrivXAPIResponse:
+    def search_hosts(
+        self,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_key: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+        filter_param: Optional[str] = None,
+        search_payload: Optional[dict] = None,
+    ) -> PrivXAPIResponse:
         """
-        Update a host, see required fields from API docs.
+        Search for hosts
 
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_put(
-            UrlEnum.HOST_STORE.HOST, path_params={"host_id": host_id}, body=host
+        search_params = self._get_search_params(
+            offset=offset,
+            limit=limit,
+            sortkey=sort_key,
+            sortdir=sort_dir,
+            filter=filter_param,
+        )
+
+        response_status, data = self._http_post(
+            UrlEnum.HOST_STORE.SEARCH, query_params=search_params, body=search_payload
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -42,31 +55,51 @@ class HostStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(UrlEnum.HOST_STORE.HOSTS)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def search_hosts(
-        self,
-        offset: int = None,
-        limit: int = None,
-        sortkey: str = None,
-        sortdir: str = None,
-        filter_param: str = None,
-        **kw
-    ) -> PrivXAPIResponse:
+    def create_host(self, host: dict) -> PrivXAPIResponse:
         """
-        Search for hosts
+        Create a host, see required fields from API docs.
 
         Returns:
             PrivXAPIResponse
         """
-        search_params = self._get_search_params(
-            offset=offset,
-            limit=limit,
-            sortkey=sortkey,
-            sortdir=sortdir,
-            filter=filter_param,
-        )
+        response_status, data = self._http_post(UrlEnum.HOST_STORE.HOSTS, body=host)
+        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
+    def resolve_host(self, host_resolve_params: dict) -> PrivXAPIResponse:
+        """
+        Resolve service+address to a single host in host store.
+
+        Returns:
+            PrivXAPIResponse
+        """
         response_status, data = self._http_post(
-            UrlEnum.HOST_STORE.SEARCH, query_params=search_params, body=kw
+            UrlEnum.HOST_STORE.RESOLVE,
+            body=host_resolve_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_host(self, host_id: str) -> PrivXAPIResponse:
+        """
+        Get a single host in host store.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.HOST_STORE.HOST,
+            path_params={"host_id": host_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def update_host(self, host_id: str, host: dict) -> PrivXAPIResponse:
+        """
+        Update a host, see required fields from API docs.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.HOST_STORE.HOST, path_params={"host_id": host_id}, body=host
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -82,43 +115,9 @@ class HostStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_host_store_status(self) -> PrivXAPIResponse:
-        """
-        Get microservice status.
-
-        Returns:
-            PrivXAPIResponse
-        """
-        response_status, data = self._http_get(UrlEnum.HOST_STORE.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
-
-    def resolve_host(self, host_params: dict) -> PrivXAPIResponse:
-        """
-        Resolve service+address to a single host in host store.
-
-        Returns:
-            PrivXAPIResponse
-        """
-        response_status, data = self._http_post(
-            UrlEnum.HOST_STORE.RESOLVE,
-            body=host_params,
-        )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
-
-    def get_host_by_id(self, host_id: str) -> PrivXAPIResponse:
-        """
-        Get a single host in host store.
-
-        Returns:
-            PrivXAPIResponse
-        """
-        response_status, data = self._http_get(
-            UrlEnum.HOST_STORE.HOST,
-            path_params={"host_id": host_id},
-        )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
-
-    def set_host_deployable(self, host_id: str, host_params: dict) -> PrivXAPIResponse:
+    def set_host_deployable(
+        self, host_id: str, deployable_params: dict
+    ) -> PrivXAPIResponse:
         """
         Set a host to be deployable or undeployable.
 
@@ -128,30 +127,16 @@ class HostStoreAPI(BasePrivXAPI):
         response_status, data = self._http_put(
             UrlEnum.HOST_STORE.DEPLOYABLE,
             path_params={"host_id": host_id},
-            body=host_params,
-        )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
-
-    def disable_host(self, host_id: str, host_params: dict) -> PrivXAPIResponse:
-        """
-        Enable/disable host.
-
-        Returns:
-            PrivXAPIResponse
-        """
-        response_status, data = self._http_put(
-            UrlEnum.HOST_STORE.DISABLE,
-            path_params={"host_id": host_id},
-            body=host_params,
+            body=deployable_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_host_tags(
         self,
-        offset: int = None,
-        limit: int = None,
-        query: str = None,
-        sortdir: str = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        query: Optional[str] = None,
+        sort_dir: Optional[str] = None,
     ) -> PrivXAPIResponse:
         """
         Get list of host's tags.
@@ -163,11 +148,27 @@ class HostStoreAPI(BasePrivXAPI):
             offset=offset,
             limit=limit,
             query=query,
-            sortdir=sortdir,
+            sortdir=sort_dir,
         )
         response_status, data = self._http_get(
             UrlEnum.HOST_STORE.TAGS,
             query_params=search_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def set_host_disabled_status(
+        self, host_id: str, host_params: dict
+    ) -> PrivXAPIResponse:
+        """
+        Enable/disable host.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.HOST_STORE.DISABLE,
+            path_params={"host_id": host_id},
+            body=host_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -184,7 +185,7 @@ class HostStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_host_store_options(self) -> PrivXAPIResponse:
+    def get_default_service_options(self) -> PrivXAPIResponse:
         """
         Get the default service options.
 

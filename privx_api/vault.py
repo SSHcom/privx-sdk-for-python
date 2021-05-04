@@ -55,7 +55,7 @@ class VaultAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(
-            UrlEnum.VAULT.SECRETS, path_params={"name": name}
+            UrlEnum.VAULT.SECRET, path_params={"name": name}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
