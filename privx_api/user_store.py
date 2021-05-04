@@ -1,31 +1,28 @@
 from http import HTTPStatus
+from typing import Optional
 
-from privx_api.response import PrivXAPIResponse
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
+from privx_api.response import PrivXAPIResponse
 
 
 class UserStoreAPI(BasePrivXAPI):
-    """
-    User store API.
-    """
-
-    def create_local_user(self, user: dict) -> PrivXAPIResponse:
+    def get_user_store_status(self) -> PrivXAPIResponse:
         """
-        Create a user, see required fields from API docs.
+        Get microservice status.
 
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_post(UrlEnum.USER_STORE.USERS, body=user)
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        response_status, data = self._http_get(UrlEnum.USER_STORE.STATUS)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_local_users(
+    def get_users(
         self,
-        username=None,
-        user_id=None,
-        offset: int = None,
-        limit: int = None,
+        username: Optional[str] = None,
+        user_id: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
     ) -> PrivXAPIResponse:
         """
         Get users.
@@ -42,29 +39,17 @@ class UserStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def delete_local_user(self, user_id: str) -> PrivXAPIResponse:
+    def create_user(self, user: dict) -> PrivXAPIResponse:
         """
-        Delete a local user, required field user_id.
+        Create a user, see required fields from API docs.
 
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_delete(
-            UrlEnum.USER_STORE.USER, path_params={"user_id": user_id}
-        )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        response_status, data = self._http_post(UrlEnum.USER_STORE.USERS, body=user)
+        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
-    def get_local_user_store_status(self) -> PrivXAPIResponse:
-        """
-        Get microservice status.
-
-        Returns:
-            PrivXAPIResponse
-        """
-        response_status, data = self._http_get(UrlEnum.USER_STORE.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
-
-    def get_local_user_by_id(self, user_id: str) -> PrivXAPIResponse:
+    def get_user(self, user_id: str) -> PrivXAPIResponse:
         """
         Get a user.
 
@@ -77,7 +62,7 @@ class UserStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def update_local_user(self, user_id: str, user_params: dict) -> PrivXAPIResponse:
+    def update_user(self, user_id: str, user_params: dict) -> PrivXAPIResponse:
         """
         Update a new user.
 
@@ -91,9 +76,19 @@ class UserStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def set_local_user_password(
-        self, user_id: str, user_password: dict
-    ) -> PrivXAPIResponse:
+    def delete_user(self, user_id: str) -> PrivXAPIResponse:
+        """
+        Delete a local user, required field user_id.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_delete(
+            UrlEnum.USER_STORE.USER, path_params={"user_id": user_id}
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def set_user_password(self, user_id: str, user_password: dict) -> PrivXAPIResponse:
         """
         Set user's password.
 
@@ -101,18 +96,18 @@ class UserStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_put(
-            UrlEnum.USER_STORE.PASSWORD,
+            UrlEnum.USER_STORE.USER_PASSWORD,
             path_params={"user_id": user_id},
             body=user_password,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_local_user_tags(
+    def get_user_tags(
         self,
-        offset: int = None,
-        limit: int = None,
-        query: str = None,
-        sortdir: str = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        query: Optional[str] = None,
+        sort_dir: Optional[str] = None,
     ) -> PrivXAPIResponse:
         """
         Get list of host's tags.
@@ -121,15 +116,15 @@ class UserStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         search_params = self._get_search_params(
-            offset=offset, limit=limit, query=query, sortdir=sortdir
+            offset=offset, limit=limit, query=query, sortdir=sort_dir
         )
         response_status, data = self._http_get(
-            UrlEnum.USER_STORE.TAGS,
+            UrlEnum.USER_STORE.USER_TAGS,
             query_params=search_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_local_user_trusted_clients(self) -> PrivXAPIResponse:
+    def get_trusted_clients(self) -> PrivXAPIResponse:
         """
         Gets trusted clients.
 
@@ -141,7 +136,7 @@ class UserStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def create_local_user_trusted_client(self, client_params: dict) -> PrivXAPIResponse:
+    def create_trusted_client(self, client_params: dict) -> PrivXAPIResponse:
         """
         Create a new trusted client. ID, client_secret, author,
         created, updated, and updated_by fields are automatically populated
@@ -156,7 +151,7 @@ class UserStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
-    def get_local_user_trusted_client_by_id(self, client_id: str) -> PrivXAPIResponse:
+    def get_trusted_client(self, client_id: str) -> PrivXAPIResponse:
         """
         Gets trusted client object by id.
 
@@ -169,7 +164,7 @@ class UserStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def delete_local_user_trusted_client(self, client_id: str) -> PrivXAPIResponse:
+    def delete_trusted_client(self, client_id: str) -> PrivXAPIResponse:
         """
         Delete a trusted client by ID.
 
@@ -182,7 +177,7 @@ class UserStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def update_local_user_trusted_client(
+    def update_trusted_client(
         self, client_id: str, client_params: dict
     ) -> PrivXAPIResponse:
         """
@@ -198,7 +193,7 @@ class UserStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_extender_clients_names(self) -> PrivXAPIResponse:
+    def get_extending_clients(self) -> PrivXAPIResponse:
         """
         Gets a list of extender client names.
 
@@ -206,7 +201,7 @@ class UserStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(
-            UrlEnum.USER_STORE.EXTENDER_CLIENTS,
+            UrlEnum.USER_STORE.EXTENDING_CLIENTS,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -237,7 +232,7 @@ class UserStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
-    def get_api_client_by_id(self, api_client_id: str) -> PrivXAPIResponse:
+    def get_api_client(self, api_client_id: str) -> PrivXAPIResponse:
         """
         Gets API client object by ID.
 
