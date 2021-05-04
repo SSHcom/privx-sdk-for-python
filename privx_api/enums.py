@@ -8,10 +8,12 @@ from privx_api.exceptions import InternalAPIException
 class AuthEnum:
     AUTHORIZE = "AUTH.AUTHORIZE"
     TOKEN = "AUTH.TOKEN"
+    STATUS = "AUTH.STATUS"
 
     urls = {
         AUTHORIZE: "/auth/api/v1/oauth/authorize",
         TOKEN: "/auth/api/v1/oauth/token",
+        STATUS: "/auth/api/v1/status",
     }
 
 
@@ -142,9 +144,43 @@ class UserStoreEnum:
 
 
 class ConnectionManagerEnum:
+    ACCESS_ROLE = "CONNECTION_MANAGER.ACCESS_ROLE"
+    CONNECTION = "CONNECTION_MANAGER.CONNECTION"
+    CONNECTIONS = "CONNECTION_MANAGER.CONNECTIONS"
+    CONNECTION_ACCESS_ROLE = "CONNECTION_MANAGER.CONNECTION_ACCESS_ROLE"
+    CONNECTION_ACCESS_ROLES = "CONNECTION_MANAGER.CONNECTION_ACCESS_ROLES"
     SEARCH = "CONNECTION_MANAGER.SEARCH"
+    STATUS = "CONNECTION_MANAGER.STATUS"
+    TERMINATE_CONNECTION_ID = "CONNECTION_MANAGER.TERMINATE_CONNECTION_ID"
+    TERMINATE_HOST_ID = "CONNECTION_MANAGER.TERMINATE_HOST_ID"
+    TERMINATE_USER_ID = "CONNECTION_MANAGER.TERMINATE_USER_ID"
+    TRAIL = "CONNECTION_MANAGER.TRAIL"
+    TRAIL_LOG = "CONNECTION_MANAGER.TRAIL_LOG"
+    TRAIL_LOG_SESSION_ID = "CONNECTION_MANAGER.TRAIL_LOG_SESSION_ID"
+    TRAIL_SESSION_ID = "CONNECTION_MANAGER.TRAIL_SESSION_ID"
 
-    urls = {SEARCH: "/connection-manager/api/v1/connections/search"}
+    urls = {
+        ACCESS_ROLE: "/connection-manager/api/v1/connections/access_roles/{role_id}",
+        CONNECTION: "/connection-manager/api/v1/connections/{connection_id}",
+        CONNECTIONS: "/connection-manager/api/v1/connections",
+        CONNECTION_ACCESS_ROLE: "/connection-manager/api/v1/connections/{connection_id}"
+        "/access_roles/{role_id}",
+        CONNECTION_ACCESS_ROLES: "/connection-manager/api/v1/connections/{connection_id}"
+        "/access_roles",
+        SEARCH: "/connection-manager/api/v1/connections/search",
+        STATUS: "/connection-manager/api/v1/status",
+        TERMINATE_CONNECTION_ID: "/connection-manager/api/v1/terminate/connection/{connection_id}",
+        TERMINATE_HOST_ID: "/connection-manager/api/v1/terminate/host/{host_id}",
+        TERMINATE_USER_ID: "/connection-manager/api/v1/terminate/user/{user_id}",
+        TRAIL: "/connection-manager/api/v1/connections/{connection_id}"
+        "/channel/{channel_id}/file/{file_id}/{session_id}",
+        TRAIL_LOG: "/connection-manager/api/v1/connections/{connection_id}"
+        "/channel/{channel_id}/log",
+        TRAIL_LOG_SESSION_ID: "/connection-manager/api/v1/connections/{connection_id}"
+        "/channel/{channel_id}/log/{session_id}",
+        TRAIL_SESSION_ID: "/connection-manager/api/v1/connections/{connection_id}"
+        "/channel/{channel_id}/file/{file_id}",
+    }
 
 
 class VaultEnum:
@@ -247,12 +283,12 @@ class UrlEnum:
     AUTH = AuthEnum
     CONNECTION_MANAGER = ConnectionManagerEnum
     HOST_STORE = HostStoreEnum
+    LICENSE = LicenseManagerEnum
     MONITOR = MonitorServiceEnum
     ROLE_STORE = RoleStoreEnum
     SETTINGS = PrivXSettingsEnum
     USER_STORE = UserStoreEnum
     VAULT = VaultEnum
-    LICENSE = LicenseManagerEnum
     WORKFLOW_ENGINE = WokFlowEngineEnum
 
     @classmethod
