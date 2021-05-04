@@ -1,12 +1,13 @@
 from http import HTTPStatus
+from typing import Optional
 
-from privx_api.response import PrivXAPIResponse
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
+from privx_api.response import PrivXAPIResponse
 
 
-class PrivXSettingsAPI(BasePrivXAPI):
-    def get_privx_settings_status(self) -> PrivXAPIResponse:
+class SettingsServiceAPI(BasePrivXAPI):
+    def get_settings_service_status(self) -> PrivXAPIResponse:
         """
         Get microservice status.
 
@@ -16,7 +17,9 @@ class PrivXSettingsAPI(BasePrivXAPI):
         response_status, data = self._http_get(UrlEnum.SETTINGS.STATUS)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_scope_settings(self, scope: str, merge: bool = None) -> PrivXAPIResponse:
+    def get_scope_settings(
+        self, scope: str, merge: Optional[bool] = None
+    ) -> PrivXAPIResponse:
         """
         Get settings for the scope.
 

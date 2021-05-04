@@ -19,12 +19,12 @@
 from privx_api.auth import AuthAPI
 from privx_api.connection_manager import ConnectionManagerAPI
 from privx_api.host_store import HostStoreAPI
-from privx_api.user_store import UserStoreAPI
-from privx_api.vault import VaultAPI
-from privx_api.role_store import RoleStoreAPI
 from privx_api.license_manager import LicenseManagerAPI
 from privx_api.monitor_service import MonitorServiceAPI
-from privx_api.privx_settings import PrivXSettingsAPI
+from privx_api.role_store import RoleStoreAPI
+from privx_api.settings_service import SettingsServiceAPI
+from privx_api.user_store import UserStoreAPI
+from privx_api.vault import VaultAPI
 from privx_api.workflow_engine import WorkFlowEngineAPI
 
 
@@ -33,9 +33,9 @@ class PrivXAPI(
     ConnectionManagerAPI,
     HostStoreAPI,
     LicenseManagerAPI,
-    PrivXSettingsAPI,
     MonitorServiceAPI,
     RoleStoreAPI,
+    SettingsServiceAPI,
     UserStoreAPI,
     VaultAPI,
     WorkFlowEngineAPI,
