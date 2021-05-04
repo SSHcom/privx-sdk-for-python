@@ -26,8 +26,7 @@ SECRET_READ_ROLES = ["privx-admin"]
 SECRET_WRITE_ROLES = ["privx-admin"]
 
 # The secret data in JSON format
-SECRET_DATA = \
-    {
+SECRET_DATA = {
         "username": "alice",
         "password": "example_password"
     }
@@ -36,7 +35,8 @@ SECRET_DATA = \
 def main():
     try:
         _check_secret_already_exists()
-        role_ids = _get_role_data()
+        read_role_data = _get_role_data(SECRET_READ_ROLES)
+        write_role_data = _get_role_data(SECRET_WRITE_ROLES)
     except Exception as e:
         print(e)
         print("Exiting without modifying anything...")
@@ -45,10 +45,8 @@ def main():
     # Create-secret request data
     data = {
         "name": SECRET_NAME,
-        "read_roles": [{"id": role_ids[role], "name": role}
-                       for role in SECRET_READ_ROLES],
-        "write_roles": [{"id": role_ids[role], "name": role}
-                        for role in SECRET_WRITE_ROLES],
+        "read_roles": read_role_data,
+        "write_roles": write_role_data,
         "data": SECRET_DATA
     }
 
@@ -62,23 +60,24 @@ def main():
         print("Secret creation failed!")
 
 
-def _get_role_data() -> dict:
+def _get_role_data(role_names: list) -> dict:
     """
-    Helper function for obtaining role data for the read/write roles.
+    Helper function for obtaining role data by role names.
 
-    :return: Dictionary describing the roles in 'name: ID' format.
+    :param role_names: List of role names.
+    :return: List describing the roles in {id, name} format.
     :raise: Exception if any role(s) cannot be found from PrivX.
     """
-    response = api.resolve_role(SECRET_READ_ROLES + SECRET_READ_ROLES)
-    roles = {x["name"]: x["id"] for x in response.data()["items"]}
+    role_data = []
+    response_data = api.resolve_role(role_names).data()["items"]
+    for role in role_names:
+        data = next((r for r in response_data if r["name"] == role), None)
+        if data:
+            role_data.append({"id": data["id"], "name": data["name"]})
+        else:
+            raise Exception("Error: role " + role + " does not exist.")
 
-    # Verify that all required roles exist
-    for role in SECRET_READ_ROLES + SECRET_READ_ROLES:
-        if role not in roles:
-            raise Exception("Error: cannot find role " +
-                            role + " from the system.")
-
-    return roles
+    return role_data
 
 
 def _check_secret_already_exists():
