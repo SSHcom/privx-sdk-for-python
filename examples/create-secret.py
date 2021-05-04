@@ -68,8 +68,15 @@ def _get_role_data(role_names: list) -> dict:
     :return: List describing the roles in {id, name} format.
     :raise: Exception if any role(s) cannot be found from PrivX.
     """
+    response = api.resolve_roles(role_names)
+    if response.ok():
+        response_data = response.data()["items"]
+    else:
+        print(response.data())
+        raise Exception("Error obtaining role data")
+
     role_data = []
-    response_data = api.resolve_role(role_names).data()["items"]
+
     for role in role_names:
         data = next((r for r in response_data if r["name"] == role), None)
         if data:

@@ -197,7 +197,7 @@ class RoleStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def resolve_role(self, role_names: list) -> PrivXAPIResponse:
+    def resolve_roles(self, role_names: list) -> PrivXAPIResponse:
         """
         Resolve role names to role IDs.
 
