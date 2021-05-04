@@ -4,11 +4,11 @@ import json
 import ssl
 import urllib.parse
 import urllib.request
-from http.client import HTTPException, HTTPResponse
-from typing import Dict, Optional, Tuple, Union
+from typing import Union
+from http.client import HTTPException
 
-from privx_api.enums import UrlEnum
 from privx_api.exceptions import InternalAPIException
+from privx_api.enums import UrlEnum
 
 
 def format_path_components(format_str: str, **kw) -> str:
@@ -24,16 +24,13 @@ class Connection:
         self._connection = None
 
     def __enter__(self):
-        self._connection = self.connect()
+        self._connection = http.client.HTTPSConnection(
+            self.host, port=self.port, context=self.get_context()
+        )
         return self._connection
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._connection.close()
-
-    def connect(self) -> http.client.HTTPSConnection:
-        return http.client.HTTPSConnection(
-            self.host, port=self.port, context=self.get_context()
-        )
 
     def get_context(self) -> ssl.SSLContext:
         return ssl.create_default_context(cadata=self.ca_cert)
@@ -56,7 +53,28 @@ class BasePrivXAPI:
             "ca_cert": ca_cert,
         }
 
-    def _authenticate(self, username: str, password: str) -> None:
+    @classmethod
+    def _get_url(cls, name: str) -> str:
+        url = UrlEnum.get(name)
+        if not url:
+            raise InternalAPIException("URL missing: ", name)
+        return url
+
+    @classmethod
+    def _build_url(cls, name: str, path_params=None, query_params=None) -> str:
+        path_params = path_params or {}
+        query_params = query_params or {}
+
+        url = cls._get_url(name)
+        if path_params:
+            url = format_path_components(url, **path_params)
+        if query_params:
+            params = urllib.parse.urlencode(query_params)
+            url = "{}?{}".format(url, params)
+
+        return url
+
+    def _authenticate(self, username: str, password: str):
         with Connection(self._connection_info) as conn:
             token_request = {
                 "grant_type": "password",
@@ -91,111 +109,62 @@ class BasePrivXAPI:
             if self._access_token == "":
                 raise InternalAPIException("Failed to get access token")
 
-    def _build_request(
-        self,
-        method: str,
-        url_name: str,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
-        body: Optional[Union[Dict, str, list]] = None,
-    ) -> Dict:
-
-        path_params = path_params or {}
-        query_params = query_params or {}
-        headers = self._get_headers()
-        url = self._build_url(url_name, path_params, query_params)
-        request_dict = dict(method=method, url=url, headers=headers)
-        if body is not None:
-            request_dict["body"] = self._make_body_params(body)
-        return request_dict
-
-    def _build_url(
-        self,
-        name: str,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
-    ) -> str:
-        path_params = path_params or {}
-        query_params = query_params or {}
-
-        url = self._get_url(name)
-        if path_params:
-            url = format_path_components(url, **path_params)
-        if query_params:
-            params = urllib.parse.urlencode(query_params)
-            url = "{}?{}".format(url, params)
-
-        return url
-
-    def _get_headers(self) -> Dict:
+    def _get_headers(self) -> dict:
         return {
             "Content-type": "application/json",
             "Authorization": "Bearer {}".format(self._access_token),
         }
 
-    def _get_search_params(self, **kwargs: Union[str, int]) -> Dict:
+    def _get_search_params(self, **kwargs: Union[str, int]) -> dict:
         params = {key: val for key, val in kwargs.items() if val}
         return params if any(params) else {}
 
-    def _get_url(self, name: str) -> str:
-        url = UrlEnum.get(name)
-        if not url:
-            raise InternalAPIException("URL missing: ", name)
-        return url
-
-    def _http_get(
-        self,
-        url_name: str,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
-    ) -> Tuple:
+    def _http_get(self, urlname: str, path_params=None, query_params=None) -> tuple:
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         with Connection(self._connection_info) as conn:
             try:
                 conn.request(
-                    **self._build_request(
-                        "GET",
-                        url_name,
-                        path_params,
-                        query_params,
-                    )
+                    "GET",
+                    self._build_url(urlname, path_params, query_params),
+                    headers=self._get_headers(),
                 )
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
             response = conn.getresponse()
             return response.status, response.read()
 
-    def _http_get_no_auth(self, url_name: str) -> Tuple:
-        request = self._build_request("GET", url_name)
-        headers = request["headers"]
+    def _http_get_no_auth(self, urlname: str) -> tuple:
+        headers = self._get_headers()
         del headers["Authorization"]
 
         with Connection(self._connection_info) as conn:
             try:
-                conn.request(**request)
+                conn.request(
+                    "GET",
+                    self._build_url(urlname),
+                    headers=headers,
+                )
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
             response = conn.getresponse()
             return response.status, response.read()
 
     def _http_post(
-        self,
-        url_name: str,
-        body: Optional[Union[Dict, str, list]] = None,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
-    ) -> Tuple:
+        self, urlname: str, body=None, path_params=None, query_params=None
+    ) -> tuple:
+        body = body or {}
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         with Connection(self._connection_info) as conn:
             try:
                 conn.request(
-                    **self._build_request(
-                        "POST",
-                        url_name,
-                        path_params,
-                        query_params,
-                        body=body,
-                    )
+                    "POST",
+                    self._build_url(urlname, path_params, query_params),
+                    headers=self._get_headers(),
+                    body=self._make_body_params(body),
                 )
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
@@ -203,23 +172,19 @@ class BasePrivXAPI:
             return response.status, response.read()
 
     def _http_put(
-        self,
-        url_name: str,
-        body: Optional[Union[Dict, str, list]] = None,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
-    ) -> Tuple:
+        self, urlname: str, body=None, path_params=None, query_params=None
+    ) -> tuple:
+        body = body or {}
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         with Connection(self._connection_info) as conn:
             try:
                 conn.request(
-                    **self._build_request(
-                        "PUT",
-                        url_name,
-                        path_params,
-                        query_params,
-                        body=body,
-                    )
+                    "PUT",
+                    self._build_url(urlname, path_params, query_params),
+                    headers=self._get_headers(),
+                    body=self._make_body_params(body),
                 )
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
@@ -227,50 +192,25 @@ class BasePrivXAPI:
             return response.status, response.read()
 
     def _http_delete(
-        self,
-        url_name: str,
-        body: Optional[Dict] = None,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
-    ) -> Tuple:
+        self, urlname: str, body=None, path_params=None, query_params=None
+    ) -> tuple:
+        body = body or {}
+        path_params = path_params or {}
+        query_params = query_params or {}
 
         with Connection(self._connection_info) as conn:
             try:
                 conn.request(
-                    **self._build_request(
-                        "DELETE",
-                        url_name,
-                        path_params,
-                        query_params,
-                        body=body,
-                    )
+                    "DELETE",
+                    self._build_url(urlname, path_params, query_params),
+                    headers=self._get_headers(),
+                    body=self._make_body_params(body),
                 )
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(str(e))
             response = conn.getresponse()
             return response.status, response.read()
 
-    def _http_stream(
-        self,
-        url_name: str,
-        body: Optional[Dict] = None,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
-    ) -> HTTPResponse:
-        conn = Connection(self._connection_info).connect()
-        try:
-            conn.request(
-                **self._build_request(
-                    "GET",
-                    url_name,
-                    path_params,
-                    query_params,
-                    body=body,
-                )
-            )
-        except (OSError, HTTPException) as e:
-            raise InternalAPIException(str(e))
-        return conn.getresponse()
-
-    def _make_body_params(self, data: Union[dict, str]) -> str:
+    @staticmethod
+    def _make_body_params(data: Union[dict, str]) -> str:
         return data if isinstance(data, str) else json.dumps(data)

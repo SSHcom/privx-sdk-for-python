@@ -1,16 +1,16 @@
 import pytest
-from privx_api.base import format_path_components
-from privx_api.enums import UrlEnum
+
 from privx_api.exceptions import InternalAPIException
 from privx_api.privx_api import PrivXAPI
+from privx_api.base import format_path_components
+from privx_api.enums import UrlEnum
 
 
 def test_urls():
     with pytest.raises(InternalAPIException):
-        api = PrivXAPI("", "", "", "", "")
-        api._get_url("not real")
+        PrivXAPI._get_url("not real")
 
-    assert api._get_url(UrlEnum.AUTH.AUTHORIZE) != ""
+    assert PrivXAPI._get_url(UrlEnum.AUTH.AUTHORIZE) != ""
 
 
 @pytest.mark.parametrize(
@@ -36,8 +36,7 @@ def test_format_path_components(base_url, args, expected):
     ],
 )
 def test_build_url(urlname, path_params, query_params, expected):
-    api = PrivXAPI("", "", "", "", "")
-    assert api._build_url(urlname, path_params, query_params) == expected
+    assert PrivXAPI._build_url(urlname, path_params, query_params) == expected
 
 
 @pytest.mark.parametrize(
@@ -92,91 +91,4 @@ def test_url_enum_get_exception_similar_url_name(url_name, expected_url):
     ],
 )
 def test_make_body_params(value, expected_value):
-    api = PrivXAPI("", "", "", "", "")
-    assert api._make_body_params(value) == expected_value
-
-
-@pytest.mark.parametrize(
-    "params, exp_result",
-    [
-        (
-            {
-                "method": "GET",
-                "url_name": UrlEnum.CONNECTION_MANAGER.CONNECTIONS,
-                "query_params": {"offset": "111", "limit": "20"},
-            },
-            {
-                "method": "GET",
-                "url": "/connection-manager/api/v1/connections?offset=111&limit=20",
-                "headers": {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer ",
-                },
-            },
-        ),
-        (
-            {
-                "method": "GET",
-                "url_name": UrlEnum.CONNECTION_MANAGER.TRAIL_LOG_SESSION_ID,
-                "query_params": {"format_param": "111", "filter_param": "20"},
-                "path_params": {
-                    "connection_id": "1",
-                    "channel_id": "1",
-                    "session_id": "1",
-                },
-            },
-            {
-                "method": "GET",
-                "url": "/connection-manager/api/v1/connections/1/"
-                "channel/1/log/1?format_param=111&filter_param=20",
-                "headers": {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer ",
-                },
-            },
-        ),
-        (
-            {
-                "method": "GET",
-                "url_name": UrlEnum.CONNECTION_MANAGER.TERMINATE_CONNECTION_ID,
-                "query_params": {"format_param": "111", "filter_param": "20"},
-                "path_params": {
-                    "connection_id": "1",
-                },
-                "body": {"body_params": "just params"},
-            },
-            {
-                "method": "GET",
-                "url": "/connection-manager/api/v1/terminate"
-                "/connection/1?format_param=111&filter_param=20",
-                "headers": {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer ",
-                },
-                "body": '{"body_params": "just params"}',
-            },
-        ),
-        (
-            {
-                "method": "POST",
-                "url_name": UrlEnum.CONNECTION_MANAGER.TERMINATE_CONNECTION_ID,
-                "path_params": {
-                    "connection_id": "1",
-                },
-                "body": "body as a str",
-            },
-            {
-                "method": "POST",
-                "url": "/connection-manager/api/v1/terminate/connection/1",
-                "headers": {
-                    "Content-type": "application/json",
-                    "Authorization": "Bearer ",
-                },
-                "body": "body as a str",
-            },
-        ),
-    ],
-)
-def test_build_request(params, exp_result):
-    api = PrivXAPI("", "", "", "", "")
-    assert sorted(api._build_request(**params)) == sorted(exp_result)
+    assert PrivXAPI._make_body_params(value) == expected_value

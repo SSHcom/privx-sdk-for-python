@@ -52,10 +52,10 @@ def main():
             usage()
             sys.exit()
         elif opt in ("-l", "--list"):
-            resp = api.list_aws_roles()
+            resp = api.list_awsroles()
             print_awsroles(resp)
         elif opt in ("-r", "--awsrole"):
-            resp = api.get_aws_token(arg, 900)
+            resp = api.get_awstoken(arg, 900)
             print_token(resp)
         else:
             usage()
