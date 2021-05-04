@@ -187,7 +187,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(UrlEnum.ROLE_STORE.ROLES, body=role)
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
-    def resolve_role(self, role_names: list) -> PrivXAPIResponse:
+    def resolve_roles(self, role_names: list) -> PrivXAPIResponse:
         """
         Resolve role names to role IDs.
 
@@ -322,9 +322,7 @@ class RoleStoreAPI(BasePrivXAPI):
     def import_principal_key(self, role_id: str, primary_key: dict) -> PrivXAPIResponse:
         """
         Import new principal key for role.
-
         primary_key = {"primary_key" : "----row1----\nrow2\nrow3..."}
-
         Returns:
             PrivXAPIResponse
         """
