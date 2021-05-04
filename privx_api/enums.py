@@ -18,30 +18,30 @@ class AuthEnum:
 
 
 class HostStoreEnum:
-    STATUS = "HOST_STORE.STATUS"
-    HOSTS = "HOST_STORE.HOSTS"
-    HOST = "HOST_STORE.HOST"
-    SEARCH = "HOST_STORE.SEARCH"
-    RESOLVE = "HOST_STORE.RESOLVE"
     DEPLOY = "HOST_STORE.DEPLOY"
     DEPLOYABLE = "HOST_STORE.DEPLOYABLE"
     DISABLE = "HOST_STORE.DISABLE"
-    TAGS = "HOST_STORE.TAGS"
+    HOST = "HOST_STORE.HOST"
+    HOSTS = "HOST_STORE.HOSTS"
     REALM = "HOST_STORE.REALM"
+    RESOLVE = "HOST_STORE.RESOLVE"
+    SEARCH = "HOST_STORE.SEARCH"
     SETTINGS = "HOST_STORE.SETTINGS"
+    STATUS = "HOST_STORE.STATUS"
+    TAGS = "HOST_STORE.TAGS"
 
     urls = {
-        STATUS: "/host-store/api/v1/status",
-        HOSTS: "/host-store/api/v1/hosts",
-        HOST: "/host-store/api/v1/hosts/{host_id}",
-        SEARCH: "/host-store/api/v1/hosts/search",
-        RESOLVE: "/host-store/api/v1/hosts/resolve",
         DEPLOY: "/host-store/api/v1/hosts/deploy",
         DEPLOYABLE: "/host-store/api/v1/hosts/{host_id}/deployable",
         DISABLE: "/host-store/api/v1/hosts/{host_id}/disabled",
-        TAGS: "/host-store/api/v1/hosts/tags",
+        HOST: "/host-store/api/v1/hosts/{host_id}",
+        HOSTS: "/host-store/api/v1/hosts",
         REALM: "/host-store/api/v1/realm/resolve",
+        RESOLVE: "/host-store/api/v1/hosts/resolve",
+        SEARCH: "/host-store/api/v1/hosts/search",
         SETTINGS: "/host-store/api/v1/settings/default_service_options",
+        STATUS: "/host-store/api/v1/status",
+        TAGS: "/host-store/api/v1/hosts/tags",
     }
 
 
