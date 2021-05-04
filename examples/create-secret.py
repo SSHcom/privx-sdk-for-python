@@ -75,7 +75,8 @@ def _get_role_data() -> dict:
     # Verify that all required roles exist
     for role in SECRET_READ_ROLES + SECRET_READ_ROLES:
         if role not in roles:
-            raise Exception(f"Error: cannot find role {role} from the system.")
+            raise Exception("Error: cannot find role " +
+                            role + " from the system.")
 
     return roles
 
@@ -89,7 +90,7 @@ def _check_secret_already_exists():
     response = api.get_secret(SECRET_NAME)
     if response.ok():
         print(response.data())
-        raise Exception(f"Secret named {SECRET_NAME} already exists")
+        raise Exception("Secret named " + SECRET_NAME + " already exists!")
 
 
 if __name__ == '__main__':
