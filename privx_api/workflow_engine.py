@@ -1,8 +1,9 @@
 from http import HTTPStatus
+from typing import Optional
 
-from privx_api.response import PrivXAPIResponse
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
+from privx_api.response import PrivXAPIResponse
 
 
 class WorkFlowEngineAPI(BasePrivXAPI):
@@ -18,8 +19,8 @@ class WorkFlowEngineAPI(BasePrivXAPI):
 
     def get_workflow_objects(
         self,
-        offset: int = None,
-        limit: int = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
     ) -> PrivXAPIResponse:
         """
         Get workflow objects.
@@ -37,7 +38,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def create_workflow_object(self, workflow_params: dict) -> PrivXAPIResponse:
+    def create_workflow(self, workflow_params: dict) -> PrivXAPIResponse:
         """
         Create a new workflow.
         ID, author, created, and updated fields are automatically populated by the server..
@@ -51,7 +52,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
-    def get_workflow_object_by_id(self, workflow_id: str) -> PrivXAPIResponse:
+    def get_workflow(self, workflow_id: str) -> PrivXAPIResponse:
         """
         Get workflow object by ID.
 
@@ -63,7 +64,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def delete_workflow_object(self, workflow_id: str) -> PrivXAPIResponse:
+    def delete_workflow(self, workflow_id: str) -> PrivXAPIResponse:
         """
         Deletes workflow by ID.
 
@@ -75,7 +76,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def update_workflow_object(
+    def update_workflow(
         self, workflow_id: str, workflow_params: dict
     ) -> PrivXAPIResponse:
         """
@@ -94,8 +95,8 @@ class WorkFlowEngineAPI(BasePrivXAPI):
     def get_requests(
         self,
         filter_param: str,
-        offset: int = None,
-        limit: int = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
     ) -> PrivXAPIResponse:
         """
         Get the request queue for the user.
@@ -132,7 +133,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
-    def get_request_by_id(self, request_id: str) -> PrivXAPIResponse:
+    def get_request(self, request_id: str) -> PrivXAPIResponse:
         """
         Gets a request object by ID.
 
@@ -158,7 +159,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def set_decision_for_request(
+    def set_request_decision(
         self, request_id: str, decision_params: dict
     ) -> PrivXAPIResponse:
         """
@@ -176,14 +177,14 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def search_access_requests(
+    def search_requests(
         self,
         filter_param: str,
-        offset: int = None,
-        limit: int = None,
-        sortkey: str = None,
-        sortdir: str = None,
-        request_param: dict = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_key: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+        request_param: Optional[dict] = None,
     ) -> PrivXAPIResponse:
         """
         Search access requests.
@@ -194,8 +195,8 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         search_params = self._get_search_params(
             offset=offset,
             limit=limit,
-            sortkey=sortkey,
-            sortdir=sortdir,
+            sortkey=sort_key,
+            sortdir=sort_dir,
             filter=filter_param,
         )
         response_status, data = self._http_post(
