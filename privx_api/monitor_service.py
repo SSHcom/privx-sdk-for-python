@@ -1,8 +1,9 @@
 from http import HTTPStatus
+from typing import Optional
 
-from privx_api.response import PrivXAPIResponse
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
+from privx_api.response import PrivXAPIResponse
 
 
 class MonitorServiceAPI(BasePrivXAPI):
@@ -28,7 +29,7 @@ class MonitorServiceAPI(BasePrivXAPI):
 
     def get_privx_component_status(self, hostname: str) -> PrivXAPIResponse:
         """
-        Get all the deployed privx components status.
+        Get component status object by hostname.
 
         Returns:
             PrivXAPIResponse
@@ -40,15 +41,20 @@ class MonitorServiceAPI(BasePrivXAPI):
 
     def search_audit_events(
         self,
-        offset: int = None,
-        limit: int = None,
-        query: str = None,
-        sortdir: str = None,
-        fuzzycount: bool = None,
-        audit_event_params: dict = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        query: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+        fuzzy_count: Optional[bool] = False,
+        audit_event_params: Optional[dict] = None,
     ) -> PrivXAPIResponse:
         """
         Search for audit events.
+
+        fuzzy_count is False by default,
+        in order to enable it use fuzzy_count=True.
+
+        If audit_event_params is None, it will be converted to empty dict.
 
         Returns:
             PrivXAPIResponse
@@ -57,26 +63,28 @@ class MonitorServiceAPI(BasePrivXAPI):
             offset=offset,
             limit=limit,
             query=query,
-            sortdir=sortdir,
-            fuzzycount=fuzzycount,
+            sortdir=sort_dir,
+            fuzzycount=fuzzy_count if fuzzy_count is True else None,
         )
         response_status, data = self._http_post(
             UrlEnum.MONITOR.SEARCH_AUDIT_EVENTS,
             query_params=search_params,
-            body=audit_event_params,
+            body=audit_event_params if audit_event_params else {},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_audit_events(
         self,
-        offset: int = None,
-        limit: int = None,
-        query: str = None,
-        sortdir: str = None,
-        fuzzycount: bool = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        query: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+        fuzzy_count: Optional[bool] = False,
     ) -> PrivXAPIResponse:
         """
         Get all audit events.
+        fuzzy_count is False by default,
+        in order to enable it use fuzzy_count=True.
 
         Returns:
             PrivXAPIResponse
@@ -85,8 +93,8 @@ class MonitorServiceAPI(BasePrivXAPI):
             offset=offset,
             limit=limit,
             query=query,
-            sortdir=sortdir,
-            fuzzycount=fuzzycount,
+            sortdir=sort_dir,
+            fuzzycount=fuzzy_count if fuzzy_count is True else None,
         )
         response_status, data = self._http_get(
             UrlEnum.MONITOR.AUDIT_EVENTS, query_params=search_params

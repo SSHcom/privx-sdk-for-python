@@ -60,7 +60,7 @@ def main():
         print("Secret creation failed!")
 
 
-def _get_role_data(role_names: list) -> dict:
+def _get_role_data(role_names: list) -> list:
     """
     Helper function for obtaining role data by role names.
 
