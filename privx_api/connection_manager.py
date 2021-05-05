@@ -7,31 +7,7 @@ from privx_api.response import PrivXAPIResponse, PrivXStreamResponse
 
 
 class ConnectionManagerAPI(BasePrivXAPI):
-    """
-    Connection manager API.
-    """
-
-    def search_connections(
-        self,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        sort_key: Optional[str] = None,
-        sort_dir: Optional[str] = None,
-        connection_params: Optional[Dict] = None,
-    ) -> PrivXAPIResponse:
-
-        search_params = self._get_search_params(
-            offset=offset, limit=limit, sortkey=sort_key, sortdir=sort_dir
-        )
-
-        response_status, data = self._http_post(
-            UrlEnum.CONNECTION_MANAGER.SEARCH,
-            query_params=search_params,
-            body=connection_params,
-        )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
-
-    def get_connection_manager_status(self):
+    def get_connection_manager_service_status(self):
         """
         Get microservice status.
 
@@ -60,6 +36,31 @@ class ConnectionManagerAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.CONNECTION_MANAGER.CONNECTIONS,
             query_params=search_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def search_connections(
+        self,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_key: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+        connection_params: Optional[Dict] = None,
+    ) -> PrivXAPIResponse:
+        """
+        Search for connections.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        search_params = self._get_search_params(
+            offset=offset, limit=limit, sortkey=sort_key, sortdir=sort_dir
+        )
+
+        response_status, data = self._http_post(
+            UrlEnum.CONNECTION_MANAGER.SEARCH,
+            query_params=search_params,
+            body=connection_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -101,7 +102,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         channel_id: str,
         file_id: str,
         session_id: str,
-        stream: bool = False,
+        stream: Optional[bool] = False,
     ) -> PrivXStreamResponse:
         """
         Download trail stored file transferred within audited connection channel.
@@ -148,7 +149,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         session_id: str,
         format_param: Optional[str] = None,
         filter_param: Optional[str] = None,
-        stream: bool = False,
+        stream: Optional[bool] = False,
     ) -> PrivXStreamResponse:
         """
         Download trail log of audited connection channel.
@@ -266,7 +267,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def terminate_connection_by_host_id(
+    def terminate_connection_by_host(
         self,
         host_id: str,
         termination_params: Optional[Dict] = None,
@@ -286,7 +287,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def terminate_connection_by_user_id(
+    def terminate_connection_by_user(
         self,
         user_id: str,
         termination_params: Optional[Dict] = None,
