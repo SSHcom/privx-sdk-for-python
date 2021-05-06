@@ -218,23 +218,23 @@ class LicenseManagerEnum:
 
 
 class MonitorServiceEnum:
-    STATUS = "MONITOR.STATUS"
-    COMPONENTS = "MONITOR.COMPONENTS"
-    COMPONENT = "MONITOR.COMPONENT"
-    SEARCH_AUDIT_EVENTS = "MONITOR.SEARCH_AUDIT_EVENTS"
     AUDIT_EVENTS = "MONITOR.AUDIT_EVENTS"
     AUDIT_EVENT_CODES = "MONITOR.AUDIT_EVENT_CODES"
+    COMPONENT = "MONITOR.COMPONENT"
+    COMPONENTS = "MONITOR.COMPONENTS"
     INSTANCE_STATUS = "MONITOR.INSTANCE_STATUS"
+    SEARCH_AUDIT_EVENTS = "MONITOR.SEARCH_AUDIT_EVENTS"
+    STATUS = "MONITOR.STATUS"
     TERMINATE_INSTANCES = "MONITOR.TERMINATE_INSTANCES"
 
     urls = {
-        STATUS: "/monitor-service/api/v1/status",
-        COMPONENTS: "/monitor-service/api/v1/components",
-        COMPONENT: "/monitor-service/api/v1/components/{hostname}",
-        SEARCH_AUDIT_EVENTS: "/monitor-service/api/v1/auditevents/search",
         AUDIT_EVENTS: "/monitor-service/api/v1/auditevents",
         AUDIT_EVENT_CODES: "/monitor-service/api/v1/auditevents/codes",
+        COMPONENT: "/monitor-service/api/v1/components/{hostname}",
+        COMPONENTS: "/monitor-service/api/v1/components",
         INSTANCE_STATUS: "/monitor-service/api/v1/instance/status",
+        SEARCH_AUDIT_EVENTS: "/monitor-service/api/v1/auditevents/search",
+        STATUS: "/monitor-service/api/v1/status",
         TERMINATE_INSTANCES: "/monitor-service/api/v1/instance/exit",
     }
 
