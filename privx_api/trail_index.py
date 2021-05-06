@@ -7,7 +7,7 @@ from privx_api.response import PrivXAPIResponse
 
 
 class TrailIndexAPI(BasePrivXAPI):
-    def get_trail_index_service_status(self):
+    def get_trail_index_service_status(self) -> PrivXAPIResponse:
         """
         Get microservice status.
 
@@ -17,7 +17,7 @@ class TrailIndexAPI(BasePrivXAPI):
         response_status, data = self._http_get(UrlEnum.TRAIL_INDEX.STATUS)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_connection_indexing_status(self, connection_id: str):
+    def get_connection_indexing_status(self, connection_id: str) -> PrivXAPIResponse:
         """
         Get indexing status of the connection.
 
@@ -30,7 +30,7 @@ class TrailIndexAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_connections_indexing_statuses(self, connections: list):
+    def get_connections_indexing_statuses(self, connection_ids: list) -> PrivXAPIResponse:
         """
         Gets the statuses of the specified connections.
 
@@ -39,11 +39,11 @@ class TrailIndexAPI(BasePrivXAPI):
         """
         response_status, data = self._http_post(
             UrlEnum.TRAIL_INDEX.CONNECTIONS_INDEXING_STATUSES,
-            body=connections,
+            body=connection_ids,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def start_connection_indexing(self, connections: list):
+    def start_connection_indexing(self, connection_ids: list) -> PrivXAPIResponse:
         """
         Starts indexing of the specified connections.
 
@@ -52,7 +52,7 @@ class TrailIndexAPI(BasePrivXAPI):
         """
         response_status, data = self._http_post(
             UrlEnum.TRAIL_INDEX.START_INDEXING,
-            body=connections,
+            body=connection_ids,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -62,7 +62,7 @@ class TrailIndexAPI(BasePrivXAPI):
         offset: Optional[int] = None,
         limit: Optional[int] = None,
         sort_dir: Optional[str] = None,
-    ):
+    ) -> PrivXAPIResponse:
         """
         Search for the content based on the search parameters defined.
 
