@@ -279,6 +279,22 @@ class WokFlowEngineEnum:
     }
 
 
+class TrailIndexEnum:
+    CONNECTION_INDEXING_STATUS = "TRAIL_INDEX.CONNECTION_INDEXING_STATUS"
+    CONNECTIONS_INDEXING_STATUSES = "TRAIL_INDEX.CONNECTIONS_INDEXING_STATUSES"
+    SEARCH = "TRAIL_INDEX.SEARCH"
+    START_INDEXING = "TRAIL_INDEX.START_INDEXING"
+    STATUS = "TRAIL_INDEX.STATUS"
+
+    urls = {
+        CONNECTION_INDEXING_STATUS: "/trail-index/api/v1/index/{connection_id}/status",
+        CONNECTIONS_INDEXING_STATUSES: "/trail-index/api/v1/index/status",
+        SEARCH: "/trail-index/api/v1/index/search",
+        START_INDEXING: "/trail-index/api/v1/index/start",
+        STATUS: "/trail-index/api/v1/status",
+    }
+
+
 class UrlEnum:
     AUTH = AuthEnum
     CONNECTION_MANAGER = ConnectionManagerEnum
@@ -287,6 +303,7 @@ class UrlEnum:
     MONITOR = MonitorServiceEnum
     ROLE_STORE = RoleStoreEnum
     SETTINGS = PrivXSettingsEnum
+    TRAIL_INDEX = TrailIndexEnum
     USER_STORE = UserStoreEnum
     VAULT = VaultEnum
     WORKFLOW_ENGINE = WokFlowEngineEnum
