@@ -21,6 +21,7 @@ api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
 # NOTE: fill in your credentials from secure storage, this is just an example
 api.authenticate("API client ID", "API client secret")
 
+
 def get_connection(conn_id: str):
     """Fetch connection object"""
     connection = api.get_connection(conn_id)
