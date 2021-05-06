@@ -256,26 +256,26 @@ class PrivXSettingsEnum:
 
 
 class WokFlowEngineEnum:
-    STATUS = "WORKFLOW_ENGINE.STATUS"
-    WORKFLOWS = "WORKFLOW_ENGINE.WORKFLOWS"
-    WORKFLOW = "WORKFLOW_ENGINE.WORKFLOW"
-    REQUESTS = "WORKFLOW_ENGINE.REQUESTS"
-    REQUEST = "WORKFLOW_ENGINE.REQUEST"
     DECISION = "WORKFLOW_ENGINE.DECISION"
+    REQUEST = "WORKFLOW_ENGINE.REQUEST"
+    REQUESTS = "WORKFLOW_ENGINE.REQUESTS"
     SEARCH_REQUESTS = "WORKFLOW_ENGINE.SEARCH_REQUESTS"
     SETTINGS = "WORKFLOW_ENGINE.SEARCH_REQUESTS"
+    STATUS = "WORKFLOW_ENGINE.STATUS"
     TEST_SETTINGS = "WORKFLOW_ENGINE.TEST_SETTINGS"
+    WORKFLOW = "WORKFLOW_ENGINE.WORKFLOW"
+    WORKFLOWS = "WORKFLOW_ENGINE.WORKFLOWS"
 
     urls = {
-        STATUS: "/workflow-engine/api/v1/status",
-        WORKFLOWS: "/workflow-engine/api/v1/workflows",
-        WORKFLOW: "/workflow-engine/api/v1/workflows/{workflow_id}",
-        REQUESTS: "/workflow-engine/api/v1/requests",
-        REQUEST: "/workflow-engine/api/v1/requests/{request_id}",
         DECISION: "/workflow-engine/api/v1/requests/{request_id}/decision",
+        REQUEST: "/workflow-engine/api/v1/requests/{request_id}",
+        REQUESTS: "/workflow-engine/api/v1/requests",
         SEARCH_REQUESTS: "/workflow-engine/api/v1/requests/search",
         SETTINGS: "/workflow-engine/api/v1/settings",
+        STATUS: "/workflow-engine/api/v1/status",
         TEST_SETTINGS: "/workflow-engine/api/v1/testsmtp",
+        WORKFLOW: "/workflow-engine/api/v1/workflows/{workflow_id}",
+        WORKFLOWS: "/workflow-engine/api/v1/workflows",
     }
 
 
