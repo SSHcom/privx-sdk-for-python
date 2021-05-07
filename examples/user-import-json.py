@@ -19,10 +19,10 @@ api.authenticate("API client ID", "API client secret")
 
 
 # Specify the path to the user-data JSON file.
-# By default, uses the user-import-json.json from the same directory
+# By default, uses the user-import.json from the data directory.
 # For more information about user-data syntax, see the
 # PrivX-API specifications.
-USER_DATA_FILE = os.path.join(sys.path[0], "user-import-json.json")
+USER_DATA_FILE = os.path.join(sys.path[0], "data/user-import.json")
 
 # Destination for logging user import.
 LOGFILE = "user-import-json.log"
