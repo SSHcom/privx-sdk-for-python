@@ -1,0 +1,34 @@
+[
+    {
+        "username": "alice",
+        "password": {
+            "password": "example_password"
+        },
+        "full_name": "Alice Margatroid",
+        "email": "alice@example.com"
+    },
+    {
+        "username": "bob",
+        "password": {
+            "password": "example_password"
+        },
+        "full_name": "Bob Gallagher",
+        "email": "bob@example.com"
+    },
+    {
+        "username": "charlie",
+        "password": {
+            "password": "example_password"
+        },
+        "full_name": "Charlie Chaplin",
+        "email": "charlie@example.com"
+    },
+    {
+        "username": "david",
+        "password": {
+            "password": "example_password"
+        },
+        "full_name": "David Attenborough",
+        "email": "david@example.com"
+    }
+]
