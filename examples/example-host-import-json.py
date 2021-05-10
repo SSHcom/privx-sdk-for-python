@@ -1,13 +1,22 @@
 # An example how to use PrivX API for host import using json.
 # Requires Python 3.6+
 import json
+import os
+import sys
 
 # Import the PrivX python library.
 import privx_api
 import config
 
+# Specify the path to the host-data JSON file.
+# By default, uses the example-host-import.json from the data directory.
+# For more information about host-data syntax, see the
+# PrivX-API specifications.
+HOST_DATA_FILE = os.path.join(sys.path[0],
+                              "data/example-host-import.json")
+
 # Read the host source file.
-with open("example-host-import.json", 'r') as f:
+with open(HOST_DATA_FILE, 'r') as f:
     hosts = json.loads(f.read())
 
 # Initialize the API.
