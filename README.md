@@ -84,6 +84,24 @@ If you experience any issues with the library, please let us know via [GitHub is
 * **Reveal** the steps you took to reproduce the problem, include code snippet or links to your project.
 
 
+### Style
+[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Documentation Status](https://readthedocs.org/projects/flake8/badge/?version=latest)](https://flake8.pycqa.org/en/latest/?badge=latest)
+
+* Line-width is 88 symbols
+* Use Type Annotation
+* Use isort for sorting the imports order
+
+```isort . --settings linter_config.cfg```
+
+* Format code using black
+
+``black ./dir_name``
+
+* Check PEP using flake8
+``flake8 --config ./linter_config.cfg``
+
 
 ## License
 
