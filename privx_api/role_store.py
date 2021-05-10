@@ -278,7 +278,8 @@ class RoleStoreAPI(BasePrivXAPI):
         Fetch temporary AWS token for given AWS role name and TTL.
         User needs to have the requested AWS role mapped to the available PrivX role by
         PrivX admin.
-        Allowed TTL values 900-3600 seconds for assume-role (configurable max 43200) and 900-129600
+        Allowed TTL values 900-3600 seconds for assume-role (configurable max 43200)
+        and 900-129600
         for federation token.
 
         Get temporary AWS token for given AWS role.
