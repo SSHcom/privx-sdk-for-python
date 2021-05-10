@@ -101,6 +101,9 @@ If you experience any issues with the library, please let us know via [GitHub is
 
 * Check PEP using flake8
 ``flake8 --config ./linter_config.cfg``
+  
+OR use bash script 
+``./run_linters.sh path``
 
 
 ## License
