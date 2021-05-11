@@ -174,7 +174,8 @@ class HostStoreAPI(BasePrivXAPI):
 
     def resolve_host_realm(self, realm_params: dict) -> PrivXAPIResponse:
         """
-        Resolve address to a single host in host store and return web connections for user ID.
+        Resolve address to a single host in host store and return web
+        connections for user ID.
 
         Returns:
             PrivXAPIResponse

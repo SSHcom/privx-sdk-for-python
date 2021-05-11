@@ -1,4 +1,5 @@
 import pytest
+
 from privx_api.base import format_path_components
 from privx_api.enums import UrlEnum
 from privx_api.exceptions import InternalAPIException

@@ -41,7 +41,8 @@ class WorkFlowEngineAPI(BasePrivXAPI):
     def create_workflow(self, workflow_params: dict) -> PrivXAPIResponse:
         """
         Create a new workflow.
-        ID, author, created, and updated fields are automatically populated by the server..
+        ID, author, created, and updated fields are automatically populated
+        by the server..
 
         Returns:
             PrivXAPIResponse
