@@ -1,8 +1,8 @@
 from http import HTTPStatus
 
-from privx_api.response import PrivXAPIResponse
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
+from privx_api.response import PrivXAPIResponse
 
 
 class LicenseManagerAPI(BasePrivXAPI):

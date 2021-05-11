@@ -91,7 +91,8 @@ class RoleStoreEnum:
         ENABLE_MFA: "/role-store/api/v1/users/mfa/enable",
         EVALUATE: "/role-store/api/v1/roles/evaluate",
         EXTERNAL_SEARCH: "/role-store/api/v1/users/search/external",
-        GENERATE_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/generate",
+        GENERATE_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys"
+        "/generate",
         IMPORT_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/import",
         LOG_CONF_COLLECTOR: "/role-store/api/v1/logconf/collectors/{collector_id}",
         LOG_CONF_COLLECTORS: "/role-store/api/v1/logconf/collectors",
@@ -111,7 +112,8 @@ class RoleStoreEnum:
         STATUS: "/role-store/api/v1/status",
         USERS: "/role-store/api/v1/users/{user_id}",
         USER_AUTHORIZED_KEYS: "/role-store/api/v1/users/{user_id}/authorizedkeys",
-        USER_AUTHORIZED_KEY_ID: "/role-store/api/v1/users/{user_id}/authorizedkeys/{key_id}",
+        USER_AUTHORIZED_KEY_ID: "/role-store/api/v1/users/{user_id}/authorizedkeys"
+        "/{key_id}",
         USER_ROLES: "/role-store/api/v1/users/{user_id}/roles",
         USER_SETTINGS: "/role-store/api/v1/users/{user_id}/settings",
     }
@@ -165,11 +167,13 @@ class ConnectionManagerEnum:
         CONNECTIONS: "/connection-manager/api/v1/connections",
         CONNECTION_ACCESS_ROLE: "/connection-manager/api/v1/connections/{connection_id}"
         "/access_roles/{role_id}",
-        CONNECTION_ACCESS_ROLES: "/connection-manager/api/v1/connections/{connection_id}"
+        CONNECTION_ACCESS_ROLES: "/connection-manager/api/v1/connections"
+        "/{connection_id}"
         "/access_roles",
         SEARCH: "/connection-manager/api/v1/connections/search",
         STATUS: "/connection-manager/api/v1/status",
-        TERMINATE_CONNECTION_ID: "/connection-manager/api/v1/terminate/connection/{connection_id}",
+        TERMINATE_CONNECTION_ID: "/connection-manager/api/v1/terminate/connection"
+        "/{connection_id}",
         TERMINATE_HOST_ID: "/connection-manager/api/v1/terminate/host/{host_id}",
         TERMINATE_USER_ID: "/connection-manager/api/v1/terminate/user/{user_id}",
         TRAIL: "/connection-manager/api/v1/connections/{connection_id}"

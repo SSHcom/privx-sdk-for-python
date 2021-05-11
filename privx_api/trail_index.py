@@ -30,7 +30,9 @@ class TrailIndexAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_connections_indexing_statuses(self, connection_ids: list) -> PrivXAPIResponse:
+    def get_connections_indexing_statuses(
+        self, connection_ids: list
+    ) -> PrivXAPIResponse:
         """
         Gets the statuses of the specified connections.
 

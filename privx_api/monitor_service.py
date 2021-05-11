@@ -64,7 +64,7 @@ class MonitorServiceAPI(BasePrivXAPI):
             limit=limit,
             query=query,
             sortdir=sort_dir,
-            fuzzycount=bool(fuzzy_count)
+            fuzzycount=bool(fuzzy_count),
         )
         response_status, data = self._http_post(
             UrlEnum.MONITOR.SEARCH_AUDIT_EVENTS,
@@ -94,7 +94,7 @@ class MonitorServiceAPI(BasePrivXAPI):
             limit=limit,
             query=query,
             sortdir=sort_dir,
-            fuzzycount=bool(fuzzy_count)
+            fuzzycount=bool(fuzzy_count),
         )
         response_status, data = self._http_get(
             UrlEnum.MONITOR.AUDIT_EVENTS, query_params=search_params
