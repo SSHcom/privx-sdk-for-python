@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Dict, Optional
+from typing import Optional
 
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
@@ -17,7 +17,7 @@ class TrailIndexAPI(BasePrivXAPI):
         response_status, data = self._http_get(UrlEnum.TRAIL_INDEX.STATUS)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_connection_indexing_status(self, connection_id: str) -> PrivXAPIResponse:
+    def get_indexing_status(self, conn_id: str) -> PrivXAPIResponse:
         """
         Get indexing status of the connection.
 
@@ -26,13 +26,11 @@ class TrailIndexAPI(BasePrivXAPI):
         """
         response_status, data = self._http_get(
             UrlEnum.TRAIL_INDEX.CONNECTION_INDEXING_STATUS,
-            path_params={"connection_id": connection_id},
+            path_params={"connection_id": conn_id},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_connections_indexing_statuses(
-        self, connection_ids: list
-    ) -> PrivXAPIResponse:
+    def resolve_indexing_statuses(self, conn_ids: list) -> PrivXAPIResponse:
         """
         Gets the statuses of the specified connections.
 
@@ -41,11 +39,11 @@ class TrailIndexAPI(BasePrivXAPI):
         """
         response_status, data = self._http_post(
             UrlEnum.TRAIL_INDEX.CONNECTIONS_INDEXING_STATUSES,
-            body=connection_ids,
+            body=conn_ids,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def start_connection_indexing(self, connection_ids: list) -> PrivXAPIResponse:
+    def start_indexing(self, conn_ids: list) -> PrivXAPIResponse:
         """
         Starts indexing of the specified connections.
 
@@ -54,13 +52,13 @@ class TrailIndexAPI(BasePrivXAPI):
         """
         response_status, data = self._http_post(
             UrlEnum.TRAIL_INDEX.START_INDEXING,
-            body=connection_ids,
+            body=conn_ids,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def search_indexing_connections(
+    def search_index(
         self,
-        trails_params: Dict,
+        trails_params: dict,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
         sort_dir: Optional[str] = None,

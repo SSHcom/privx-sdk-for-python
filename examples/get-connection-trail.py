@@ -2,20 +2,27 @@
 This example fetches a trail file and prints stdin events seen in the trail.
 
 """
-import sys
 import base64
 import json
+import sys
+
+import config
+
 # Import the PrivX python library.
 import privx_api
-import config
 
 # Replace with the ID of the connection to output
 CONNECTION_ID = "CONNECTION_ID"
 FORMAT = "jsonl"
 
 # Initialize the API.
-api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
-                         config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
+api = privx_api.PrivXAPI(
+    config.HOSTNAME,
+    config.HOSTPORT,
+    config.CA_CERT,
+    config.OAUTH_CLIENT_ID,
+    config.OAUTH_CLIENT_SECRET,
+)
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
@@ -34,7 +41,7 @@ def get_connection(conn_id: str):
 
 def create_trail_session(conn_id: str, chan_id: str):
     """Create sessionId for trail log download"""
-    session = api.create_trail_log_session_id(conn_id, chan_id)
+    session = api.create_trail_log_download_handle(conn_id, chan_id)
     if session.ok():
         return session.data()
 
@@ -42,10 +49,7 @@ def create_trail_session(conn_id: str, chan_id: str):
     sys.exit(1)
 
 
-def download_trail_log(conn_id: str,
-                       chan_id: str,
-                       sess_id: str,
-                       log_format: str):
+def download_trail_log(conn_id: str, chan_id: str, sess_id: str, log_format: str):
     """Download trail log"""
     trail = api.download_trail_log(conn_id, chan_id, sess_id, log_format)
     if trail.ok():
@@ -64,7 +68,7 @@ def print_trail(trail: str):
         if line["type"] == "stdin":
             input_event = base64.b64decode(line["data"]).decode("latin1")
             if input_event == "\r":
-                print(line["ts"][0:19]+" "+input_str)
+                print(line["ts"][0:19] + " " + input_str)
                 input_str = ""
             else:
                 input_str += input_event
@@ -80,15 +84,14 @@ def main():
             # Get a session ID for trail download
             session = create_trail_session(CONNECTION_ID, channel["id"])
             # Get the trail
-            trail_log = download_trail_log(CONNECTION_ID,
-                                           channel["id"],
-                                           session["session_id"],
-                                           FORMAT)
+            trail_log = download_trail_log(
+                CONNECTION_ID, channel["id"], session["session_id"], FORMAT
+            )
             # Parse the trail
-            print("\r\nstdin conn "+CONNECTION_ID+" chan "+channel["id"])
+            print("\r\nstdin conn " + CONNECTION_ID + " chan " + channel["id"])
             print("------------------------------------------------------")
             print_trail(trail_log)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

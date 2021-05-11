@@ -96,7 +96,7 @@ class RoleStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_all_aws_roles(self, refresh: bool = False) -> PrivXAPIResponse:
+    def get_aws_role_links(self, refresh: bool = False) -> PrivXAPIResponse:
         """
         Get all AWS roles from all sources.
 
@@ -112,7 +112,7 @@ class RoleStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_aws_role(self, aws_role_id: str) -> PrivXAPIResponse:
+    def get_aws_role_link(self, aws_role_id: str) -> PrivXAPIResponse:
         """
         Get role object by ID.
 
@@ -125,7 +125,7 @@ class RoleStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def delete_aws_role(self, aws_role_id: str) -> PrivXAPIResponse:
+    def delete_aws_role_link(self, aws_role_id: str) -> PrivXAPIResponse:
         """
         Delete cached AWS role and its mappings on PrivX.
         Does not affect the AWS service, if the role still exists on AWS,
@@ -140,7 +140,9 @@ class RoleStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def update_aws_role(self, aws_role_id: str, privx_roles: list) -> PrivXAPIResponse:
+    def update_aws_role_link(
+        self, aws_role_id: str, privx_roles: list
+    ) -> PrivXAPIResponse:
         """
         Update a AWS role granting PrivX roles.
 
@@ -154,9 +156,9 @@ class RoleStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_privx_roles_granted_by_aws_role(self, aws_role_id: str) -> PrivXAPIResponse:
+    def get_linked_roles(self, aws_role_id: str) -> PrivXAPIResponse:
         """
-        Get AWS role granting PrivX roles..
+        Get AWS role granting PrivX roles.
 
          Returns:
               PrivXAPIResponse

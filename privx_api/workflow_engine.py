@@ -17,7 +17,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         response_status, data = self._http_get(UrlEnum.WORKFLOW_ENGINE.STATUS)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_workflow_objects(
+    def get_workflows(
         self,
         offset: Optional[int] = None,
         limit: Optional[int] = None,

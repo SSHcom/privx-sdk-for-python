@@ -77,7 +77,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def create_trail_session_id(
+    def create_trail_download_handle(
         self, connection_id: str, channel_id: str, file_id: str
     ) -> PrivXAPIResponse:
         """
@@ -124,7 +124,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         )
         return PrivXStreamResponse(response_obj, HTTPStatus.OK, stream)
 
-    def create_trail_log_session_id(
+    def create_trail_log_download_handle(
         self, connection_id: str, channel_id: str
     ) -> PrivXAPIResponse:
         """
@@ -189,7 +189,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def grant_role_permission_for_connection(
+    def grant_access_role_to_connection(
         self,
         connection_id: str,
         role_id: str,
@@ -209,7 +209,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def revoke_role_permission_for_connection(
+    def revoke_access_role_from_connection(
         self,
         connection_id: str,
         role_id: str,
