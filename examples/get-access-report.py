@@ -1,39 +1,46 @@
 # Requires Python 3.6+
-import sys
 import csv
 import getopt
-
-# Import the PrivX python library.
-import privx_api
+import sys
 
 # Import the configs.
 import config
 
+# Import the PrivX python library.
+import privx_api
+
 # Initialize the API.
-api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
-                         config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
+api = privx_api.PrivXAPI(
+    config.HOSTNAME,
+    config.HOSTPORT,
+    config.CA_CERT,
+    config.OAUTH_CLIENT_ID,
+    config.OAUTH_CLIENT_SECRET,
+)
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
 api.authenticate("API client ID", "API client secret")
 
+
 def get_user_id(user):
     resp = api.search_users(keywords=user)
     if resp.ok():
         data_load = resp.data()
-        data_items = data_load['items']
+        data_items = data_load["items"]
         user_id = False
         for user_data in data_items:
-            if user_data['principal'] == user:
-                user_id = user_data['id']
+            if user_data["principal"] == user:
+                user_id = user_data["id"]
         if user_id:
             return user_id
         else:
-            print(user+": User not found")
+            print(user + ": User not found")
             sys.exit(2)
     else:
         error = "Get users operation failed:"
         process_error(error)
+
 
 def get_connection_data(user_id):
     offset = 0
@@ -45,30 +52,34 @@ def get_connection_data(user_id):
 
     if resp.ok():
         data_load = resp.data()
-        data_items = data_load['items']
-        count = data_load['count'] - limit
+        data_items = data_load["items"]
+        count = data_load["count"] - limit
         while count > 0:
             offset = offset + limit
             if user_id:
-                resp = api.search_connections(user_id=[user_id], offset=offset, limit=limit)
+                resp = api.search_connections(
+                    user_id=[user_id], offset=offset, limit=limit
+                )
             else:
                 resp = api.search_connections(offset=offset, limit=limit)
             data_load = resp.data()
             if resp.ok():
-                data_items = data_items + data_load['items']
+                data_items = data_items + data_load["items"]
                 count = count - limit
         connections_data = {}
         all_data = []
-        data = ("type,mode,authentication_method,target_host_address,"
-                "target_host_account,connected,disconnected")
-        data_list = data.split(',')
+        data = (
+            "type,mode,authentication_method,target_host_address,"
+            "target_host_account,connected,disconnected"
+        )
+        data_list = data.split(",")
         for connection_data in data_items:
-            connections_data["user"] = connection_data['user']['display_name']
+            connections_data["user"] = connection_data["user"]["display_name"]
             for p in data_list:
                 if p in ("connected", "disconnected"):
                     connection_data[p] = connection_data[p].split(".")[0]
                 if p == "authentication_method":
-                    connection_data[p] = ','.join(connection_data[p])
+                    connection_data[p] = ",".join(connection_data[p])
                 connections_data[p] = connection_data[p]
             all_data.append(dict(connections_data))
         return all_data
@@ -78,13 +89,13 @@ def get_connection_data(user_id):
 
 
 def export_connection_data(user, user_id=None):
-    output_csvfile = user+"_connection_data.csv"
+    output_csvfile = user + "_connection_data.csv"
     connection_data = get_connection_data(user_id)
     if len(connection_data) == 0:
         print("no connection data")
     else:
         connection_keys = connection_data[0].keys()
-        print("Writing Connection data to", output_csvfile, end=' ')
+        print("Writing Connection data to", output_csvfile, end=" ")
         with open(output_csvfile, "w") as f:
             w = csv.DictWriter(f, connection_keys)
             w.writeheader()
@@ -107,7 +118,7 @@ def process_error(messages):
 
 def main():
     user = "ALL"
-    if (len(sys.argv) > 3):
+    if len(sys.argv) > 3:
         usage()
         sys.exit(2)
     try:
@@ -130,6 +141,5 @@ def main():
         export_connection_data(user, user_id)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-

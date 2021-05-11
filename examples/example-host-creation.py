@@ -1,13 +1,19 @@
 # An example how to use PrivX API for host creation.
 # Requires Python 3.6+
 
-# Import the PrivX python library.
-import privx_api
 import config
 
+# Import the PrivX python library.
+import privx_api
+
 # Initialize the API.
-api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
-                         config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
+api = privx_api.PrivXAPI(
+    config.HOSTNAME,
+    config.HOSTPORT,
+    config.CA_CERT,
+    config.OAUTH_CLIENT_ID,
+    config.OAUTH_CLIENT_SECRET,
+)
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
@@ -26,10 +32,7 @@ if role_id == "":
 # Create host.
 data = {
     "common_name": "api-test",
-    "addresses": [
-        "test.api.host.net",
-        "123.123.123.123"
-    ],
+    "addresses": ["test.api.host.net", "123.123.123.123"],
     "services": [
         {
             "service": "SSH",

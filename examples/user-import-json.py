@@ -5,13 +5,18 @@ import json
 import os
 import sys
 
-import privx_api
 import config
 
+import privx_api
 
 # Initialize the API.
-api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
-                         config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
+api = privx_api.PrivXAPI(
+    config.HOSTNAME,
+    config.HOSTPORT,
+    config.CA_CERT,
+    config.OAUTH_CLIENT_ID,
+    config.OAUTH_CLIENT_SECRET,
+)
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
@@ -50,11 +55,9 @@ def main():
     print("User import completed.")
 
     if fails > 0:
-        print("{} out of {} users failed to be added!"
-              .format(fails, len(user_data)))
+        print("{} out of {} users failed to be added!".format(fails, len(user_data)))
 
-    print("Check {} for additional information."
-          .format(os.path.abspath(LOGFILE)))
+    print("Check {} for additional information.".format(os.path.abspath(LOGFILE)))
 
 
 if __name__ == "__main__":

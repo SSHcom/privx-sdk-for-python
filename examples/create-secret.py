@@ -2,13 +2,18 @@
 import json
 import sys
 
-import privx_api
 import config
 
+import privx_api
 
 # Initialize the API.
-api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
-                         config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
+api = privx_api.PrivXAPI(
+    config.HOSTNAME,
+    config.HOSTPORT,
+    config.CA_CERT,
+    config.OAUTH_CLIENT_ID,
+    config.OAUTH_CLIENT_SECRET,
+)
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
@@ -26,10 +31,7 @@ SECRET_READ_ROLES = ["privx-admin"]
 SECRET_WRITE_ROLES = ["privx-admin"]
 
 # The secret data in JSON format
-SECRET_DATA = {
-        "username": "alice",
-        "password": "example_password"
-    }
+SECRET_DATA = {"username": "alice", "password": "example_password"}
 
 
 def main():
@@ -47,7 +49,7 @@ def main():
         "name": SECRET_NAME,
         "read_roles": read_role_data,
         "write_roles": write_role_data,
-        "data": SECRET_DATA
+        "data": SECRET_DATA,
     }
 
     response = api.create_secret(data)
@@ -99,5 +101,5 @@ def _check_secret_already_exists():
         raise Exception("Secret named " + SECRET_NAME + " already exists!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

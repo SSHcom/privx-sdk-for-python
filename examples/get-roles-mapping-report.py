@@ -1,17 +1,21 @@
 # Requires Python 3.6+
-import sys
 import csv
-
-# Import the PrivX python library.
-import privx_api
-
+import sys
 
 # Import the configs.
 import config
 
+# Import the PrivX python library.
+import privx_api
+
 # Initialize the API.
-api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
-                         config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
+api = privx_api.PrivXAPI(
+    config.HOSTNAME,
+    config.HOSTPORT,
+    config.CA_CERT,
+    config.OAUTH_CLIENT_ID,
+    config.OAUTH_CLIENT_SECRET,
+)
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
@@ -23,9 +27,9 @@ def get_roles():
     if resp.ok():
         data_load = resp.data()
         roles_data = {}
-        for role_data in data_load['items']:
-            name = role_data['name']
-            roles_data[name] = role_data['id']
+        for role_data in data_load["items"]:
+            name = role_data["name"]
+            roles_data[name] = role_data["id"]
         return roles_data
     else:
         error = "Get Roles operation failed:"
@@ -43,7 +47,7 @@ def get_role_mapping_data(role_id, role_name):
     hosts_accounts = {}
     hosts_accounts_list = {}
     all_data = []
-    if data_load['count']:
+    if data_load["count"]:
         resp1 = api.get_role_members(role_id)
         if resp1.ok():
             data_load1 = resp1.data()
@@ -53,23 +57,23 @@ def get_role_mapping_data(role_id, role_name):
     else:
         return None
     members = []
-    for member in data_load1['items']:
-        members.append(member['principal'])
+    for member in data_load1["items"]:
+        members.append(member["principal"])
     members = ",".join(members)
-    for host_data in data_load['items']:
+    for host_data in data_load["items"]:
         accounts = []
-        for principal in host_data['principals']:
-            if principal['principal']:
-                accounts.append(principal['principal'])
-            address = ",".join(host_data['addresses'])
+        for principal in host_data["principals"]:
+            if principal["principal"]:
+                accounts.append(principal["principal"])
+            address = ",".join(host_data["addresses"])
             hosts_accounts[address] = ",".join(accounts)
     for host, account in sorted(hosts_accounts.items()):
         hosts_accounts_list.setdefault(account, []).append(host)
     for accounts, hosts in hosts_accounts_list.items():
         role_hosts["user_id"] = members
         role_hosts["role_name"] = role_name
-        role_hosts['target_hosts'] = "\n".join(hosts)
-        role_hosts['target_accounts'] = accounts
+        role_hosts["target_hosts"] = "\n".join(hosts)
+        role_hosts["target_accounts"] = accounts
         all_data.append(dict(role_hosts))
     return all_data
 
@@ -89,7 +93,7 @@ def main():
             for data in role_data:
                 all_role_data.append(dict(data))
     all_role_keys = all_role_data[0].keys()
-    print("Writing role mapping data to", output_csvfile, end=' ')
+    print("Writing role mapping data to", output_csvfile, end=" ")
     with open(output_csvfile, "w") as f:
         w = csv.DictWriter(f, all_role_keys)
         w.writeheader()
@@ -98,6 +102,5 @@ def main():
     print("\nDone")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-

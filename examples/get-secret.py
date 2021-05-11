@@ -1,14 +1,21 @@
 # Import the PrivX python library.
 import json
-import privx_api
+
 import config
+
+import privx_api
 
 # Replace with the name of the secret you want to fetch
 SECRET_NAME = "Name of the secret"
 
 # Initialize the API.
-api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
-                         config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
+api = privx_api.PrivXAPI(
+    config.HOSTNAME,
+    config.HOSTPORT,
+    config.CA_CERT,
+    config.OAUTH_CLIENT_ID,
+    config.OAUTH_CLIENT_SECRET,
+)
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
@@ -36,5 +43,5 @@ def main():
     print(json.dumps(secret, indent=4))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
