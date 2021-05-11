@@ -140,7 +140,9 @@ class RoleStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def update_aws_role_link(self, aws_role_id: str, privx_roles: list) -> PrivXAPIResponse:
+    def update_aws_role_link(
+        self, aws_role_id: str, privx_roles: list
+    ) -> PrivXAPIResponse:
         """
         Update a AWS role granting PrivX roles.
 
