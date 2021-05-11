@@ -134,7 +134,7 @@ class BasePrivXAPI:
         }
 
     def _get_search_params(self, **kwargs: Union[str, int]) -> Dict:
-        params = {key: val for key, val in kwargs.items() if val}
+        params = {key: val for key, val in kwargs.items() if val is not None}
         return params if any(params) else {}
 
     def _get_url(self, name: str) -> str:

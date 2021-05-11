@@ -34,7 +34,7 @@ def get_connection(conn_id: str):
 
 def create_trail_session(conn_id: str, chan_id: str):
     """Create sessionId for trail log download"""
-    session = api.create_trail_log_session_id(conn_id, chan_id)
+    session = api.create_trail_log_download_handle(conn_id, chan_id)
     if session.ok():
         return session.data()
 
