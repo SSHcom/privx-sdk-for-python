@@ -1,23 +1,34 @@
 # Requires Python 3.6+
-import sys
 import getopt
-
-# Import the PrivX python library.
-import privx_api
+import sys
 
 # Import the configs.
 import config
 
+# Import the PrivX python library.
+import privx_api
+
 # Initialize the API.
-api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
-                         config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
+api = privx_api.PrivXAPI(
+    config.HOSTNAME,
+    config.HOSTPORT,
+    config.CA_CERT,
+    config.OAUTH_CLIENT_ID,
+    config.OAUTH_CLIENT_SECRET,
+)
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
 api.authenticate("API client ID", "API client secret")
 
+
 def usage():
-    print("Example for fetching AWS temporary access token via PrivX role.\nRequires mapping AWS role to PrivX role in PrivX admin console.\nIf PrivX user has a role with AWS role mapping, you can use '-r awsroleid' to acquire a token with assumed permissions via PrivX.\n")
+    print(
+        "Example for fetching AWS temporary access token via PrivX role.\n"
+        "Requires mapping AWS role to PrivX role in PrivX admin console.\n"
+        "If PrivX user has a role with AWS role mapping, you can use '-r awsroleid' "
+        "to acquire a token with assumed permissions via PrivX.\n"
+    )
     print(sys.argv[0], "-h or --help")
     print(sys.argv[0], "-r awsroleid")
     print(sys.argv[0], "--awsrole awsroleid")
@@ -31,6 +42,7 @@ def print_awsroles(resp):
         print(resp.data())
         sys.exit(2)
 
+
 def print_token(resp):
     if resp.ok():
         print(resp.data())
@@ -38,8 +50,9 @@ def print_token(resp):
         print(resp.data())
         sys.exit(2)
 
+
 def main():
-    if (len(sys.argv) < 2):
+    if len(sys.argv) < 2:
         usage()
         sys.exit(2)
     try:
@@ -61,5 +74,5 @@ def main():
             usage()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

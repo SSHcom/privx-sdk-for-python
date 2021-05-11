@@ -19,6 +19,6 @@ black $linter_path
 isort $linter_path --settings-path ./linter_config.cfg
 
 # --- radon ---
-radon mi -s -n A $linter_path
+radon mi -s -n B $linter_path
 
 exit

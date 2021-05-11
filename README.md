@@ -91,16 +91,17 @@ If you experience any issues with the library, please let us know via [GitHub is
 
 * Line-width is 88 symbols
 * Use Type Annotation
+* Use double quotes
 * Use isort for sorting the imports order
 
-```isort . --settings linter_config.cfg```
+``isort path --settings linter_config.cfg``
 
 * Format code using black
 
-``black ./dir_name``
+``black path``
 
 * Check PEP using flake8
-``flake8 --config ./linter_config.cfg``
+``flake8 path --config ./linter_config.cfg``
   
 OR use bash script 
 ``./run_linters.sh path``

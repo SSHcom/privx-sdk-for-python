@@ -4,24 +4,29 @@ import json
 import os
 import sys
 
+import config
+
 # Import the PrivX python library.
 import privx_api
-import config
 
 # Specify the path to the host-data JSON file.
 # By default, uses the example-host-import.json from the data directory.
 # For more information about host-data syntax, see the
 # PrivX-API specifications.
-HOST_DATA_FILE = os.path.join(sys.path[0],
-                              "data/example-host-import.json")
+HOST_DATA_FILE = os.path.join(sys.path[0], "data/example-host-import.json")
 
 # Read the host source file.
-with open(HOST_DATA_FILE, 'r') as f:
+with open(HOST_DATA_FILE, "r") as f:
     hosts = json.loads(f.read())
 
 # Initialize the API.
-api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
-                         config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
+api = privx_api.PrivXAPI(
+    config.HOSTNAME,
+    config.HOSTPORT,
+    config.CA_CERT,
+    config.OAUTH_CLIENT_ID,
+    config.OAUTH_CLIENT_SECRET,
+)
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
