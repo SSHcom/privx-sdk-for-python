@@ -4,6 +4,7 @@ from typing import Dict, Optional
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
 from privx_api.response import PrivXAPIResponse, PrivXStreamResponse
+from privx_api.utils import get_value
 
 
 class ConnectionManagerAPI(BasePrivXAPI):
@@ -60,7 +61,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.CONNECTION_MANAGER.SEARCH,
             query_params=search_params,
-            body=connection_params or {},
+            body=get_value(connection_params, dict()),
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
