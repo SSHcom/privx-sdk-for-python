@@ -118,7 +118,7 @@ class VaultAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.VAULT.SEARCH,
             query_params=search_params,
-            body=search_payload,
+            body=search_payload or {},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 

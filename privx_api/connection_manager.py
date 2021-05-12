@@ -60,7 +60,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.CONNECTION_MANAGER.SEARCH,
             query_params=search_params,
-            body=connection_params,
+            body=connection_params or {},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 

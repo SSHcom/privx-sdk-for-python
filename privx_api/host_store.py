@@ -41,7 +41,9 @@ class HostStoreAPI(BasePrivXAPI):
         )
 
         response_status, data = self._http_post(
-            UrlEnum.HOST_STORE.SEARCH, query_params=search_params, body=search_payload
+            UrlEnum.HOST_STORE.SEARCH,
+            query_params=search_params,
+            body=search_payload or {},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
