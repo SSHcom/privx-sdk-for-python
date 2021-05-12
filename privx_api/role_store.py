@@ -4,6 +4,7 @@ from typing import Optional
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
 from privx_api.response import PrivXAPIResponse
+from privx_api.utils import get_value
 
 
 class RoleStoreAPI(BasePrivXAPI):
@@ -489,7 +490,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.SEARCH_USERS,
             query_params=search_params,
-            body=search_payload,
+            body=get_value(search_payload, dict()),
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 

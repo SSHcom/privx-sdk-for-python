@@ -4,6 +4,7 @@ from typing import Optional
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
 from privx_api.response import PrivXAPIResponse
+from privx_api.utils import get_value
 
 
 class HostStoreAPI(BasePrivXAPI):
@@ -41,7 +42,9 @@ class HostStoreAPI(BasePrivXAPI):
         )
 
         response_status, data = self._http_post(
-            UrlEnum.HOST_STORE.SEARCH, query_params=search_params, body=search_payload
+            UrlEnum.HOST_STORE.SEARCH,
+            query_params=search_params,
+            body=get_value(search_payload, dict()),
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 

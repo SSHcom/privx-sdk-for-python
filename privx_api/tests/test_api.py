@@ -4,6 +4,7 @@ from privx_api.base import format_path_components
 from privx_api.enums import UrlEnum
 from privx_api.exceptions import InternalAPIException
 from privx_api.privx_api import PrivXAPI
+from privx_api.utils import get_value
 
 
 def test_urls():
@@ -181,3 +182,19 @@ def test_make_body_params(value, expected_value):
 def test_build_request(params, exp_result):
     api = PrivXAPI("", "", "", "", "")
     assert sorted(api._build_request(**params)) == sorted(exp_result)
+
+
+@pytest.mark.parametrize(
+    "val, default_val, exp_val",
+    [
+        ("", "", ""),
+        ("data", "", "data"),
+        (0, 123, 0),
+        ([], [1, 2, 3], []),
+        (None, dict(), {}),
+        (None, [], []),
+        (None, None, None),
+    ],
+)
+def test_get_value(val, default_val, exp_val):
+    assert get_value(val, default_val) == exp_val
