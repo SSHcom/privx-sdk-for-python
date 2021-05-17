@@ -1,6 +1,6 @@
 import http.client
 import json
-from typing import Any
+from typing import Any, Union
 
 
 class BaseResponse:
@@ -80,7 +80,7 @@ class PrivXStreamResponse(BaseResponse):
         self.status = response.status
 
         if not stream:
-            self._content = response.read().decode()
+            self._content = self._format_content()
             self._ok = expected_status == self.status
             self._data = (
                 self._content
@@ -96,6 +96,14 @@ class PrivXStreamResponse(BaseResponse):
 
     def __str__(self) -> str:
         return "PrivXStreamResponse {}".format(self.status)
+
+    def _format_content(self) -> Union[str, bytes]:
+        raw = self._response.read()
+        try:
+            content = raw.decode("utf-8")
+        except UnicodeDecodeError:
+            content = raw
+        return content
 
     def iter_content(self, chunk_size: int = 1) -> bytes:
         """
