@@ -22,8 +22,8 @@ api.authenticate("API client ID", "API client secret")
 # Search role ID for host account mapping.
 role_id = ""
 resp = api.get_roles()
-if resp.ok():
-    for role in resp.data().get("items"):
+if resp.ok:
+    for role in resp.data.get("items"):
         if role.get("name") == "privx-admin":
             role_id = role.get("id")
 if role_id == "":
@@ -56,8 +56,8 @@ data = {
 }
 
 resp = api.create_host(data)
-if resp.ok():
+if resp.ok:
     print("Host created.")
 else:
     print("Host creation failed.")
-    print(resp.data())
+    print(resp.data)

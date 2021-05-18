@@ -54,11 +54,11 @@ def main():
 
     response = api.create_secret(data)
 
-    if response.ok():
+    if response.ok:
         print(json.dumps(data))
         print("Secret created succesfully!")
     else:
-        print(response.data())
+        print(response.data)
         print("Secret creation failed!")
 
 
@@ -71,10 +71,10 @@ def _get_role_data(role_names: list) -> list:
     :raise: Exception if any role(s) cannot be found from PrivX.
     """
     response = api.resolve_roles(role_names)
-    if response.ok():
-        response_data = response.data()["items"]
+    if response.ok:
+        response_data = response.data["items"]
     else:
-        print(response.data())
+        print(response.data)
         raise Exception("Error obtaining role data")
 
     role_data = []
@@ -96,8 +96,8 @@ def _check_secret_already_exists():
     :raise: Exception if secret with SECRET_NAME already exists.
     """
     response = api.get_secret(SECRET_NAME)
-    if response.ok():
-        print(response.data())
+    if response.ok:
+        print(response.data)
         raise Exception("Secret named " + SECRET_NAME + " already exists!")
 
 

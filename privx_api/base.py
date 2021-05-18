@@ -5,7 +5,7 @@ import ssl
 import urllib.parse
 import urllib.request
 from http.client import HTTPException, HTTPResponse
-from typing import Dict, Optional, Tuple, Union
+from typing import Optional, Tuple, Union
 
 from privx_api.enums import UrlEnum
 from privx_api.exceptions import InternalAPIException
@@ -95,10 +95,10 @@ class BasePrivXAPI:
         self,
         method: str,
         url_name: str,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
-        body: Optional[Union[Dict, str, list]] = None,
-    ) -> Dict:
+        path_params: Optional[dict] = None,
+        query_params: Optional[dict] = None,
+        body: Optional[Union[dict, str, list]] = None,
+    ) -> dict:
 
         path_params = path_params or {}
         query_params = query_params or {}
@@ -112,8 +112,8 @@ class BasePrivXAPI:
     def _build_url(
         self,
         name: str,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
+        path_params: Optional[dict] = None,
+        query_params: Optional[dict] = None,
     ) -> str:
         path_params = path_params or {}
         query_params = query_params or {}
@@ -127,13 +127,13 @@ class BasePrivXAPI:
 
         return url
 
-    def _get_headers(self) -> Dict:
+    def _get_headers(self) -> dict:
         return {
             "Content-type": "application/json",
             "Authorization": "Bearer {}".format(self._access_token),
         }
 
-    def _get_search_params(self, **kwargs: Union[str, int]) -> Dict:
+    def _get_search_params(self, **kwargs: Union[str, int]) -> dict:
         params = {key: val for key, val in kwargs.items() if val is not None}
         return params if any(params) else {}
 
@@ -146,8 +146,8 @@ class BasePrivXAPI:
     def _http_get(
         self,
         url_name: str,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
+        path_params: Optional[dict] = None,
+        query_params: Optional[dict] = None,
     ) -> Tuple:
 
         with Connection(self._connection_info) as conn:
@@ -181,9 +181,9 @@ class BasePrivXAPI:
     def _http_post(
         self,
         url_name: str,
-        body: Optional[Union[Dict, str, list]] = None,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
+        body: Optional[Union[dict, str, list]] = None,
+        path_params: Optional[dict] = None,
+        query_params: Optional[dict] = None,
     ) -> Tuple:
 
         with Connection(self._connection_info) as conn:
@@ -205,9 +205,9 @@ class BasePrivXAPI:
     def _http_put(
         self,
         url_name: str,
-        body: Optional[Union[Dict, str, list]] = None,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
+        body: Optional[Union[dict, str, list]] = None,
+        path_params: Optional[dict] = None,
+        query_params: Optional[dict] = None,
     ) -> Tuple:
 
         with Connection(self._connection_info) as conn:
@@ -229,9 +229,9 @@ class BasePrivXAPI:
     def _http_delete(
         self,
         url_name: str,
-        body: Optional[Dict] = None,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
+        body: Optional[dict] = None,
+        path_params: Optional[dict] = None,
+        query_params: Optional[dict] = None,
     ) -> Tuple:
 
         with Connection(self._connection_info) as conn:
@@ -253,9 +253,9 @@ class BasePrivXAPI:
     def _http_stream(
         self,
         url_name: str,
-        body: Optional[Dict] = None,
-        path_params: Optional[Dict] = None,
-        query_params: Optional[Dict] = None,
+        body: Optional[dict] = None,
+        path_params: Optional[dict] = None,
+        query_params: Optional[dict] = None,
     ) -> HTTPResponse:
         conn = Connection(self._connection_info).connect()
         try:

@@ -36,18 +36,18 @@ def usage():
 
 
 def print_awsroles(resp):
-    if resp.ok():
-        print(resp.data())
+    if resp.ok:
+        print(resp.data)
     else:
-        print(resp.data())
+        print(resp.data)
         sys.exit(2)
 
 
 def print_token(resp):
-    if resp.ok():
-        print(resp.data())
+    if resp.ok:
+        print(resp.data)
     else:
-        print(resp.data())
+        print(resp.data)
         sys.exit(2)
 
 

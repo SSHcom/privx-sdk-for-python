@@ -26,15 +26,15 @@ def get_host_data():
     offset = 0
     limit = 1000
     resp = api.search_hosts(offset=offset, limit=limit)
-    if resp.ok():
-        data_load = resp.data()
+    if resp.ok:
+        data_load = resp.data
         data_items = data_load["items"]
         count = data_load["count"] - limit
         while count > 0:
             offset = offset + limit
             resp = api.search_hosts(offset=offset, limit=limit)
-            data_load = resp.data()
-            if resp.ok():
+            data_load = resp.data
+            if resp.ok:
                 data_items = data_items + data_load["items"]
                 count = count - limit
         hosts_data = {}

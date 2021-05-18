@@ -32,10 +32,10 @@ def get_secret(name: str) -> str:
         The secret data JSON.
     """
     secret = api.get_secret(name)
-    if secret.ok():
-        return secret.data()["data"]
+    if secret.ok:
+        return secret.data["data"]
     else:
-        return secret.data()["details"]
+        return secret.data["details"]
 
 
 def main():

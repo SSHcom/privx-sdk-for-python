@@ -103,13 +103,11 @@ class ConnectionManagerAPI(BasePrivXAPI):
         channel_id: str,
         file_id: str,
         session_id: str,
-        stream: Optional[bool] = False,
     ) -> PrivXStreamResponse:
         """
         Download trail stored file transferred within audited connection channel.
 
-        stream = True -> returns streamable object, use object.iter_content()
-        for consuming the stream
+        use object.iter_content() for consuming the chunked response
 
         Returns:
             StreamResponse
@@ -123,7 +121,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
                 "session_id": session_id,
             },
         )
-        return PrivXStreamResponse(response_obj, HTTPStatus.OK, stream)
+        return PrivXStreamResponse(response_obj, HTTPStatus.OK)
 
     def create_trail_log_download_handle(
         self, connection_id: str, channel_id: str
@@ -150,13 +148,11 @@ class ConnectionManagerAPI(BasePrivXAPI):
         session_id: str,
         format_param: Optional[str] = None,
         filter_param: Optional[str] = None,
-        stream: Optional[bool] = False,
     ) -> PrivXStreamResponse:
         """
         Download trail log of audited connection channel.
 
-        stream = True -> returns streamable object, use object.iter_content()
-        for consuming the stream
+        use object.iter_content() for consuming the chunked response
 
         Returns:
             StreamResponse
@@ -173,7 +169,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             },
             query_params=search_params,
         )
-        return PrivXStreamResponse(response_obj, HTTPStatus.OK, stream)
+        return PrivXStreamResponse(response_obj, HTTPStatus.OK)
 
     def get_connection_access_roles(self, connection_id: str) -> PrivXAPIResponse:
         """

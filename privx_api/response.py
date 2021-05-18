@@ -1,6 +1,7 @@
 import http.client
 import json
-from typing import Any
+
+from privx_api.exceptions import InternalAPIException
 
 
 class BaseResponse:
@@ -8,6 +9,7 @@ class BaseResponse:
         self._ok = None
         self._data = None
 
+    @property
     def ok(self) -> bool:
         """
         Returns:
@@ -15,14 +17,11 @@ class BaseResponse:
         """
         return self._ok
 
-    def data(self) -> Any:
-        """
-        Returns:
-            The response data
-        """
-        return self._data
+    @property
+    def data(self) -> None:
+        raise NotImplementedError
 
-    def _get_json(self, json_data: bytes) -> Any:
+    def _get_json(self, json_data: bytes) -> dict:
         try:
             data = json.loads(json_data)
         except ValueError:
@@ -59,11 +58,18 @@ class PrivXAPIResponse(BaseResponse):
     def __str__(self) -> str:
         return "PrivXResponse {}".format(self.status)
 
+    @property
+    def data(self) -> dict:
+        """
+        Returns:
+            The response data
+        """
+        return self._data
+
 
 class PrivXStreamResponse(BaseResponse):
     """
-    For streaming the response use argument stream=True and iter_content(chunk_size)
-    e.g.
+    Example:
     with open("test.txt", "w") as file:
         for char in StreamResponseObject.iter_content(chunk_size):
             file.write(char.decode("utf-8"))
@@ -73,31 +79,20 @@ class PrivXStreamResponse(BaseResponse):
         self,
         response: http.client.HTTPResponse,
         expected_status: int,
-        stream: bool = False,
     ):
         super().__init__()
         self._response = response
-        self.status = response.status
-
-        if not stream:
-            self._content = response.read().decode()
-            self._ok = expected_status == self.status
-            self._data = (
-                self._content
-                if self._ok
-                else {
-                    "status": self.status,
-                    "details": self._content,
-                }
-            )
-            # close the response
-            if not self._response.isclosed():
-                self._response.close()
+        self._status = response.status
+        self._ok = self._status == expected_status
 
     def __str__(self) -> str:
-        return "PrivXStreamResponse {}".format(self.status)
+        return "PrivXStreamResponse {}".format(self._status)
 
-    def iter_content(self, chunk_size: int = 1) -> bytes:
+    @property
+    def data(self) -> None:
+        raise InternalAPIException("Should not access all data in a stream response")
+
+    def iter_content(self, chunk_size: int = 1024 * 1024) -> bytes:
         """
         Generator for reading and returning response by chunk
         """
