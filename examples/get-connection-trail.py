@@ -32,20 +32,20 @@ api.authenticate("API client ID", "API client secret")
 def get_connection(conn_id: str):
     """Fetch connection object"""
     connection = api.get_connection(conn_id)
-    if connection.ok():
-        return connection.data()
+    if connection.ok:
+        return connection.data
 
-    print(connection.data()["details"])
+    print(connection.data["details"])
     sys.exit(1)
 
 
 def create_trail_session(conn_id: str, chan_id: str):
     """Create sessionId for trail log download"""
     session = api.create_trail_log_download_handle(conn_id, chan_id)
-    if session.ok():
-        return session.data()
+    if session.ok:
+        return session.data
 
-    print(session.data()["details"])
+    print(session.data["details"])
     sys.exit(1)
 
 

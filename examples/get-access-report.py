@@ -25,8 +25,8 @@ api.authenticate("API client ID", "API client secret")
 
 def get_user_id(user):
     resp = api.search_users(keywords=user)
-    if resp.ok():
-        data_load = resp.data()
+    if resp.ok:
+        data_load = resp.data
         data_items = data_load["items"]
         user_id = False
         for user_data in data_items:
@@ -50,8 +50,8 @@ def get_connection_data(user_id):
     else:
         resp = api.search_connections(offset=offset, limit=limit)
 
-    if resp.ok():
-        data_load = resp.data()
+    if resp.ok:
+        data_load = resp.data
         data_items = data_load["items"]
         count = data_load["count"] - limit
         while count > 0:
@@ -62,8 +62,8 @@ def get_connection_data(user_id):
                 )
             else:
                 resp = api.search_connections(offset=offset, limit=limit)
-            data_load = resp.data()
-            if resp.ok():
+            data_load = resp.data
+            if resp.ok:
                 data_items = data_items + data_load["items"]
                 count = count - limit
         connections_data = {}

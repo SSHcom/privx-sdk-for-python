@@ -45,11 +45,11 @@ def main():
         for user in user_data:
             response = api.create_user(user)
 
-            if response.ok():
+            if response.ok:
                 log.write(user["username"] + " added succesfully.\n")
             else:
                 log.write(user["username"] + " failed to be added: ")
-                log.write(json.dumps(response.data()) + "\n")
+                log.write(json.dumps(response.data) + "\n")
                 fails += 1
 
     print("User import completed.")

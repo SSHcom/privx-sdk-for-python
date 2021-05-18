@@ -1,6 +1,7 @@
 import http.client
 import json
-from typing import Any
+
+from privx_api.exceptions import InternalAPIException
 
 
 class BaseResponse:
@@ -8,6 +9,7 @@ class BaseResponse:
         self._ok = None
         self._data = None
 
+    @property
     def ok(self) -> bool:
         """
         Returns:
@@ -15,14 +17,11 @@ class BaseResponse:
         """
         return self._ok
 
-    def data(self) -> Any:
-        """
-        Returns:
-            The response data
-        """
-        return self._data
+    @property
+    def data(self) -> None:
+        raise NotImplementedError
 
-    def _get_json(self, json_data: bytes) -> Any:
+    def _get_json(self, json_data: bytes) -> dict:
         try:
             data = json.loads(json_data)
         except ValueError:
@@ -59,6 +58,14 @@ class PrivXAPIResponse(BaseResponse):
     def __str__(self) -> str:
         return "PrivXResponse {}".format(self.status)
 
+    @property
+    def data(self) -> dict:
+        """
+        Returns:
+            The response data
+        """
+        return self._data
+
 
 class PrivXStreamResponse(BaseResponse):
     """
@@ -81,8 +88,9 @@ class PrivXStreamResponse(BaseResponse):
     def __str__(self) -> str:
         return "PrivXStreamResponse {}".format(self._status)
 
-    def data(self):
-        raise NotImplementedError("Should not access all data in a stream response")
+    @property
+    def data(self) -> None:
+        raise InternalAPIException("Should not access all data in a stream response")
 
     def iter_content(self, chunk_size: int = 1024 * 1024) -> bytes:
         """

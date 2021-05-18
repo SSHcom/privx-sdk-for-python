@@ -24,13 +24,13 @@ api.authenticate("API client ID", "API client secret")
 # Get sources.
 sourceID = ""
 resp = api.get_sources()
-if resp.ok():
+if resp.ok:
     # Select wanted source, "Local users" for example.
-    for item in resp.data()["items"]:
+    for item in resp.data["items"]:
         if item["name"] == "Local users":
             sourceID = item["id"]
 else:
-    print(resp.data())
+    print(resp.data)
     sys.exit(1)
 
 
@@ -51,8 +51,8 @@ data = {
     },
 }
 resp = api.create_role(data)
-if resp.ok():
+if resp.ok:
     print("Role created.")
 else:
     print("Role creation failed.")
-    print(resp.data())
+    print(resp.data)

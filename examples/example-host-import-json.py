@@ -46,8 +46,8 @@ for hostdata in hosts:
             roles = {}
             acc_roles = []
             resp = api.get_roles()
-            if resp.ok():
-                for role in resp.data().get("items"):
+            if resp.ok:
+                for role in resp.data.get("items"):
                     roles[role.get("name")] = role.get("id")
 
             for role_name, role_id in roles.items():
@@ -67,8 +67,8 @@ for hostdata in hosts:
     }
 
     resp = api.create_host(data)
-    if resp.ok():
+    if resp.ok:
         print("Host created.")
     else:
         print("Host creation failed.")
-        print(resp.data())
+        print(resp.data)

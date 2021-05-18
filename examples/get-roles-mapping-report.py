@@ -24,8 +24,8 @@ api.authenticate("API client ID", "API client secret")
 
 def get_roles():
     resp = api.get_roles()
-    if resp.ok():
-        data_load = resp.data()
+    if resp.ok:
+        data_load = resp.data
         roles_data = {}
         for role_data in data_load["items"]:
             name = role_data["name"]
@@ -38,8 +38,8 @@ def get_roles():
 
 def get_role_mapping_data(role_id, role_name):
     resp = api.search_hosts(role=[role_id])
-    if resp.ok():
-        data_load = resp.data()
+    if resp.ok:
+        data_load = resp.data
     else:
         error = "Hosts search operation failed:"
         process_error(error)
@@ -49,8 +49,8 @@ def get_role_mapping_data(role_id, role_name):
     all_data = []
     if data_load["count"]:
         resp1 = api.get_role_members(role_id)
-        if resp1.ok():
-            data_load1 = resp1.data()
+        if resp1.ok:
+            data_load1 = resp1.data
         else:
             error = "Get role members operation failed:"
             process_error(error)
