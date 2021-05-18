@@ -35,9 +35,7 @@ class AuthorizerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def download_authorizer_cert(
-        self, cert_id: str, stream: bool = False
-    ) -> PrivXStreamResponse:
+    def download_authorizer_cert(self, cert_id: str) -> PrivXStreamResponse:
         """
         Gets authorizer's root certificate.
 
@@ -47,11 +45,9 @@ class AuthorizerAPI(BasePrivXAPI):
         response = self._http_stream(
             UrlEnum.AUTHORIZER.AUTHORIZER_CERT_ID, path_params={"id": cert_id}
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK, stream)
+        return PrivXStreamResponse(response, HTTPStatus.OK)
 
-    def download_certificate_revocation_list(
-        self, cert_id: str, stream: bool = False
-    ) -> PrivXStreamResponse:
+    def download_certificate_revocation_list(self, cert_id: str) -> PrivXStreamResponse:
         """
         Gets authorizer CA's certificate revocation list.
 
@@ -61,7 +57,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response = self._http_stream(
             UrlEnum.AUTHORIZER.CERT_REVOCATION_LIST, path_params={"id": cert_id}
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK, stream)
+        return PrivXStreamResponse(response, HTTPStatus.OK)
 
     def get_target_host_credentials(
         self,
@@ -198,9 +194,7 @@ class AuthorizerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def download_extender_cert(
-        self, cert_id: str, stream: bool = False
-    ) -> PrivXStreamResponse:
+    def download_extender_cert(self, cert_id: str) -> PrivXStreamResponse:
         """
         Gets authorizer's extender CA certificate.
 
@@ -210,10 +204,10 @@ class AuthorizerAPI(BasePrivXAPI):
         response = self._http_stream(
             UrlEnum.AUTHORIZER.EXTENDER_CERT, path_params={"id": cert_id}
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK, stream)
+        return PrivXStreamResponse(response, HTTPStatus.OK)
 
     def download_extender_cert_revocation_list(
-        self, cert_id: str, stream: bool = False
+        self, cert_id: str
     ) -> PrivXStreamResponse:
         """
         Gets authorizer CA's certificate revocation list.
@@ -225,7 +219,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.EXTENDER_CERT_REVOCATION_LIST,
             path_params={"id": cert_id},
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK, stream)
+        return PrivXStreamResponse(response, HTTPStatus.OK)
 
     def enroll_end_entity_cert(
         self,
@@ -279,7 +273,6 @@ class AuthorizerAPI(BasePrivXAPI):
         self,
         trusted_client_id: str,
         session_id: str,
-        stream: bool = False,
     ) -> PrivXStreamResponse:
         """
         Gets a extender-config.toml pre-configured for this PrivX installation.
@@ -294,7 +287,7 @@ class AuthorizerAPI(BasePrivXAPI):
                 "session_id": session_id,
             },
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK, stream)
+        return PrivXStreamResponse(response, HTTPStatus.OK)
 
     def create_deployment_script_download_handle(
         self, trusted_client_id: str
@@ -315,7 +308,6 @@ class AuthorizerAPI(BasePrivXAPI):
         self,
         trusted_client_id: str,
         session_id: str,
-        stream: bool = False,
     ) -> PrivXStreamResponse:
         """
         Gets a deployment script pre-configured for this PrivX installation.
@@ -330,12 +322,9 @@ class AuthorizerAPI(BasePrivXAPI):
                 "session_id": session_id,
             },
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK, stream)
+        return PrivXStreamResponse(response, HTTPStatus.OK)
 
-    def download_command_script(
-        self,
-        stream: bool = False,
-    ) -> PrivXStreamResponse:
+    def download_principal_command_script(self) -> PrivXStreamResponse:
         """
         Gets the principals_command.sh script.
 
@@ -345,7 +334,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response = self._http_stream(
             UrlEnum.AUTHORIZER.DOWNLOAD_COMMAND_SCRIPT,
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK, stream)
+        return PrivXStreamResponse(response, HTTPStatus.OK)
 
     def create_carrier_config_download_handle(
         self, trusted_client_id: str
@@ -366,7 +355,6 @@ class AuthorizerAPI(BasePrivXAPI):
         self,
         trusted_client_id: str,
         session_id: str,
-        stream: bool = False,
     ) -> PrivXStreamResponse:
         """
         Gets a carrier-config.toml pre-configured for this PrivX installation.
@@ -381,7 +369,7 @@ class AuthorizerAPI(BasePrivXAPI):
                 "session_id": session_id,
             },
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK, stream)
+        return PrivXStreamResponse(response, HTTPStatus.OK)
 
     def create_web_proxy_config_download_handle(
         self, trusted_client_id: str
@@ -402,7 +390,6 @@ class AuthorizerAPI(BasePrivXAPI):
         self,
         trusted_client_id: str,
         session_id: str,
-        stream: bool = False,
     ) -> PrivXStreamResponse:
         """
         Gets a web-proxy-config.toml pre-configured for this PrivX installation.
@@ -417,7 +404,7 @@ class AuthorizerAPI(BasePrivXAPI):
                 "session_id": session_id,
             },
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK, stream)
+        return PrivXStreamResponse(response, HTTPStatus.OK)
 
     def get_cert_auth_templates(
         self, service: Optional[str] = None

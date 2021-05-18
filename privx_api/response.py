@@ -1,6 +1,6 @@
 import http.client
 import json
-from typing import Any, Union
+from typing import Any
 
 
 class BaseResponse:
@@ -62,8 +62,7 @@ class PrivXAPIResponse(BaseResponse):
 
 class PrivXStreamResponse(BaseResponse):
     """
-    For streaming the response use argument stream=True and iter_content(chunk_size)
-    e.g.
+    Example:
     with open("test.txt", "w") as file:
         for char in StreamResponseObject.iter_content(chunk_size):
             file.write(char.decode("utf-8"))
@@ -73,39 +72,19 @@ class PrivXStreamResponse(BaseResponse):
         self,
         response: http.client.HTTPResponse,
         expected_status: int,
-        stream: bool = False,
     ):
         super().__init__()
         self._response = response
-        self.status = response.status
-
-        if not stream:
-            self._content = self._format_content()
-            self._ok = expected_status == self.status
-            self._data = (
-                self._content
-                if self._ok
-                else {
-                    "status": self.status,
-                    "details": self._content,
-                }
-            )
-            # close the response
-            if not self._response.isclosed():
-                self._response.close()
+        self._status = response.status
+        self._ok = self._status == expected_status
 
     def __str__(self) -> str:
-        return "PrivXStreamResponse {}".format(self.status)
+        return "PrivXStreamResponse {}".format(self._status)
 
-    def _format_content(self) -> Union[str, bytes]:
-        raw = self._response.read()
-        try:
-            content = raw.decode("utf-8")
-        except UnicodeDecodeError:
-            content = raw
-        return content
+    def data(self):
+        raise NotImplementedError("Should not access all data in a stream response")
 
-    def iter_content(self, chunk_size: int = 1) -> bytes:
+    def iter_content(self, chunk_size: int = 1024 * 1024) -> bytes:
         """
         Generator for reading and returning response by chunk
         """

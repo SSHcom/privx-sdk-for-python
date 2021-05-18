@@ -53,9 +53,8 @@ def download_trail_log(conn_id: str, chan_id: str, sess_id: str, log_format: str
     """Download trail log"""
     trail = api.download_trail_log(conn_id, chan_id, sess_id, log_format)
     if trail.ok():
-        return trail.data()
+        return b"".join(trail.iter_content()).decode()
 
-    print(trail.data()["details"])
     sys.exit(1)
 
 
