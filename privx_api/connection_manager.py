@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Dict, Optional
+from typing import Optional
 
 from privx_api.base import BasePrivXAPI
 from privx_api.enums import UrlEnum
@@ -46,7 +46,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         limit: Optional[int] = None,
         sort_key: Optional[str] = None,
         sort_dir: Optional[str] = None,
-        connection_params: Optional[Dict] = None,
+        connection_params: Optional[dict] = None,
     ) -> PrivXAPIResponse:
         """
         Search for connections.
@@ -247,7 +247,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
     def terminate_connection(
         self,
         connection_id: str,
-        termination_params: Optional[Dict] = None,
+        termination_params: Optional[dict] = None,
     ) -> PrivXAPIResponse:
         """
         Terminate connection by ID.
@@ -267,7 +267,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
     def terminate_connection_by_host(
         self,
         host_id: str,
-        termination_params: Optional[Dict] = None,
+        termination_params: Optional[dict] = None,
     ) -> PrivXAPIResponse:
         """
         Terminate connection by ID.
@@ -287,7 +287,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
     def terminate_connection_by_user(
         self,
         user_id: str,
-        termination_params: Optional[Dict] = None,
+        termination_params: Optional[dict] = None,
     ) -> PrivXAPIResponse:
         """
         Terminate connection(s) of a user.
