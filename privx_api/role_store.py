@@ -678,16 +678,3 @@ class RoleStoreAPI(BasePrivXAPI):
             body=authorized_keys,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
-
-    #
-    # List accessible AWS roles.
-    #
-    def list_aws_roles(self) -> PrivXAPIResponse:
-        """
-        Get AWS roles.
-
-        Returns:
-            PrivXAPIResponse
-        """
-        response_status, data = self._http_get(UrlEnum.ROLE_STORE.AWS_ROLES)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
