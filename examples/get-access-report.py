@@ -24,7 +24,7 @@ api.authenticate("API client ID", "API client secret")
 
 
 def get_user_id(user):
-    resp = api.search_users(keywords=user)
+    resp = api.search_users(search_payload={"keywords": "user"})
     if resp.ok:
         data_load = resp.data
         data_items = data_load["items"]
@@ -46,7 +46,11 @@ def get_connection_data(user_id):
     offset = 0
     limit = 1000
     if user_id:
-        resp = api.search_connections(user_id=[user_id], offset=offset, limit=limit)
+        resp = api.search_connections(
+            connection_params={"user_id": [user_id]},
+            offset=offset,
+            limit=limit,
+        )
     else:
         resp = api.search_connections(offset=offset, limit=limit)
 
@@ -58,7 +62,9 @@ def get_connection_data(user_id):
             offset = offset + limit
             if user_id:
                 resp = api.search_connections(
-                    user_id=[user_id], offset=offset, limit=limit
+                    connection_params={"user_id": [user_id]},
+                    offset=offset,
+                    limit=limit,
                 )
             else:
                 resp = api.search_connections(offset=offset, limit=limit)

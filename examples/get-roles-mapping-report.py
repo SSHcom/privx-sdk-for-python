@@ -37,23 +37,23 @@ def get_roles():
 
 
 def get_role_mapping_data(role_id, role_name):
-    resp = api.search_hosts(role=[role_id])
-    if resp.ok:
-        data_load = resp.data
-    else:
+    resp = api.search_hosts(search_payload={"role": [role_id]})
+    if not resp.ok:
         error = "Hosts search operation failed:"
         process_error(error)
+
+    data_load = resp.data
     role_hosts = {}
     hosts_accounts = {}
     hosts_accounts_list = {}
     all_data = []
     if data_load["count"]:
         resp1 = api.get_role_members(role_id)
-        if resp1.ok:
-            data_load1 = resp1.data
-        else:
+        if not resp1.ok:
             error = "Get role members operation failed:"
             process_error(error)
+
+        data_load1 = resp1.data
     else:
         return None
     members = []
