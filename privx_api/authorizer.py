@@ -47,7 +47,7 @@ class AuthorizerAPI(BasePrivXAPI):
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
-    def download_certificate_revocation_list(self, cert_id: str) -> PrivXStreamResponse:
+    def download_cert_revocation_list(self, cert_id: str) -> PrivXStreamResponse:
         """
         Gets authorizer CA's certificate revocation list.
 
@@ -75,7 +75,7 @@ class AuthorizerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_authorizer_principals(self) -> PrivXAPIResponse:
+    def get_principals(self) -> PrivXAPIResponse:
         """
         Get defined principals from the authorizer.
 
@@ -85,7 +85,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response_status, data = self._http_get(UrlEnum.AUTHORIZER.PRINCIPALS)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_group_principal_key(
+    def get_principal(
         self,
         group_id: str,
         key_id: Optional[str] = None,
@@ -108,7 +108,7 @@ class AuthorizerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def delete_authorizer_principal_key(
+    def delete_principal_key(
         self, group_id: str, key_id: Optional[str] = None
     ) -> PrivXAPIResponse:
         """
@@ -125,7 +125,7 @@ class AuthorizerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def create_authorizer_principal_key(
+    def create_principal_key(
         self,
         group_id: str,
     ) -> PrivXAPIResponse:
@@ -141,7 +141,7 @@ class AuthorizerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def import_authorizer_principal_key(
+    def import_principal_key(
         self, group_id: str, principal_key_params: dict
     ) -> PrivXAPIResponse:
         """
@@ -157,7 +157,7 @@ class AuthorizerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def sign_by_authorizer_principal_key(
+    def sign_with_principal_key(
         self,
         group_id: str,
         key_id: str,
@@ -178,80 +178,59 @@ class AuthorizerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_extender_certs(
-        self, access_group_id: Optional[str] = None
+    def get_component_certs(
+        self,
+        ca_type: str,
+        access_group_id: Optional[str] = None,
     ) -> PrivXAPIResponse:
         """
-        Gets authorizer's extender CA certificates.
+        Gets authorizer's CA certificates.
+        ca_type should be `extender` or `icap`.
 
         Returns:
             PrivXAPIResponse
         """
         search_params = self._get_search_params(access_group_id=access_group_id)
         response_status, data = self._http_get(
-            UrlEnum.AUTHORIZER.EXTENDER_CERTS,
+            UrlEnum.AUTHORIZER.COMPONENT_CERTS,
+            path_params={"ca_type": ca_type},
             query_params=search_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def download_extender_cert(self, cert_id: str) -> PrivXStreamResponse:
+    def download_component_cert(
+        self, ca_type: str, cert_id: str
+    ) -> PrivXStreamResponse:
         """
-        Gets authorizer's extender CA certificate.
+        Gets authorizer's CA certificate.
+        ca_type should be `extender` or `icap`.
 
         Returns:
             PrivXStreamResponse
         """
         response = self._http_stream(
-            UrlEnum.AUTHORIZER.EXTENDER_CERT, path_params={"id": cert_id}
+            UrlEnum.AUTHORIZER.COMPONENT_CERT,
+            path_params={"id": cert_id, "ca_type": ca_type},
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
-    def download_extender_cert_revocation_list(
-        self, cert_id: str
+    def download_component_cert_crl(
+        self,
+        ca_type: str,
+        cert_id: str,
     ) -> PrivXStreamResponse:
         """
         Gets authorizer CA's certificate revocation list.
+        ca_type should be `extender` or `icap`.
 
         Returns:
             PrivXStreamResponse
         """
         response = self._http_stream(
-            UrlEnum.AUTHORIZER.EXTENDER_CERT_REVOCATION_LIST,
-            path_params={"id": cert_id},
+            UrlEnum.AUTHORIZER.COMPONENT_CERT_REVOCATION_LIST,
+            path_params={"id": cert_id, "ca_type": ca_type},
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
-
-    def enroll_end_entity_cert(
-        self,
-        enrollment_params: dict,
-    ) -> PrivXAPIResponse:
-        """
-        Enroll an EE certificate from extender CA.
-
-        Returns:
-            PrivXAPIResponse
-        """
-        response_status, data = self._http_post(
-            UrlEnum.AUTHORIZER.ENROLL_END_ENTITY_CERT,
-            body=enrollment_params,
-        )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
-
-    def revoke_extender_cert(
-        self,
-        revocation_params: dict,
-    ) -> PrivXAPIResponse:
-        """
-        Revoke a certificate.
-
-        Returns:
-            PrivXAPIResponse
-        """
-        response_status, data = self._http_post(
-            UrlEnum.AUTHORIZER.REVOKE_EXTENDER_CERT,
-            body=revocation_params,
-        )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def create_extender_config_download_handle(
         self,
@@ -537,6 +516,18 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.ACCESS_GROUP,
             path_params={"id": access_group_id},
             body=access_group_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def delete_access_group(self, access_group_id: str) -> PrivXAPIResponse:
+        """
+        Delete access group.
+
+        Returns:
+            PrivXStreamResponse
+        """
+        response_status, data = self._http_delete(
+            UrlEnum.AUTHORIZER.ACCESS_GROUP, path_params={"id": access_group_id}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
