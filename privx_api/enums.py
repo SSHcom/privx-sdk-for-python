@@ -307,23 +307,21 @@ class AuthorizerEnum:
     CARRIER_CONFIG_SESSION_ID = "AUTHORIZER.CARRIER_CONFIG_SESSION_ID"
     CERT_AUTH_TEMPLATES = "AUTHORIZER.CERT_AUTH_TEMPLATES"
     CERT_REVOCATION_LIST = "AUTHORIZER.CERT_REVOCATION_LIST"
+    COMPONENT_CERT = "AUTHORIZER.COMPONENT_CERT"
+    COMPONENT_CERTS = "AUTHORIZER.COMPONENT_CERTS"
+    COMPONENT_CERT_REVOCATION_LIST = "AUTHORIZER.COMPONENT_CERT_REVOCATION_LIST"
     CREATE_GROUP_PRINCIPAL_KEY = "AUTHORIZER.CREATE_GROUP_PRINCIPAL_KEY"
     DEPLOYMENT_SCRIPT_SESSION_ID = "AUTHORIZER.DEPLOYMENT_SCRIPT_SESSION_ID"
     DOWNLOAD_CARRIER_CONFIG = "AUTHORIZER.DOWNLOAD_CARRIER_CONFIG"
     DOWNLOAD_COMMAND_SCRIPT = "AUTHORIZER.DOWNLOAD_COMMAND_SCRIPT"
     DOWNLOAD_DEPLOYMENT_SCRIPT = "AUTHORIZER.DOWNLOAD_DEPLOYMENT_SCRIPT"
     DOWNLOAD_WEB_PROXY_CONFIG = "AUTHORIZER.DOWNLOAD_WEB_PROXY_CONFIG"
-    ENROLL_END_ENTITY_CERT = "AUTHORIZER.ENROLL_END_ENTITY_CERT"
-    EXTENDER_CERT = "AUTHORIZER.EXTENDER_CERT"
-    EXTENDER_CERTS = "AUTHORIZER.EXTENDER_CERTS"
-    EXTENDER_CERT_REVOCATION_LIST = "AUTHORIZER.EXTENDER_CERT_REVOCATION_LIST"
     EXTENDER_CONFIG = "AUTHORIZER.EXTENDER_CONFIG"
     EXTENDER_CONFIG_SESSION_ID = "AUTHORIZER.EXTENDER_CONFIG_SESSION_ID"
     EXTENDER_TRUST_ANCHOR = "AUTHORIZER.EXTENDER_TRUST_ANCHOR"
     GROUP_PRINCIPAL_KEY = "AUTHORIZER.GROUP_PRINCIPAL_KEY"
     IMPORT_GROUP_PRINCIPAL_KEY = "AUTHORIZER.IMPORT_GROUP_PRINCIPAL_KEY"
     PRINCIPALS = "AUTHORIZER.PRINCIPALS"
-    REVOKE_EXTENDER_CERT = "AUTHORIZER.REVOKE_EXTENDER_CERT"
     SEARCH_ACCESS_GROUPS = "AUTHORIZER.SEARCH_ACCESS_GROUPS"
     SEARCH_CERTS = "AUTHORIZER.SEARCH_CERTS"
     SIGN_GROUP_PRINCIPAL_KEY = "AUTHORIZER.SIGN_GROUP_PRINCIPAL_KEY"
@@ -341,6 +339,9 @@ class AuthorizerEnum:
         "/{trusted_client_id}",
         CERT_AUTH_TEMPLATES: "/authorizer/api/v1/cert/templates",
         CERT_REVOCATION_LIST: "/authorizer/api/v1/cas/{id}/crl",
+        COMPONENT_CERT: "/authorizer/api/v1/{ca_type}/cas/{id}",
+        COMPONENT_CERTS: "/authorizer/api/v1/{ca_type}/cas",
+        COMPONENT_CERT_REVOCATION_LIST: "/authorizer/api/v1/{ca_type}/cas/{id}/crl",
         CREATE_GROUP_PRINCIPAL_KEY: "/authorizer/api/v1/principals/{group_id}/create",
         DEPLOYMENT_SCRIPT_SESSION_ID: "/authorizer/api/v1/deploy/{trusted_client_id}",
         DOWNLOAD_CARRIER_CONFIG: "/authorizer/api/v1/carrier/conf/{trusted_client_id}"
@@ -350,10 +351,6 @@ class AuthorizerEnum:
         "session_id}",
         DOWNLOAD_WEB_PROXY_CONFIG: "/authorizer/api/v1/icap/conf/{trusted_client_id}"
         "/{session_id}",
-        ENROLL_END_ENTITY_CERT: "/authorizer/api/v1/extender/enroll",
-        EXTENDER_CERT: "/authorizer/api/v1/extender/cas/{id}",
-        EXTENDER_CERTS: "/authorizer/api/v1/extender/cas",
-        EXTENDER_CERT_REVOCATION_LIST: "/authorizer/api/v1/extender/cas/{id}/crl",
         EXTENDER_CONFIG: "/authorizer/api/v1/extender/conf/{trusted_client_id}"
         "/{session_id}",
         EXTENDER_CONFIG_SESSION_ID: "/authorizer/api/v1/extender/conf"
@@ -362,7 +359,6 @@ class AuthorizerEnum:
         GROUP_PRINCIPAL_KEY: "/authorizer/api/v1/principals/{group_id}",
         IMPORT_GROUP_PRINCIPAL_KEY: "/authorizer/api/v1/principals/{group_id}/import",
         PRINCIPALS: "/authorizer/api/v1/principals",
-        REVOKE_EXTENDER_CERT: "/authorizer/api/v1/extender/revoke",
         SEARCH_ACCESS_GROUPS: "/authorizer/api/v1/accessgroups/search",
         SEARCH_CERTS: "/authorizer/api/v1/cert/search",
         SIGN_GROUP_PRINCIPAL_KEY: "/authorizer/api/v1/principals/{group_id}/sign",
