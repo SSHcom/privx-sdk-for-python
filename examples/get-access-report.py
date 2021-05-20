@@ -6,8 +6,9 @@ import sys
 # Import the configs.
 import config
 
-# Import the PrivX python library.
-import privx_api
+# in order to import privx_sdk from current directory
+sys.path.append("..")
+import privx_api  # noqa E-402
 
 # Initialize the API.
 api = privx_api.PrivXAPI(
@@ -20,7 +21,7 @@ api = privx_api.PrivXAPI(
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
-api.authenticate("API client ID", "API client secret")
+api.authenticate(config.API_CLIENT_ID, config.API_CLIENT_SECRET)
 
 
 def get_user_id(user):

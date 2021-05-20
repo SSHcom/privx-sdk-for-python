@@ -6,8 +6,9 @@ import sys
 
 import config
 
-# Import the PrivX python library.
-import privx_api
+# in order to import privx_sdk from current directory
+sys.path.append("..")
+import privx_api  # noqa E-402
 
 # Specify the path to the host-data JSON file.
 # By default, uses the example-host-import.json from the data directory.
@@ -30,7 +31,7 @@ api = privx_api.PrivXAPI(
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
-api.authenticate("API client ID", "API client secret")
+api.authenticate(config.API_CLIENT_ID, config.API_CLIENT_SECRET)
 
 for hostdata in hosts:
     principals = []
