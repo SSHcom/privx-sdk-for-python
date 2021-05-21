@@ -8,9 +8,18 @@ import sys
 
 import config
 
-# in order to import privx_sdk from current directory
-sys.path.append("..")
-import privx_api  # noqa E-402
+# this importation for demonstration purpose only
+# for proper importation of privx_api module
+# see https://github.com/SSHcom/privx-sdk-for-python#getting-started
+try:
+    # Running example with pip-installed SDK
+    import privx_api
+except ImportError:
+    # Running example without installing SDK
+    from utils import load_privx_api_lib_path
+
+    load_privx_api_lib_path()
+    import privx_api
 
 # Replace with the ID of the connection to output
 CONNECTION_ID = "CONNECTION_ID"
