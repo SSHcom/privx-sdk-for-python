@@ -17,17 +17,17 @@ def format_path_components(format_str: str, **kw) -> str:
 
 
 class Connection:
-    def __init__(self, connection_info):
+    def __init__(self, connection_info) -> None:
         self.host = connection_info["host"]
         self.port = connection_info["port"]
         self.ca_cert = connection_info["ca_cert"]
         self._connection = None
 
-    def __enter__(self):
+    def __enter__(self) -> http.client.HTTPSConnection:
         self._connection = self.connect()
         return self._connection
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
         self._connection.close()
 
     def connect(self) -> http.client.HTTPSConnection:
@@ -46,7 +46,7 @@ class BasePrivXAPI:
 
     def __init__(
         self, hostname, hostport, ca_cert, oauth_client_id, oauth_client_secret
-    ):
+    ) -> None:
         self._access_token = ""
         self._oauth_client_id = oauth_client_id
         self._oauth_client_secret = oauth_client_secret
