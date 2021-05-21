@@ -1,10 +1,12 @@
 # An example how to use PrivX API for host creation.
 # Requires Python 3.6+
+import sys
 
 import config
 
-# Import the PrivX python library.
-import privx_api
+# in order to import privx_sdk from current directory
+sys.path.append("..")
+import privx_api  # noqa E-402
 
 # Initialize the API.
 api = privx_api.PrivXAPI(
@@ -17,7 +19,7 @@ api = privx_api.PrivXAPI(
 
 # Authenticate.
 # NOTE: fill in your credentials from secure storage, this is just an example
-api.authenticate("API client ID", "API client secret")
+api.authenticate(config.API_CLIENT_ID, config.API_CLIENT_SECRET)
 
 # Search role ID for host account mapping.
 role_id = ""
