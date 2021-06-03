@@ -38,8 +38,7 @@ VALIDITY = 1
 def main():
     # Get user.
     print("Searching for user", EMAIL)
-    resp = api.search_users(
-            search_payload={"keywords": EMAIL})
+    resp = api.search_users(search_payload={"keywords": EMAIL})
 
     userID = ""
 
