@@ -3,12 +3,23 @@
 # similar services.
 # Requires Python 3.6+
 
+import datetime
 import sys
 
-# Import the PrivX python library.
-import privx_api
 import config
-import datetime
+
+# this importation for demonstration purpose only
+# for proper importation of privx_api module
+# see https://github.com/SSHcom/privx-sdk-for-python#getting-started
+try:
+    # Running example with pip-installed SDK
+    import privx_api
+except ImportError:
+    # Running example without installing SDK
+    from utils import load_privx_api_lib_path
+
+    load_privx_api_lib_path()
+    import privx_api
 
 # Initialize the API.
 api = privx_api.PrivXAPI(
