@@ -11,12 +11,16 @@ import config
 import datetime
 
 # Initialize the API.
-api = privx_api.PrivXAPI(config.HOSTNAME, config.HOSTPORT, config.CA_CERT,
-                         config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET)
+api = privx_api.PrivXAPI(
+    config.HOSTNAME,
+    config.HOSTPORT,
+    config.CA_CERT,
+    config.OAUTH_CLIENT_ID,
+    config.OAUTH_CLIENT_SECRET,
+)
 
 # Authenticate.
-# NOTE: fill in your credentials from secure storage, this is just an example
-api.authenticate("API client ID", "API client secret")
+api.authenticate(config.API_CLIENT_ID, config.API_CLIENT_SECRET)
 
 
 # Target-user name
@@ -35,84 +39,100 @@ GRANT_TYPE = "FLOATING"
 VALIDITY = 1
 
 
-def main():
-    # Get user.
-    print("Searching for user", EMAIL)
-    resp = api.search_users(search_payload={"keywords": EMAIL})
+def get_user_ID(email: str) -> str:
+    """
+    Return the ID of the user with the given email.
 
-    userID = ""
+    :param email: Email address of the user.
+    :return: Matching user's ID. None if the user cannot be found.
+    """
+    response = api.search_users(search_payload={"keywords": EMAIL})
 
-    if resp.ok():
-        for item in resp.data().get("items"):
-            if item.get("email") == EMAIL:
-                userID = item.get("id")
-                roles = item.get("roles")
+    if not response.ok:
+        print(response.data)
+        sys.exit(1)
+
+    for item in response.data.get("items"):
+        if item.get("email") == EMAIL:
+            return item.get("id")
     else:
-        print(resp.data())
+        return None
+
+
+def get_user_roles(user_id: str) -> list:
+    """
+    Return the current roles of the target user.
+
+    :param user_id: ID of the target user.
+    :return: List of target-user's roles.
+    """
+    response = api.get_user_roles(user_id)
+
+    if not response.ok:
+        print(response.data)
         sys.exit(1)
 
-    if userID == "":
-        print("Did not find user ID")
+    return response.data.get("items")
+
+
+def get_role_ID(name: str) -> str:
+    """
+    Return the ID of the named role.
+
+    :param name: Name of the role.
+    :return: Matching role's ID. None if the role cannot be found.
+    """
+    response = api.get_roles()
+
+    if not response.ok:
+        print(response.data)
         sys.exit(1)
 
-    print("Found user", userID)
-
-    roleID = ""
-
-    print("Fetching roles")
-    roles = api.get_roles()
-    if roles.ok():
-        roles = roles.data()
-        for role in roles.get("items"):
-            if role.get("name") == ROLE:
-                roleID = role.get("id")
-                print("Found role", ROLE, "with ID", roleID)
-        if roleID == "":
-            print("Cannot find role:", ROLE)
-            sys.exit(1)
-
+    for role in response.data.get("items"):
+        if role.get("name") == ROLE:
+            return role.get("id")
     else:
-        print(resp.data())
-        sys.exit(1)
+        return None
 
-    print("Fetching user roles")
-    userRolesQuery = api.get_user_roles(userID)
-    if not userRolesQuery.ok():
-        print(userRolesQuery.data())
-        sys.exit(1)
 
-    userRoles = userRolesQuery.data().get("items")
+def get_new_role(role_id: str, grant_type: str, duration=1) -> object:
+    """
+    Return the role object for granting target-role membership.
 
-    if GRANT_TYPE not in ("PERMANENT", "FLOATING", "TIME_RESTRICTED"):
-        print("Invalid GRANT_TYPE:", GRANT_TYPE)
-        sys.exit(1)
+    :param role_id: ID of the target role.
+    :param grant_type: Grant type for specifying membership validity.
+    :param duration: Validity period of the grant.
+                     Only applicable to non-permanent grant types.
 
-    print("Updating roles for user")
-    if GRANT_TYPE == "PERMANENT":
-        role = {
-            "id": roleID,
+    :return: Role object for the specified grant.
+    """
+    start = datetime.datetime.utcnow()
+    end = start + datetime.timedelta(hours=duration)
+
+    roles = {
+        "PERMANENT":
+        {
+            "id": role_id,
             "name": ROLE,
             "grant_type": "PERMANENT",
             "grant_start": None,
             "grant_end": None,
             "floating_length": None,
             "explicit": True
-        }
-    elif GRANT_TYPE == "FLOATING":
-        role = {
-            "id": roleID,
+        },
+        "FLOATING":
+        {
+            "id": role_id,
             "name": ROLE,
             "grant_type": "FLOATING",
             "grant_start": None,
             "grant_end": None,
-            "floating_length": VALIDITY,
+            "floating_length": duration,
             "explicit": True
-        }
-    elif GRANT_TYPE == "TIME_RESTRICTED":
-        start = datetime.datetime.utcnow()
-        end = start + datetime.timedelta(hours=VALIDITY)
-        role = {
-            "id": roleID,
+        },
+        "TIME_RESTRICTED":
+        {
+            "id": role_id,
             "name": ROLE,
             "grant_type": "TIME_RESTRICTED",
             "grant_start": start.isoformat() + "Z",
@@ -120,16 +140,47 @@ def main():
             "floating_length": 0,
             "explicit": True
         }
+    }
 
-    print(role)
+    if grant_type not in roles:
+        print(f"Invalid grant type {grant_type}. Exiting...")
+        sys.exit(1)
+
+    return roles[grant_type]
+
+
+def main():
+    print(f"Searching for user {EMAIL}")
+    userID = get_user_ID(EMAIL)
+    if not userID:
+        print(f"Cannot find user with email {EMAIL}. Exiting...")
+        sys.exit(1)
+
+    print(f"Fetching target role {ROLE}")
+    roleID = get_role_ID(ROLE)
+    if not roleID:
+        print(f"Cannot find role with name {ROLE}. Exiting...")
+        sys.exit(1)
+
+    print("Fetching user's existing roles")
+    userRolesQuery = api.get_user_roles(userID)
+    if not userRolesQuery.ok:
+        print(userRolesQuery.data)
+        sys.exit(1)
+
+    print("Determining new role setup for user.")
+    userRoles = get_user_roles(userID)
+    role = get_new_role(roleID, GRANT_TYPE, VALIDITY)
     userRoles.append(role)
-    resp = api.set_user_roles(userID, userRoles)
 
-    if resp.ok():
+    print("Updating roles for user")
+    response = api.set_user_roles(userID, userRoles)
+
+    if response.ok:
         print("User roles updated.")
     else:
-        print("User role update failed.")
-        print(resp.data())
+        print(response.data)
+        print("User-role update failed.")
 
 
 if __name__ == "__main__":
