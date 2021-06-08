@@ -50,7 +50,7 @@ GRANT_TYPE = "FLOATING"
 VALIDITY = 1
 
 
-def get_user_ID(email: str) -> str:
+def get_user_id(email: str) -> str:
     """
     Return the ID of the user with the given email.
 
@@ -86,7 +86,7 @@ def get_user_roles(user_id: str) -> list:
     return response.data.get("items")
 
 
-def get_role_ID(name: str) -> str:
+def get_role_id(name: str) -> str:
     """
     Return the ID of the named role.
 
@@ -106,7 +106,7 @@ def get_role_ID(name: str) -> str:
         return None
 
 
-def get_new_role(role_id: str, grant_type: str, duration=1) -> object:
+def get_requested_role(role_id: str, grant_type: str, duration: int = None) -> object:
     """
     Return the role object for granting target-role membership.
 
@@ -117,6 +117,7 @@ def get_new_role(role_id: str, grant_type: str, duration=1) -> object:
 
     :return: Role object for the specified grant.
     """
+    duration = 1 if not duration else abs(int(duration))
     start = datetime.datetime.utcnow()
     end = start + datetime.timedelta(hours=duration)
 
@@ -162,13 +163,13 @@ def get_new_role(role_id: str, grant_type: str, duration=1) -> object:
 
 def main():
     print(f"Searching for user {EMAIL}")
-    userID = get_user_ID(EMAIL)
+    userID = get_user_id(EMAIL)
     if not userID:
         print(f"Cannot find user with email {EMAIL}. Exiting...")
         sys.exit(1)
 
     print(f"Fetching target role {ROLE}")
-    roleID = get_role_ID(ROLE)
+    roleID = get_role_id(ROLE)
     if not roleID:
         print(f"Cannot find role with name {ROLE}. Exiting...")
         sys.exit(1)
@@ -181,7 +182,7 @@ def main():
 
     print("Determining new role setup for user.")
     userRoles = get_user_roles(userID)
-    role = get_new_role(roleID, GRANT_TYPE, VALIDITY)
+    role = get_requested_role(roleID, GRANT_TYPE, VALIDITY)
     userRoles.append(role)
 
     print("Updating roles for user")
