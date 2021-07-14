@@ -122,36 +122,33 @@ def get_requested_role(role_id: str, grant_type: str, duration: int = None) -> o
     end = start + datetime.timedelta(hours=duration)
 
     roles = {
-        "PERMANENT":
-        {
+        "PERMANENT": {
             "id": role_id,
             "name": ROLE,
             "grant_type": "PERMANENT",
             "grant_start": None,
             "grant_end": None,
             "floating_length": None,
-            "explicit": True
+            "explicit": True,
         },
-        "FLOATING":
-        {
+        "FLOATING": {
             "id": role_id,
             "name": ROLE,
             "grant_type": "FLOATING",
             "grant_start": None,
             "grant_end": None,
             "floating_length": duration,
-            "explicit": True
+            "explicit": True,
         },
-        "TIME_RESTRICTED":
-        {
+        "TIME_RESTRICTED": {
             "id": role_id,
             "name": ROLE,
             "grant_type": "TIME_RESTRICTED",
             "grant_start": start.isoformat() + "Z",
             "grant_end": end.isoformat() + "Z",
             "floating_length": 0,
-            "explicit": True
-        }
+            "explicit": True,
+        },
     }
 
     if grant_type not in roles:
