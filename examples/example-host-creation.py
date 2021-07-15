@@ -16,6 +16,11 @@ except ImportError:
     load_privx_api_lib_path()
     import privx_api
 
+
+HOST_DNS = "test.privx.ssh.com"
+HOST_IP = "192.168.0.10"
+
+
 # Initialize the API.
 api = privx_api.PrivXAPI(
     config.HOSTNAME,
@@ -42,11 +47,11 @@ if role_id == "":
 # Create host.
 data = {
     "common_name": "api-test",
-    "addresses": ["test.api.host.net", "123.123.123.123"],
+    "addresses": [HOST_DNS, HOST_IP],
     "services": [
         {
             "service": "SSH",
-            "address": "123.123.123.123",
+            "address": HOST_IP,
             "port": 22,
             "source": "UI",
         },
