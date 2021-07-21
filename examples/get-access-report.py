@@ -34,7 +34,7 @@ api.authenticate(config.API_CLIENT_ID, config.API_CLIENT_SECRET)
 
 
 def get_user_id(user):
-    resp = api.search_users(search_payload={"keywords": "user"})
+    resp = api.search_users(search_payload={"keywords": user})
     if resp.ok:
         data_load = resp.data
         data_items = data_load["items"]
@@ -93,7 +93,10 @@ def get_connection_data(user_id):
             connections_data["user"] = connection_data["user"]["display_name"]
             for p in data_list:
                 if p in ("connected", "disconnected"):
-                    connection_data[p] = connection_data[p].split(".")[0]
+                    if connection_data["status"] == "CONNECTED" and p == "disconnected":
+                        connection_data[p] = "CONNECTED"
+                    else:
+                        connection_data[p] = connection_data[p].split(".")[0]
                 if p == "authentication_method":
                     connection_data[p] = ",".join(connection_data[p])
                 connections_data[p] = connection_data[p]
