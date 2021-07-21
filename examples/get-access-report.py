@@ -92,8 +92,10 @@ def get_connection_data(user_id):
         for connection_data in data_items:
             connections_data["user"] = connection_data["user"]["display_name"]
             for p in data_list:
-                if p in ("connected", "disconnected"):
-                    if connection_data["status"] == "CONNECTED" and p == "disconnected":
+                if p == "connected":
+                    connection_data[p] = connection_data[p].split(".")[0]
+                if p == "disconnected":
+                    if connection_data["status"] == "CONNECTED":
                         connection_data[p] = "CONNECTED"
                     else:
                         connection_data[p] = connection_data[p].split(".")[0]
