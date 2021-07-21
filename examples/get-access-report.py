@@ -103,7 +103,7 @@ def process_connection_data(data_items):
                 connections_data[p] = connection_data[p].split(".")[0]
             elif p == "disconnected":
                 # disconnected field is missing if the connection is ongoing
-                connections_data[p] = connection_data.get(p.split(".")[0], "")
+                connections_data[p] = connection_data.get(p, "").split(".")[0]
             elif p == "authentication_method":
                 connections_data[p] = ",".join(connection_data[p])
             else:
