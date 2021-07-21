@@ -89,7 +89,6 @@ def get_connection_data(user_id):
 
 
 def process_connection_data(data_items):
-    connections_data = {}
     all_data = []
     data = (
         "type,mode,authentication_method,target_host_address,"
@@ -97,17 +96,18 @@ def process_connection_data(data_items):
     )
     data_list = data.split(",")
     for connection_data in data_items:
+        connections_data = {}
         connections_data["user"] = connection_data["user"]["display_name"]
         for p in data_list:
             if p == "connected":
-                connection_data[p] = connection_data[p].split(".")[0]
-            if p == "disconnected" and connection_data["status"] == "CONNECTED":
-                connection_data[p] = "CONNECTED"
+                connections_data[p] = connection_data[p].split(".")[0]
             elif p == "disconnected":
-                connection_data[p] = connection_data[p].split(".")[0]
-            if p == "authentication_method":
-                connection_data[p] = ",".join(connection_data[p])
-            connections_data[p] = connection_data[p]
+                # disconnected field is missing if the connection is ongoing
+                connections_data[p] = connection_data.get(p.split(".")[0], "")
+            elif p == "authentication_method":
+                connections_data[p] = ",".join(connection_data[p])
+            else:
+                connections_data[p] = connection_data[p]
         all_data.append(dict(connections_data))
     return all_data
 
