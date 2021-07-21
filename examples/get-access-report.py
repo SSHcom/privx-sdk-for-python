@@ -82,31 +82,34 @@ def get_connection_data(user_id):
             if resp.ok:
                 data_items = data_items + data_load["items"]
                 count = count - limit
-        connections_data = {}
-        all_data = []
-        data = (
-            "type,mode,authentication_method,target_host_address,"
-            "target_host_account,connected,disconnected"
-        )
-        data_list = data.split(",")
-        for connection_data in data_items:
-            connections_data["user"] = connection_data["user"]["display_name"]
-            for p in data_list:
-                if p == "connected":
-                    connection_data[p] = connection_data[p].split(".")[0]
-                if p == "disconnected":
-                    if connection_data["status"] == "CONNECTED":
-                        connection_data[p] = "CONNECTED"
-                    else:
-                        connection_data[p] = connection_data[p].split(".")[0]
-                if p == "authentication_method":
-                    connection_data[p] = ",".join(connection_data[p])
-                connections_data[p] = connection_data[p]
-            all_data.append(dict(connections_data))
-        return all_data
+        return process_connection_data(data_items)
     else:
         error = "Get users Connection data operation failed:"
         process_error(error)
+
+
+def process_connection_data(data_items):
+    connections_data = {}
+    all_data = []
+    data = (
+        "type,mode,authentication_method,target_host_address,"
+        "target_host_account,connected,disconnected"
+    )
+    data_list = data.split(",")
+    for connection_data in data_items:
+        connections_data["user"] = connection_data["user"]["display_name"]
+        for p in data_list:
+            if p == "connected":
+                connection_data[p] = connection_data[p].split(".")[0]
+            if p == "disconnected" and connection_data["status"] == "CONNECTED":
+                connection_data[p] = "CONNECTED"
+            elif p == "disconnected":
+                connection_data[p] = connection_data[p].split(".")[0]
+            if p == "authentication_method":
+                connection_data[p] = ",".join(connection_data[p])
+            connections_data[p] = connection_data[p]
+        all_data.append(dict(connections_data))
+    return all_data
 
 
 def export_connection_data(user, user_id=None):
