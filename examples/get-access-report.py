@@ -78,8 +78,8 @@ def get_connection_data(user_id):
                 )
             else:
                 resp = api.search_connections(offset=offset, limit=limit)
-            data_load = resp.data
             if resp.ok:
+                data_load = resp.data
                 data_items = data_items + data_load["items"]
                 count = count - limit
         return process_connection_data(data_items)
@@ -97,7 +97,7 @@ def process_connection_data(data_items):
     data_list = data.split(",")
     for connection_data in data_items:
         connections_data = {}
-        connections_data["user"] = connection_data["user"]["display_name"]
+        connections_data["user"] = connection_data["user"].get("display_name", "")
         for p in data_list:
             if p == "connected":
                 connections_data[p] = connection_data[p].split(".")[0]
@@ -107,7 +107,7 @@ def process_connection_data(data_items):
             elif p == "authentication_method":
                 connections_data[p] = ",".join(connection_data[p])
             else:
-                connections_data[p] = connection_data[p]
+                connections_data[p] = connection_data.get(p, "")
         all_data.append(dict(connections_data))
     return all_data
 
@@ -117,6 +117,7 @@ def export_connection_data(user, user_id=None):
     connection_data = get_connection_data(user_id)
     if len(connection_data) == 0:
         print("no connection data")
+        sys.exit(2)
     else:
         connection_keys = connection_data[0].keys()
         print("Writing Connection data to", output_csvfile, end=" ")
