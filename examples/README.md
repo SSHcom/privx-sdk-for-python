@@ -19,7 +19,7 @@ You have to register your API client with PrivX before usage. Open PrivX Web UI 
 Settings > Deployment > Integrate With PrivX Using API Clients
 ```
 
-Click `ADD API CLIENT`, give a human readable and permissions. The role permissions for the client varies on the use case, check the PrivX documentation for permission explanation.
+Click `ADD API CLIENT`, give a human readable API client unique name and suitable permissions. The role permissions for the client varies on the use case, check the PrivX documentation for permission explanation.
 Add one or more role by selecting role from list of roles. Adding roles to the API client gives it permissions from that role. For security reasons, only grant permissions that are actually needed.
 
 After the API client creation, you can find the secrets for the client
