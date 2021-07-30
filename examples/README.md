@@ -109,3 +109,45 @@ role_name,principal,full_name,email,samaccountname,windows_account,unix_account,
 UnixAdmins,jimmy.admin,Jimmy Admin,jimmy.admin@privxdemo.ssh.com,,,,LOCAL
 UnixAdmins,rkumar,Rakesh K,rakesh.k@example.com,rkumar,rkumar,rkumar,AD
 ```
+
+Get/Search connection trails for string
+```
+$ python3 search-connections-trails.py -h
+
+search-connections-trails.py  -h or --help
+search-connections-trails.py  -c connection_id
+search-connections-trails.py  -c bb175019-89ed-47b2-55a4-3b407648463f
+search-connections-trails.py  -c connection_id -s search_string
+search-connections-trails.py  -c bb175019-89ed-47b2-55a4-3b407648463f -s uptime
+search-connections-trails.py  -s search_string
+search-connections-trails.py  -s uptime
+search-connections-trails.py  --connection-id connection_id --search-string search_string
+
+Get connection trail for one connection using connection id
+$ python3 search-connections-trails.py -c bb175019-89ed-47b2-55a4-3b407648463f
+
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:19 uptime
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:21 sudo su -
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:23 date
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:26 dmidecode
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:28 last
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:35 demicdecode
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:36
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:39 dmidecode
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:52 uname -a
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:53 exit
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:55 exit
+
+Search specific connection for string specified
+$ python3 search-connections-trails.py -c bb175019-89ed-47b2-55a4-3b407648463f -s dmi
+
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:26 dmidecode
+stdin conn bb175019-89ed-47b2-55a4-3b407648463f chan 0 : 2021-07-26T12:51:39 dmidecode
+
+
+Search for string acorss all connection trails
+$ python3 search-connections-trails.py -s eboot
+
+stdin conn 3fce2f47-d6b9-42a4-749a-7cfde7afb0c7 chan 0 : 2020-09-08T10:43:33 reboot
+stdin conn 9f6aadac-f3a0-4f08-51bb-d2a2cfcbc10c chan 0 : 2021-02-19T12:06:29 reboot
+```
