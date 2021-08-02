@@ -27,6 +27,21 @@ def test_format_path_components(base_url, args, expected):
 
 
 @pytest.mark.parametrize(
+    "base_url, args",
+    [
+        ("/api/{id}/search", {"id": []}),
+        ("/api/search/{ids}", {"ids": [1, 2, 3]}),
+        ("/api/search/{ids}", {"ids": {"one": 1}}),
+        ("/api/search/{ids}", {"ids": None}),
+        ("/api/search/{ids}", {"ids": (1, 2, 3)}),
+    ],
+)
+def test_format_path_components_negative(base_url, args):
+    with pytest.raises(InternalAPIException):
+        format_path_components(base_url, **args)
+
+
+@pytest.mark.parametrize(
     "urlname, path_params, query_params, expected",
     [
         (

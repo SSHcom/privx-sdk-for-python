@@ -12,7 +12,19 @@ from privx_api.exceptions import InternalAPIException
 
 
 def format_path_components(format_str: str, **kw) -> str:
-    components = {k: urllib.parse.quote(v, safe="") for k, v in kw.items()}
+    try:
+        components = {k: urllib.parse.quote(v, safe="") for k, v in kw.items()}
+    except TypeError:
+        incorrect_params = {
+            k: f"{type(v).__name__}"
+            for k, v in kw.items()
+            if isinstance(v, str) is False
+        }
+        error_message = (
+            f"Expect argument type str but got:\n"
+            f"{json.dumps(incorrect_params, indent=4)}"
+        )
+        raise InternalAPIException(error_message)
     return format_str.format(**components)
 
 
