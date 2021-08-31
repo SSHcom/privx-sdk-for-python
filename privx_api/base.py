@@ -48,7 +48,11 @@ class Connection:
         )
 
     def get_context(self) -> ssl.SSLContext:
-        return ssl.create_default_context(cadata=self.ca_cert)
+        try:
+            context = ssl.create_default_context(cadata=self.ca_cert)
+        except ssl.SSLError as e:
+            raise InternalAPIException(e)
+        return context
 
 
 class BasePrivXAPI:
@@ -93,7 +97,7 @@ class BasePrivXAPI:
                     headers=headers,
                 )
             except (OSError, HTTPException) as e:
-                raise InternalAPIException(str(e))
+                raise InternalAPIException(e)
             response = conn.getresponse()
             if response.status != 200:
                 raise InternalAPIException("Invalid response: ", response.status)
@@ -173,7 +177,7 @@ class BasePrivXAPI:
                     )
                 )
             except (OSError, HTTPException) as e:
-                raise InternalAPIException(str(e))
+                raise InternalAPIException(e)
             response = conn.getresponse()
             return response.status, response.read()
 
@@ -186,7 +190,7 @@ class BasePrivXAPI:
             try:
                 conn.request(**request)
             except (OSError, HTTPException) as e:
-                raise InternalAPIException(str(e))
+                raise InternalAPIException(e)
             response = conn.getresponse()
             return response.status, response.read()
 
@@ -210,7 +214,7 @@ class BasePrivXAPI:
                     )
                 )
             except (OSError, HTTPException) as e:
-                raise InternalAPIException(str(e))
+                raise InternalAPIException(e)
             response = conn.getresponse()
             return response.status, response.read()
 
@@ -234,7 +238,7 @@ class BasePrivXAPI:
                     )
                 )
             except (OSError, HTTPException) as e:
-                raise InternalAPIException(str(e))
+                raise InternalAPIException(e)
             response = conn.getresponse()
             return response.status, response.read()
 
@@ -258,7 +262,7 @@ class BasePrivXAPI:
                     )
                 )
             except (OSError, HTTPException) as e:
-                raise InternalAPIException(str(e))
+                raise InternalAPIException(e)
             response = conn.getresponse()
             return response.status, response.read()
 
@@ -281,7 +285,7 @@ class BasePrivXAPI:
                 )
             )
         except (OSError, HTTPException) as e:
-            raise InternalAPIException(str(e))
+            raise InternalAPIException(e)
         return conn.getresponse()
 
     def _make_body_params(self, data: Union[dict, str]) -> str:
