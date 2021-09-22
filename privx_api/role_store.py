@@ -236,7 +236,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_delete(
             UrlEnum.ROLE_STORE.ROLE, path_params={"role_id": role_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def update_role(self, role_id: str, role: dict) -> PrivXAPIResponse:
         """
