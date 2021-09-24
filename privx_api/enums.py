@@ -194,6 +194,9 @@ class VaultEnum:
     SECRET = "VAULT.SECRET"
     SECRETS = "VAULT.SECRETS"
     STATUS = "VAULT.STATUS"
+    USER_SECRETS = "VAULT.USER_SECRETS"
+    USER_SECRET = "VAULT.USER_SECRET"
+    USER_SECRET_METADATA = "VAULT.USER_SECRET_METADATA"
 
     urls = {
         METADATA: "/vault/api/v1/metadata/secrets/{name}",
@@ -202,6 +205,9 @@ class VaultEnum:
         SECRET: "/vault/api/v1/secrets/{name}",
         SECRETS: "/vault/api/v1/secrets",
         STATUS: "/vault/api/v1/status",
+        USER_SECRETS: "/vault/api/v1/user/{user_id}/secrets",
+        USER_SECRET: "/vault/api/v1/user/{user_id}/secrets/{name}",
+        USER_SECRET_METADATA: "/vault/api/v1/user/{user_id}/metadata/secrets/{name}",
     }
 
 

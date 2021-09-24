@@ -31,6 +31,19 @@ class VaultAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
+    def create_user_secret(self, secret_params: dict) -> PrivXAPIResponse:
+        """
+        Create a user secret.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.VAULT.USER_SECRETS,
+            body=secret_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+
     def get_secrets(
         self,
         offset: Optional[int] = None,
@@ -48,6 +61,27 @@ class VaultAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
+    def get_user_secrets(
+        self,
+        userid: str,
+        name: str,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+    ) -> PrivXAPIResponse:
+        """
+        Get secrets that a user owns.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        search_params = self._get_search_params(offset=offset, limit=limit)
+        response_status, data = self._http_get(
+            UrlEnum.VAULT.USER_SECRETS,
+            path_params={"user_id": userid, "name": name},
+            query_params=search_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
     def get_secret(self, name: str) -> PrivXAPIResponse:
         """
         get a secret.
@@ -57,6 +91,18 @@ class VaultAPI(BasePrivXAPI):
         """
         response_status, data = self._http_get(
             UrlEnum.VAULT.SECRET, path_params={"name": name}
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_user_secret(self, userid: str, name: str) -> PrivXAPIResponse:
+        """
+        get a user secret.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.VAULT.USER_SECRET, path_params={"user_id": userid, "name": name}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -74,6 +120,22 @@ class VaultAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
+    def update_user_secret(
+        self, userid: str, name: str, secret_params: dict
+    ) -> PrivXAPIResponse:
+        """
+        Update a user's secret.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.VAULT.USER_SECRET,
+            path_params={"user_id": userid, "name": name},
+            body=secret_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
     def delete_secret(self, name: str) -> PrivXAPIResponse:
         """
         Delete a secret.
@@ -87,6 +149,19 @@ class VaultAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
+    def delete_user_secret(self, userid: str, name: str) -> PrivXAPIResponse:
+        """
+        Delete a user's secret.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_delete(
+            UrlEnum.VAULT.USER_SECRET,
+            path_params={"user_id": userid, "name": name},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
     def get_secret_metadata(self, name: str) -> PrivXAPIResponse:
         """
         Get a secret's metadata.
@@ -96,6 +171,19 @@ class VaultAPI(BasePrivXAPI):
         """
         response_status, data = self._http_get(
             UrlEnum.VAULT.METADATA, path_params={"name": name}
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_user_secret_metadata(self, userid: str, name: str) -> PrivXAPIResponse:
+        """
+        Get a user's secret's metadata.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.VAULT.USER_SECRET_METADATA,
+            path_params={"user_id": userid, "name": name},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
