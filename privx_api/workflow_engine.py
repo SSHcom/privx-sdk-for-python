@@ -181,11 +181,11 @@ class WorkFlowEngineAPI(BasePrivXAPI):
     def search_requests(
         self,
         filter_param: str,
+        request_param: dict,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
         sort_key: Optional[str] = None,
         sort_dir: Optional[str] = None,
-        request_param: Optional[dict] = None,
     ) -> PrivXAPIResponse:
         """
         Search access requests.
