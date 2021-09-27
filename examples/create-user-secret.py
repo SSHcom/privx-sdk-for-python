@@ -44,12 +44,12 @@ SECRET_WRITE_ROLES = ["name-of-role"]
 SECRET_DATA = {"username": "alice", "password": "example_password"}
 
 # Give the secret's owner user id
-SECRET_OWNER = "123456789"
+SECRET_OWNER = "a06a619e-1979-46ef-ab77-8000c2ff1f3c"
 
 
 def main():
     try:
-        _check_secret_already_exists()
+        _check_secret_already_exists(SECRET_NAME)
         read_role_data = _get_role_data(SECRET_READ_ROLES)
         write_role_data = _get_role_data(SECRET_WRITE_ROLES)
     except Exception as e:
@@ -76,7 +76,7 @@ def main():
         print("Secret creation failed!")
 
 
-def _get_role_data(role_names: list) -> list:
+def _get_role_data(role_names: list[str]) -> list[dict]:
     """
     Helper function for obtaining role data by role names.
 
@@ -103,16 +103,16 @@ def _get_role_data(role_names: list) -> list:
     return role_data
 
 
-def _check_secret_already_exists():
+def _check_secret_already_exists(secret_name: str) -> None:
     """
     Helper function to check if secret with SECRET_NAME already exists
 
     :raise: Exception if secret with SECRET_NAME already exists.
     """
-    response = api.get_secret(SECRET_NAME)
+    response = api.get_secret(secret_name)
     if response.ok:
         print(response.data)
-        raise Exception("Secret named " + SECRET_NAME + " already exists!")
+        raise Exception("Secret named " + secret_name + " already exists!")
 
 
 if __name__ == "__main__":

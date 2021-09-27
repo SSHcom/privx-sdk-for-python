@@ -63,7 +63,7 @@ class VaultAPI(BasePrivXAPI):
 
     def get_user_secrets(
         self,
-        userid: str,
+        user_id: str,
         name: str,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
@@ -77,7 +77,7 @@ class VaultAPI(BasePrivXAPI):
         search_params = self._get_search_params(offset=offset, limit=limit)
         response_status, data = self._http_get(
             UrlEnum.VAULT.USER_SECRETS,
-            path_params={"user_id": userid, "name": name},
+            path_params={"user_id": user_id, "name": name},
             query_params=search_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
@@ -94,7 +94,7 @@ class VaultAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_user_secret(self, userid: str, name: str) -> PrivXAPIResponse:
+    def get_user_secret(self, user_id: str, name: str) -> PrivXAPIResponse:
         """
         get a user secret.
 
@@ -102,7 +102,7 @@ class VaultAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(
-            UrlEnum.VAULT.USER_SECRET, path_params={"user_id": userid, "name": name}
+            UrlEnum.VAULT.USER_SECRET, path_params={"user_id": user_id, "name": name}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -121,7 +121,7 @@ class VaultAPI(BasePrivXAPI):
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def update_user_secret(
-        self, userid: str, name: str, secret_params: dict
+        self, user_id: str, name: str, secret_params: dict
     ) -> PrivXAPIResponse:
         """
         Update a user's secret.
@@ -131,7 +131,7 @@ class VaultAPI(BasePrivXAPI):
         """
         response_status, data = self._http_put(
             UrlEnum.VAULT.USER_SECRET,
-            path_params={"user_id": userid, "name": name},
+            path_params={"user_id": user_id, "name": name},
             body=secret_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
@@ -149,7 +149,7 @@ class VaultAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def delete_user_secret(self, userid: str, name: str) -> PrivXAPIResponse:
+    def delete_user_secret(self, user_id: str, name: str) -> PrivXAPIResponse:
         """
         Delete a user's secret.
 
@@ -158,7 +158,7 @@ class VaultAPI(BasePrivXAPI):
         """
         response_status, data = self._http_delete(
             UrlEnum.VAULT.USER_SECRET,
-            path_params={"user_id": userid, "name": name},
+            path_params={"user_id": user_id, "name": name},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -174,7 +174,7 @@ class VaultAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_user_secret_metadata(self, userid: str, name: str) -> PrivXAPIResponse:
+    def get_user_secret_metadata(self, user_id: str, name: str) -> PrivXAPIResponse:
         """
         Get a user's secret's metadata.
 
@@ -183,7 +183,7 @@ class VaultAPI(BasePrivXAPI):
         """
         response_status, data = self._http_get(
             UrlEnum.VAULT.USER_SECRET_METADATA,
-            path_params={"user_id": userid, "name": name},
+            path_params={"user_id": user_id, "name": name},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
