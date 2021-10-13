@@ -2,6 +2,7 @@ import base64
 import http.client
 import json
 import ssl
+import time
 import urllib.parse
 import urllib.request
 from http.client import HTTPException, HTTPResponse
@@ -61,7 +62,13 @@ class BasePrivXAPI:
     """
 
     def __init__(
-        self, hostname, hostport, ca_cert, oauth_client_id, oauth_client_secret
+        self,
+        hostname: str,
+        hostport: str,
+        ca_cert: str,
+        oauth_client_id: str,
+        oauth_client_secret: str,
+        re_auth_margin: int = 3,
     ) -> None:
         self._access_token = ""
         self._oauth_client_id = oauth_client_id
@@ -71,8 +78,16 @@ class BasePrivXAPI:
             "port": hostport,
             "ca_cert": ca_cert,
         }
+        self._api_client_id = None
+        self._api_client_password = None
+        self._token_life_started_in = None
+        self._access_token_age = None
+        self._re_auth_margin = re_auth_margin
 
     def _authenticate(self, username: str, password: str) -> None:
+        # saving the creds for using it in the re-auth purposes
+        self._api_client_id = username
+        self._api_client_password = password
         with Connection(self._connection_info) as conn:
             token_request = {
                 "grant_type": "password",
@@ -101,8 +116,11 @@ class BasePrivXAPI:
             response = conn.getresponse()
             if response.status != 200:
                 raise InternalAPIException("Invalid response: ", response.status)
+            self._token_life_started_in = int(time.time())
 
             data = response.read()
+            # privx response includes access token age in seconds
+            self._access_token_age = json.loads(data).get("expires_in")
             self._access_token = json.loads(data).get("access_token")
             if self._access_token == "":
                 raise InternalAPIException("Failed to get access token")
@@ -118,6 +136,7 @@ class BasePrivXAPI:
 
         path_params = path_params or {}
         query_params = query_params or {}
+        self._reauthenticate_access_token()
         headers = self._get_headers()
         url = self._build_url(url_name, path_params, query_params)
         request_dict = dict(method=method, url=url, headers=headers)
@@ -290,3 +309,21 @@ class BasePrivXAPI:
 
     def _make_body_params(self, data: Union[dict, str]) -> str:
         return data if isinstance(data, str) else json.dumps(data)
+
+    def _reauthenticate_access_token(self):
+        # checking if access token is expired and do re-auth if needed
+        print(f"Margin {self._re_auth_margin}")
+        if all(
+            param
+            for param in (
+                self._access_token_age,
+                self._token_life_started_in,
+                self._api_client_id,
+                self._api_client_password,
+            )
+        ) and (
+            self._token_life_started_in + self._access_token_age
+            <= int(time.time()) + self._re_auth_margin
+        ):
+
+            self._authenticate(self._api_client_id, self._api_client_password)
