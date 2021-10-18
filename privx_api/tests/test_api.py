@@ -1,3 +1,5 @@
+from unittest import mock
+
 import pytest
 
 from privx_api.base import format_path_components
@@ -196,7 +198,8 @@ def test_make_body_params(value, expected_value):
 )
 def test_build_request(params, exp_result):
     api = PrivXAPI("", "", "", "", "")
-    assert sorted(api._build_request(**params)) == sorted(exp_result)
+    with mock.patch.object(PrivXAPI, "_authenticate"):
+        assert sorted(api._build_request(**params)) == sorted(exp_result)
 
 
 @pytest.mark.parametrize(
