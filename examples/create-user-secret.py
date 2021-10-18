@@ -59,12 +59,13 @@ def main():
 
     # Create-secret request data
     data = {
+        "name": SECRET_NAME,
         "read_roles": read_role_data,
         "write_roles": write_role_data,
         "data": SECRET_DATA,
     }
 
-    response = api.create_user_secret(SECRET_OWNER, SECRET_NAME, data)
+    response = api.create_user_secret(SECRET_OWNER, data)
 
     if response.ok:
         print(json.dumps(data))
