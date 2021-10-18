@@ -31,7 +31,9 @@ class VaultAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
-    def create_user_secret(self, secret_params: dict) -> PrivXAPIResponse:
+    def create_user_secret(
+        self, user_id: str, name: str, secret_params: dict
+    ) -> PrivXAPIResponse:
         """
         Create a user secret.
 
@@ -39,7 +41,8 @@ class VaultAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.VAULT.USER_SECRETS,
+            UrlEnum.VAULT.USER_SECRET,
+            path_params={"user_id": user_id, "name": name},
             body=secret_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
