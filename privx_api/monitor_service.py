@@ -14,7 +14,9 @@ class MonitorServiceAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.MONITOR.STATUS)
+        response_status, data = self._http_get(
+            UrlEnum.MONITOR.STATUS, auth_required=False
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_privx_components_status(self) -> PrivXAPIResponse:
@@ -24,7 +26,9 @@ class MonitorServiceAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.MONITOR.COMPONENTS)
+        response_status, data = self._http_get(
+            UrlEnum.MONITOR.COMPONENTS, auth_required=False
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_privx_component_status(self, hostname: str) -> PrivXAPIResponse:
@@ -35,7 +39,9 @@ class MonitorServiceAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(
-            UrlEnum.MONITOR.COMPONENT, path_params={"hostname": hostname}
+            UrlEnum.MONITOR.COMPONENT,
+            path_params={"hostname": hostname},
+            auth_required=False,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -118,7 +124,9 @@ class MonitorServiceAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.MONITOR.INSTANCE_STATUS)
+        response_status, data = self._http_get(
+            UrlEnum.MONITOR.INSTANCE_STATUS, auth_required=False
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def terminate_privx_instances(self) -> PrivXAPIResponse:

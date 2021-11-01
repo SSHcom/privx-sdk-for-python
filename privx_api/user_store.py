@@ -14,7 +14,9 @@ class UserStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.USER_STORE.STATUS)
+        response_status, data = self._http_get(
+            UrlEnum.USER_STORE.STATUS, auth_required=False
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_users(

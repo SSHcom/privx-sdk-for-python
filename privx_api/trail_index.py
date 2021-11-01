@@ -14,7 +14,9 @@ class TrailIndexAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.TRAIL_INDEX.STATUS)
+        response_status, data = self._http_get(
+            UrlEnum.TRAIL_INDEX.STATUS, auth_required=False
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_indexing_status(self, conn_id: str) -> PrivXAPIResponse:

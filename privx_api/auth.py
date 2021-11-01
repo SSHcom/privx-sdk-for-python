@@ -27,5 +27,5 @@ class AuthAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.AUTH.STATUS)
+        response_status, data = self._http_get(UrlEnum.AUTH.STATUS, auth_required=False)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)

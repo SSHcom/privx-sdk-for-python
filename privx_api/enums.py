@@ -403,13 +403,17 @@ class UrlEnum:
         list_urls = list(
             filter(
                 lambda inner_enum: inner_enum.urls.get(url_name),
-                (
-                    val
-                    for key, val in cls.__dict__.items()
-                    if key == key.upper() and not key.startswith("__")
-                ),
+                cls.to_dict().values(),
             )
         )
         if len(list_urls) != 1:
             raise InternalAPIException
         return list_urls[0].urls.get(url_name)
+
+    @classmethod
+    def to_dict(cls) -> dict:
+        return {
+            key: val
+            for key, val in cls.__dict__.items()
+            if key == key.upper() and not key.startswith("__")
+        }

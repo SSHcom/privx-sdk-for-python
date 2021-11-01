@@ -15,7 +15,9 @@ class AuthorizerAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.AUTHORIZER.STATUS)
+        response_status, data = self._http_get(
+            UrlEnum.AUTHORIZER.STATUS, auth_required=False
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_authorizer_cert(
@@ -32,6 +34,7 @@ class AuthorizerAPI(BasePrivXAPI):
             query_params={"access_group_id": access_group_id}
             if access_group_id
             else None,
+            auth_required=False,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -43,7 +46,9 @@ class AuthorizerAPI(BasePrivXAPI):
             PrivXStreamResponse
         """
         response = self._http_stream(
-            UrlEnum.AUTHORIZER.AUTHORIZER_CERT_ID, path_params={"id": cert_id}
+            UrlEnum.AUTHORIZER.AUTHORIZER_CERT_ID,
+            path_params={"id": cert_id},
+            auth_required=False,
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
@@ -55,7 +60,9 @@ class AuthorizerAPI(BasePrivXAPI):
             PrivXStreamResponse
         """
         response = self._http_stream(
-            UrlEnum.AUTHORIZER.CERT_REVOCATION_LIST, path_params={"id": cert_id}
+            UrlEnum.AUTHORIZER.CERT_REVOCATION_LIST,
+            path_params={"id": cert_id},
+            auth_required=False,
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
@@ -195,6 +202,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.COMPONENT_CERTS,
             path_params={"ca_type": ca_type},
             query_params=search_params,
+            auth_required=False,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -211,6 +219,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response = self._http_stream(
             UrlEnum.AUTHORIZER.COMPONENT_CERT,
             path_params={"id": cert_id, "ca_type": ca_type},
+            auth_required=False,
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
@@ -229,6 +238,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response = self._http_stream(
             UrlEnum.AUTHORIZER.COMPONENT_CERT_REVOCATION_LIST,
             path_params={"id": cert_id, "ca_type": ca_type},
+            auth_required=False,
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
@@ -265,6 +275,7 @@ class AuthorizerAPI(BasePrivXAPI):
                 "trusted_client_id": trusted_client_id,
                 "session_id": session_id,
             },
+            auth_required=False,
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
@@ -300,6 +311,7 @@ class AuthorizerAPI(BasePrivXAPI):
                 "trusted_client_id": trusted_client_id,
                 "session_id": session_id,
             },
+            auth_required=False,
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
@@ -312,6 +324,7 @@ class AuthorizerAPI(BasePrivXAPI):
         """
         response = self._http_stream(
             UrlEnum.AUTHORIZER.DOWNLOAD_COMMAND_SCRIPT,
+            auth_required=False,
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
@@ -347,6 +360,7 @@ class AuthorizerAPI(BasePrivXAPI):
                 "trusted_client_id": trusted_client_id,
                 "session_id": session_id,
             },
+            auth_required=False,
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
@@ -382,6 +396,7 @@ class AuthorizerAPI(BasePrivXAPI):
                 "trusted_client_id": trusted_client_id,
                 "session_id": session_id,
             },
+            auth_required=False,
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
@@ -410,6 +425,7 @@ class AuthorizerAPI(BasePrivXAPI):
         """
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.SSL_TRUST_ANCHOR,
+            auth_required=False,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -422,6 +438,7 @@ class AuthorizerAPI(BasePrivXAPI):
         """
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.EXTENDER_TRUST_ANCHOR,
+            auth_required=False,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 

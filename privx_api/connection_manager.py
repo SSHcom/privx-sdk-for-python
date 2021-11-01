@@ -15,7 +15,9 @@ class ConnectionManagerAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.CONNECTION_MANAGER.STATUS)
+        response_status, data = self._http_get(
+            UrlEnum.CONNECTION_MANAGER.STATUS, auth_required=False
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_connections(
@@ -120,6 +122,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
                 "file_id": file_id,
                 "session_id": session_id,
             },
+            auth_required=False,
         )
         return PrivXStreamResponse(response_obj, HTTPStatus.OK)
 
@@ -168,6 +171,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
                 "session_id": session_id,
             },
             query_params=search_params,
+            auth_required=False,
         )
         return PrivXStreamResponse(response_obj, HTTPStatus.OK)
 

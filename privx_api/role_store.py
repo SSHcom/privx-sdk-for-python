@@ -16,6 +16,7 @@ class RoleStoreAPI(BasePrivXAPI):
         """
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.STATUS,
+            auth_required=False,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 

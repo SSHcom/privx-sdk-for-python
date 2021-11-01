@@ -135,6 +135,7 @@ class BasePrivXAPI:
         self,
         method: str,
         url_name: str,
+        auth_required: bool,
         path_params: Optional[dict] = None,
         query_params: Optional[dict] = None,
         body: Optional[Union[dict, str, list]] = None,
@@ -142,8 +143,10 @@ class BasePrivXAPI:
 
         path_params = path_params or {}
         query_params = query_params or {}
-        self._reauthenticate_access_token()
-        headers = self._get_headers()
+        # skip re_auth request if endpoint does not need an auth token
+        if auth_required:
+            self._reauthenticate_access_token()
+        headers = self._get_headers(auth_required)
         url = self._build_url(url_name, path_params, query_params)
         request_dict = dict(method=method, url=url, headers=headers)
         if body is not None:
@@ -164,15 +167,15 @@ class BasePrivXAPI:
             url = format_path_components(url, **path_params)
         if query_params:
             params = urllib.parse.urlencode(query_params)
-            url = "{}?{}".format(url, params)
+            url = f"{url}?{params}"
 
         return url
 
-    def _get_headers(self) -> dict:
-        return {
-            "Content-type": "application/json",
-            "Authorization": "Bearer {}".format(self._access_token),
-        }
+    def _get_headers(self, auth_required: bool) -> dict:
+        headers = {"Content-type": "application/json"}
+        if auth_required:
+            headers["Authorization"] = f"Bearer {self._access_token}"
+        return headers
 
     def _get_search_params(self, **kwargs: Union[str, int]) -> dict:
         params = {key: val for key, val in kwargs.items() if val is not None}
@@ -189,6 +192,7 @@ class BasePrivXAPI:
         url_name: str,
         path_params: Optional[dict] = None,
         query_params: Optional[dict] = None,
+        auth_required: bool = True,
     ) -> Tuple:
 
         with Connection(self._connection_info) as conn:
@@ -197,23 +201,11 @@ class BasePrivXAPI:
                     **self._build_request(
                         "GET",
                         url_name,
+                        auth_required,
                         path_params,
                         query_params,
                     )
                 )
-            except (OSError, HTTPException) as e:
-                raise InternalAPIException(e)
-            response = conn.getresponse()
-            return response.status, response.read()
-
-    def _http_get_no_auth(self, url_name: str) -> Tuple:
-        request = self._build_request("GET", url_name)
-        headers = request["headers"]
-        del headers["Authorization"]
-
-        with Connection(self._connection_info) as conn:
-            try:
-                conn.request(**request)
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
@@ -225,6 +217,7 @@ class BasePrivXAPI:
         body: Optional[Union[dict, str, list]] = None,
         path_params: Optional[dict] = None,
         query_params: Optional[dict] = None,
+        auth_required: bool = True,
     ) -> Tuple:
 
         with Connection(self._connection_info) as conn:
@@ -233,6 +226,7 @@ class BasePrivXAPI:
                     **self._build_request(
                         "POST",
                         url_name,
+                        auth_required,
                         path_params,
                         query_params,
                         body=body,
@@ -249,6 +243,7 @@ class BasePrivXAPI:
         body: Optional[Union[dict, str, list]] = None,
         path_params: Optional[dict] = None,
         query_params: Optional[dict] = None,
+        auth_required: bool = True,
     ) -> Tuple:
 
         with Connection(self._connection_info) as conn:
@@ -257,6 +252,7 @@ class BasePrivXAPI:
                     **self._build_request(
                         "PUT",
                         url_name,
+                        auth_required,
                         path_params,
                         query_params,
                         body=body,
@@ -273,6 +269,7 @@ class BasePrivXAPI:
         body: Optional[dict] = None,
         path_params: Optional[dict] = None,
         query_params: Optional[dict] = None,
+        auth_required: bool = True,
     ) -> Tuple:
 
         with Connection(self._connection_info) as conn:
@@ -281,6 +278,7 @@ class BasePrivXAPI:
                     **self._build_request(
                         "DELETE",
                         url_name,
+                        auth_required,
                         path_params,
                         query_params,
                         body=body,
@@ -297,6 +295,7 @@ class BasePrivXAPI:
         body: Optional[dict] = None,
         path_params: Optional[dict] = None,
         query_params: Optional[dict] = None,
+        auth_required: bool = True,
     ) -> HTTPResponse:
         conn = Connection(self._connection_info).connect()
         try:
@@ -304,6 +303,7 @@ class BasePrivXAPI:
                 **self._build_request(
                     "GET",
                     url_name,
+                    auth_required,
                     path_params,
                     query_params,
                     body=body,
@@ -316,13 +316,13 @@ class BasePrivXAPI:
     def _make_body_params(self, data: Union[dict, str]) -> str:
         return data if isinstance(data, str) else json.dumps(data)
 
-    def _reauthenticate_access_token(self):
+    def _reauthenticate_access_token(self) -> None:
         # checking if access token is expired and do re-auth if needed
         now = int(time.time())
         if self._re_auth_deadline is None or now >= self._re_auth_deadline:
             self._authenticate(self._api_client_id, self._api_client_password)
 
-    def _initialize_api_client_credentials(self, username: str, password: str):
+    def _initialize_api_client_credentials(self, username: str, password: str) -> None:
         # check if arguments are None or empty string
         if {username, password} & {None, ""}:
             raise InternalAPIException("api client credentials are not valid")

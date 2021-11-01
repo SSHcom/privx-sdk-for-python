@@ -122,6 +122,7 @@ def test_make_body_params(value, expected_value):
             {
                 "method": "GET",
                 "url_name": UrlEnum.CONNECTION_MANAGER.CONNECTIONS,
+                "auth_required": True,
                 "query_params": {"offset": "111", "limit": "20"},
             },
             {
@@ -137,6 +138,7 @@ def test_make_body_params(value, expected_value):
             {
                 "method": "GET",
                 "url_name": UrlEnum.CONNECTION_MANAGER.TRAIL_LOG_SESSION_ID,
+                "auth_required": True,
                 "query_params": {"format_param": "111", "filter_param": "20"},
                 "path_params": {
                     "connection_id": "1",
@@ -158,6 +160,7 @@ def test_make_body_params(value, expected_value):
             {
                 "method": "GET",
                 "url_name": UrlEnum.CONNECTION_MANAGER.TERMINATE_CONNECTION_ID,
+                "auth_required": True,
                 "query_params": {"format_param": "111", "filter_param": "20"},
                 "path_params": {
                     "connection_id": "1",
@@ -179,6 +182,7 @@ def test_make_body_params(value, expected_value):
             {
                 "method": "POST",
                 "url_name": UrlEnum.CONNECTION_MANAGER.TERMINATE_CONNECTION_ID,
+                "auth_required": True,
                 "path_params": {
                     "connection_id": "1",
                 },

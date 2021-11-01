@@ -15,7 +15,9 @@ class HostStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.HOST_STORE.STATUS)
+        response_status, data = self._http_get(
+            UrlEnum.HOST_STORE.STATUS, auth_required=False
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def search_hosts(

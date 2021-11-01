@@ -13,7 +13,9 @@ class LicenseManagerAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.LICENSE.STATUS)
+        response_status, data = self._http_get(
+            UrlEnum.LICENSE.STATUS, auth_required=False
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_license(self) -> PrivXAPIResponse:

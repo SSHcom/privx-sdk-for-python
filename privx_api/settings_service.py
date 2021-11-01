@@ -14,7 +14,9 @@ class SettingsServiceAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.SETTINGS.STATUS)
+        response_status, data = self._http_get(
+            UrlEnum.SETTINGS.STATUS, auth_required=False
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_scope_settings(
@@ -86,6 +88,7 @@ class SettingsServiceAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.SETTINGS.SCOPE_SCHEMA,
             path_params={"scope": scope},
+            auth_required=False,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -99,5 +102,6 @@ class SettingsServiceAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.SETTINGS.SCOPE_SECTION_SCHEMA,
             path_params={"scope": scope, "section": section},
+            auth_required=False,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)

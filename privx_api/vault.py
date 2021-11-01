@@ -15,7 +15,9 @@ class VaultAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.VAULT.STATUS)
+        response_status, data = self._http_get(
+            UrlEnum.VAULT.STATUS, auth_required=False
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def create_secret(self, secret_params: dict) -> PrivXAPIResponse:
