@@ -187,7 +187,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.WORKFLOW_ENGINE.REQUEST_ROLE_REVOKE,
+            UrlEnum.WORKFLOW_ENGINE.ROLE_REVOKE,
             path_params={"request_id": request_id},
         )
 
