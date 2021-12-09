@@ -287,7 +287,7 @@ class WokFlowEngineEnum:
         TEST_SETTINGS: "/workflow-engine/api/v1/testsmtp",
         WORKFLOW: "/workflow-engine/api/v1/workflows/{workflow_id}",
         WORKFLOWS: "/workflow-engine/api/v1/workflows",
-        REQUEST_ROLE_REVOKE: "/workflow-engine/api/v1/requests/{request_id}/role/revoke"
+        REQUEST_ROLE_REVOKE: "/workflow-engine/api/v1/requests/{request_id}/role/revoke",
     }
 
 
