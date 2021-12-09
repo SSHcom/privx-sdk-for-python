@@ -190,6 +190,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             UrlEnum.WORKFLOW_ENGINE.ROLE_REVOKE,
             path_params={"request_id": request_id},
         )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def search_requests(
         self,
