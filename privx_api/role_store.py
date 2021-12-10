@@ -494,6 +494,26 @@ class RoleStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
+    def search_roles(
+        self,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_key: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+        search_payload: Optional[dict] = None,
+    ) -> PrivXAPIResponse:
+
+        search_params = self._get_search_params(
+            offset=offset, limit=limit, sortkey=sort_key, sortdir=sort_dir
+        )
+
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.SEARCH_ROLES,
+            query_params=search_params,
+            body=get_value(search_payload, dict()),
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
     def search_external_users(
         self,
         external_params: dict,
