@@ -71,6 +71,7 @@ class RoleStoreEnum:
     ROLE = "ROLE_STORE.ROLE"
     ROLES = "ROLE_STORE.ROLES"
     SEARCH_USERS = "ROLE_STORE.SEARCH_USERS"
+    SEARCH_ROLES = "ROLE_STORE.SEARCH_ROLES"
     SOURCE = "ROLE_STORE.SOURCE"
     SOURCES = "ROLE_STORE.SOURCES"
     STATUS = "ROLE_STORE.STATUS"
@@ -107,6 +108,7 @@ class RoleStoreEnum:
         ROLE: "/role-store/api/v1/roles/{role_id}",
         ROLES: "/role-store/api/v1/roles",
         SEARCH_USERS: "/role-store/api/v1/users/search",
+        SEARCH_ROLES: "/role-store/api/v1/roles/search",
         SOURCE: "/role-store/api/v1/sources/{source_id}",
         SOURCES: "/role-store/api/v1/sources",
         STATUS: "/role-store/api/v1/status",
