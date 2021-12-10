@@ -275,6 +275,7 @@ class WokFlowEngineEnum:
     TEST_SETTINGS = "WORKFLOW_ENGINE.TEST_SETTINGS"
     WORKFLOW = "WORKFLOW_ENGINE.WORKFLOW"
     WORKFLOWS = "WORKFLOW_ENGINE.WORKFLOWS"
+    ROLE_REVOKE = "WORKFLOW_ENGINE.REQUEST_ROLE_REVOKE"
 
     urls = {
         DECISION: "/workflow-engine/api/v1/requests/{request_id}/decision",
@@ -286,6 +287,7 @@ class WokFlowEngineEnum:
         TEST_SETTINGS: "/workflow-engine/api/v1/testsmtp",
         WORKFLOW: "/workflow-engine/api/v1/workflows/{workflow_id}",
         WORKFLOWS: "/workflow-engine/api/v1/workflows",
+        ROLE_REVOKE: "/workflow-engine/api/v1/requests/{request_id}/role/revoke",
     }
 
 

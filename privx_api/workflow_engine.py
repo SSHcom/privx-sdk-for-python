@@ -178,6 +178,20 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
+    def revoke_request_target_role(self, request_id: str) -> PrivXAPIResponse:
+        """
+        Revoke the target role of a request.
+        Only one of the original approvers can revoke the target role.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.WORKFLOW_ENGINE.ROLE_REVOKE,
+            path_params={"request_id": request_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
     def search_requests(
         self,
         filter_param: str,
