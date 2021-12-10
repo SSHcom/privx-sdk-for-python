@@ -20,7 +20,7 @@ Learn more about [PrivX](https://www.ssh.com/products/privx) or try [Live Demo](
 
 ## Key features
 
-This projects implements a high level Python abstraction to PrivX [REST API](http://apispecs.ssh.com).
+This projects implements a high level Python abstraction to PrivX [REST API](https://privx.docs.ssh.com/reference).
 
 * OAuth2 Client Authentication
 * Hosts Management
