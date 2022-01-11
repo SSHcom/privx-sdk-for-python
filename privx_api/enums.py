@@ -379,6 +379,25 @@ class AuthorizerEnum:
     }
 
 
+class NetworkAccessManager:
+    STATUS = "NETWORK_MANAGER.STATUS"
+    SESSION = "NETWORK_MANAGER.SESSION"
+    NETWORK_TARGETS = "NETWORK_MANAGER.NETWORK_TARGETS"
+    NETWORK_TARGET = "NETWORK_MANAGER.NETWORK_TARGET"
+    DISABLE_NETWORK_TARGET = "NETWORK_MANAGER.DISABLE_NETWORK_TARGET"
+    SEARCH_NETWORK_TARGETS = "NETWORK_MANAGER.SEARCH_NETWORK_TARGETS"
+
+    urls = {
+        STATUS: "/network-access-manager/api/v1/status",
+        SESSION: "/network-access-manager/api/v1/ws/session",
+        NETWORK_TARGETS: "/network-access-manager/api/v1/nwtargets",
+        NETWORK_TARGET: "/network-access-manager/api/v1/nwtargets/{network_target_id}",
+        DISABLE_NETWORK_TARGET: "/network-access-manager/api/v1/nwtargets/"
+        "{network_target_id}/disabled",
+        SEARCH_NETWORK_TARGETS: "/network-access-manager/api/v1/nwtargets/search",
+    }
+
+
 class UrlEnum:
     AUTH = AuthEnum
     AUTHORIZER = AuthorizerEnum
@@ -386,6 +405,7 @@ class UrlEnum:
     HOST_STORE = HostStoreEnum
     LICENSE = LicenseManagerEnum
     MONITOR = MonitorServiceEnum
+    NETWORK_ACCESS_MANAGER = NetworkAccessManager
     ROLE_STORE = RoleStoreEnum
     SETTINGS = PrivXSettingsEnum
     TRAIL_INDEX = TrailIndexEnum

@@ -22,6 +22,7 @@ from privx_api.connection_manager import ConnectionManagerAPI
 from privx_api.host_store import HostStoreAPI
 from privx_api.license_manager import LicenseManagerAPI
 from privx_api.monitor_service import MonitorServiceAPI
+from privx_api.network_access_manager import NetworkAccessManagerAPI
 from privx_api.role_store import RoleStoreAPI
 from privx_api.settings_service import SettingsServiceAPI
 from privx_api.trail_index import TrailIndexAPI
@@ -37,6 +38,7 @@ class PrivXAPI(
     HostStoreAPI,
     LicenseManagerAPI,
     MonitorServiceAPI,
+    NetworkAccessManagerAPI,
     RoleStoreAPI,
     SettingsServiceAPI,
     TrailIndexAPI,
