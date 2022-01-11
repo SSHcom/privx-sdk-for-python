@@ -62,7 +62,7 @@ class NetworkAccessManagerAPI(BasePrivXAPI):
             path_params={"network_target_id": network_target_id},
             body=network_target,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def disable_network_target(self, network_target_id: str, disabled: dict):
         response_status, data = self._http_put(
@@ -70,7 +70,7 @@ class NetworkAccessManagerAPI(BasePrivXAPI):
             path_params={"network_target_id": network_target_id},
             body=disabled,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def delete_network_target(self, network_target_id: str):
         response_status, data = self._http_delete(
