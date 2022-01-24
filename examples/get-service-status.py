@@ -1,4 +1,4 @@
-# Example for quickly check all microservice statuses.
+# Example for quickly checking all microservice statuses.
 # Print additional information about any microservices
 # with non-OK statuses.
 
