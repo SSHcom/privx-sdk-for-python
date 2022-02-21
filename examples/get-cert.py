@@ -67,7 +67,7 @@ def get_cert(target_host_config):
         # Fix for Incorrect padding
         cert_data_fix = cert_data + ('=' * ((4 - len(cert_data) % 4) % 4))
 
-        cert_str = " ".join([CERT_PREFIX, cert_data])
+        cert_str = " ".join([CERT_PREFIX, cert_data_fix])
         return cert_str
     else:
         print(cert.data.get("details"))
