@@ -24,7 +24,7 @@ conf = {
     "public_key": "public key",
     "role_id": "a role UUID with which to request "
     "the certificate (client must be a member)",
-    "host_id": "target host UUID",
+    "hostid": "target host UUID",
     "hostname": "target host hostname",
     "username": "target username",
     "service": "SSH",
@@ -64,7 +64,10 @@ def get_cert(target_host_config):
             sys.exit(1)
 
         cert_data = certificates[0]["data"]
-        cert_str = " ".join([CERT_PREFIX, cert_data])
+        # Fix for Incorrect padding
+        cert_data_fix = cert_data + ('=' * ((4 - len(cert_data) % 4) % 4))
+
+        cert_str = " ".join([CERT_PREFIX, cert_data_fix])
         return cert_str
     else:
         print(cert.data.get("details"))
