@@ -63,9 +63,7 @@ def get_cert(target_host_config):
             print("Certificates not found")
             sys.exit(1)
 
-        cert_data = certificates[0]["data_string"]
-        cert_str = " ".join([CERT_PREFIX, cert_data])
-        return cert_str
+        return certificates[0]["data_string"]
     else:
         print(cert.data.get("details"))
         sys.exit()
