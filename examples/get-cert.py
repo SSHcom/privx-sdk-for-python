@@ -63,11 +63,8 @@ def get_cert(target_host_config):
             print("Certificates not found")
             sys.exit(1)
 
-        cert_data = certificates[0]["data"]
-        # Fix for Incorrect padding
-        cert_data_fix = cert_data + ('=' * ((4 - len(cert_data) % 4) % 4))
-
-        cert_str = " ".join([CERT_PREFIX, cert_data_fix])
+        cert_data = certificates[0]["data_string"]
+        cert_str = " ".join([CERT_PREFIX, cert_data])
         return cert_str
     else:
         print(cert.data.get("details"))
