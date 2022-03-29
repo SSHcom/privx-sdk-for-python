@@ -9,7 +9,7 @@ from http.client import HTTPException, HTTPResponse
 from json import JSONDecodeError
 from typing import Optional, Tuple, Union
 
-from privx_api.enums import UrlEnum
+from privx_api.enums import NO_AUTH_STATUS_URLS, UrlEnum
 from privx_api.exceptions import InternalAPIException
 
 
@@ -142,7 +142,7 @@ class BasePrivXAPI:
 
         path_params = path_params or {}
         query_params = query_params or {}
-        self._reauthenticate_access_token()
+        self._reauthenticate_access_token(url_name)
         headers = self._get_headers()
         url = self._build_url(url_name, path_params, query_params)
         request_dict = dict(method=method, url=url, headers=headers)
@@ -169,10 +169,12 @@ class BasePrivXAPI:
         return url
 
     def _get_headers(self) -> dict:
-        return {
+        headers = {
             "Content-type": "application/json",
-            "Authorization": "Bearer {}".format(self._access_token),
         }
+        if self._access_token:
+            headers["Authorization"] = "Bearer {}".format(self._access_token)
+        return headers
 
     def _get_search_params(self, **kwargs: Union[str, int]) -> dict:
         params = {key: val for key, val in kwargs.items() if val is not None}
@@ -316,7 +318,16 @@ class BasePrivXAPI:
     def _make_body_params(self, data: Union[dict, str]) -> str:
         return data if isinstance(data, str) else json.dumps(data)
 
-    def _reauthenticate_access_token(self):
+    def _reauthenticate_access_token(self, url_name: str) -> None:
+        """
+        _reauthenticate_access_token will attempt to reauthenticate if the access token
+        is expired or there was not an initial authentication.
+        """
+        # do not re-authenticate if there is no initial authentication and url_name is
+        # in STATUS urls set
+        if url_name in NO_AUTH_STATUS_URLS and self._re_auth_deadline is None:
+            return
+
         # checking if access token is expired and do re-auth if needed
         now = int(time.time())
         if self._re_auth_deadline is None or now >= self._re_auth_deadline:
