@@ -437,3 +437,9 @@ class UrlEnum:
         if len(list_urls) != 1:
             raise InternalAPIException
         return list_urls[0].urls.get(url_name)
+
+
+# Set of PrivX STATUS endpoints names, which could be used without authentication
+NO_AUTH_STATUS_URLS = {
+    v.__dict__.get("STATUS") for k, v in UrlEnum.__dict__.items() if not k.islower()
+}
