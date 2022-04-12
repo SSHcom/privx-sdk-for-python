@@ -8,7 +8,7 @@ Usage Python Virtual Environment simplify development
 python3 -m pip install virtualenv
 python3 -m venv .env
 source .env/bin/activate
-pip install git+git://github.com/SSHcom/privx-sdk-for-python.git
+pip install git+https://github.com/SSHcom/privx-sdk-for-python.git
 ```
 
 ## Register API Client
