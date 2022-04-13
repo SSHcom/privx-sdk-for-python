@@ -36,7 +36,7 @@ The latest version of SDK is available at its `master` branch. All development, 
 The library is available using pip
 
 ```
-pip install git+git://github.com/SSHcom/privx-sdk-for-python.git
+pip install git+https://github.com/SSHcom/privx-sdk-for-python.git
 ``` 
 
 Essentially, the library requires up-and-running PrivX instance.
