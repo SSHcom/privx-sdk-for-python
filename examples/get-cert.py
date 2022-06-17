@@ -16,18 +16,21 @@ except ImportError:
     load_privx_api_lib_path()
     import privx_api
 
-
-PUB_KEY_PATH = "path to the public key"
-CERT_PREFIX = "ssh-rsa-cert-v01@openssh.com"
-
+# The parameters of the API call
+# NOTE: Make sure that you have the "Use with PrivX Agent" permisson in your role
 conf = {
-    "public_key": "public key",
-    "role_id": "a role UUID with which to request "
-    "the certificate (client must be a member)",
-    "hostid": "target host UUID",
-    "hostname": "target host hostname",
-    "username": "target username",
-    "service": "SSH",
+    # User's public key (MANDATORY)
+    "public_key": "",
+    # UUID of role that is used for accessing the target host (Optional)
+    "roleid": "",
+    # Target hots service: SSH, RDP or WEB (Optional)
+    "service": "",
+    # Target username (Optional)
+    "username": "",
+    # Target hostname (Optional)
+    "hostname": "",
+    # Target host UUID (Optional)
+    "hostid": "",
 }
 
 
@@ -45,14 +48,8 @@ api = privx_api.PrivXAPI(
 api.authenticate(config.API_CLIENT_ID, config.API_CLIENT_SECRET)
 
 #
-# Read the pubkey, strip padding and prefix & suffix
+# Return 2 certificates (SHA2-512 + RSA) in a list
 #
-
-
-def read_pubkey(file):
-    with open(file, "r") as f:
-        _prefix, key_data, *_suffix = f.read().split(" ")
-        return key_data.replace("=", "")
 
 
 def get_cert(target_host_config):
@@ -60,24 +57,28 @@ def get_cert(target_host_config):
     if cert.ok:
         certificates = cert.data.get("certificates")
         if certificates is None or len(certificates) == 0:
-            print("Certificates not found")
+            print(cert.data)
             sys.exit(1)
 
-        return certificates[0]["data_string"]
+        return [c.get("data_string", "") for c in certificates]
     else:
         print(cert.data.get("details"))
         sys.exit()
 
 
+def clean_pubkey(pubKey):
+    _prefix, key_data, *_suffix = pubKey.split(" ")
+    return key_data.replace("=", "")
+
+
 def main():
-    if PUB_KEY_PATH == "" or PUB_KEY_PATH is None:
-        print("public key is not declared")
-        sys.exit(1)
+    # Cleaning the padding to have a key usable by the API
+    conf["public_key"] = clean_pubkey(conf["public_key"])
 
-    conf["public_key"] = read_pubkey(PUB_KEY_PATH)
-    cert = get_cert(conf)
-
-    print(cert)
+    # Example
+    certList = get_cert(conf)
+    for i in range(len(certList)):
+        print(f"{'-'*12} Cert{i+1} {'-'*12}\n{certList[i]}")
 
 
 if __name__ == "__main__":
