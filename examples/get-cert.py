@@ -20,7 +20,7 @@ except ImportError:
 # NOTE: Make sure that you have the "Use with PrivX Agent" permisson in your role
 conf = {
     # User's public key (MANDATORY)
-    "public_key": "xxxxxx AAAAB3NzaC1yc2EAAAADAQABAAABgQCxtVsIEteDnxF+KeMgjm88KmRr6E36iIkks5J+1b9byWno/dC8vnelz+iUBadjUEsVGfmrzbASxXlRU7pwdJgOn31+2ycHxQttR56wuPvghMDa/UQSip9zPnJgigygTUygPvdDgD3jqmYA3EcQx+FC9r316HqlFOnZqunWS9SP2gY1ws/O4MtSSYE4//54q7J21S6amFouIaQL1+8Sx54QTtssGSxxiza+D7ltbP1hk+iJzFVJqUHTiHJo3XiGRuuVwteck2Gsj/twqRauLhyT1FDSOLLP5oTg4693Adg48aM/HTm+amuzA7offIecaXiS3alMum3d0jnx4sA6NJ/ozJpgv8pyisD3+WOM1fIhwwYnVHl0tb+1SV/HFepiV890zSvrhj//nyD7TApc1aVnPNlMTIRqhe10+AjakRRlH8oakXYGQd3OiDm9ig9mKZ5A9V12hbLlub4n/m0UoqZdCmMhl8SLiHUIgJZBdDrlJux4b9suJMFSmHL1cSttHrE= blalbla",
+    "public_key": "",
     # UUID of role that is used for accessing the target host (Optional)
     "roleid": "",
     # Target hots service: SSH, RDP or WEB (Optional)
