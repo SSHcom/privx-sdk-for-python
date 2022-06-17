@@ -19,8 +19,8 @@ except ImportError:
 # The parameters of the API call
 # NOTE: Make sure that you have the "Use with PrivX Agent" permisson in your role
 conf = {
-    # User's public key without padding (MANDATORY)
-    "public_key": "",
+    # User's public key (MANDATORY)
+    "public_key": "xxxxxx AAAAB3NzaC1yc2EAAAADAQABAAABgQCxtVsIEteDnxF+KeMgjm88KmRr6E36iIkks5J+1b9byWno/dC8vnelz+iUBadjUEsVGfmrzbASxXlRU7pwdJgOn31+2ycHxQttR56wuPvghMDa/UQSip9zPnJgigygTUygPvdDgD3jqmYA3EcQx+FC9r316HqlFOnZqunWS9SP2gY1ws/O4MtSSYE4//54q7J21S6amFouIaQL1+8Sx54QTtssGSxxiza+D7ltbP1hk+iJzFVJqUHTiHJo3XiGRuuVwteck2Gsj/twqRauLhyT1FDSOLLP5oTg4693Adg48aM/HTm+amuzA7offIecaXiS3alMum3d0jnx4sA6NJ/ozJpgv8pyisD3+WOM1fIhwwYnVHl0tb+1SV/HFepiV890zSvrhj//nyD7TApc1aVnPNlMTIRqhe10+AjakRRlH8oakXYGQd3OiDm9ig9mKZ5A9V12hbLlub4n/m0UoqZdCmMhl8SLiHUIgJZBdDrlJux4b9suJMFSmHL1cSttHrE= blalbla",
     # UUID of role that is used for accessing the target host (Optional)
     "roleid": "",
     # Target hots service: SSH, RDP or WEB (Optional)
@@ -60,22 +60,25 @@ def get_cert(target_host_config):
             print(cert.data)
             sys.exit(1)
 
-        return certificates[0]["data_string"], certificates[1]["data_string"]
+        return [c.get("data_string", "") for c in certificates]
     else:
         print(cert.data.get("details"))
         sys.exit()
 
 
+def clean_pubkey(pubKey):
+    _prefix, key_data, *_suffix = pubKey.split(" ")
+    return key_data.replace("=", "")
+
+
 def main():
-    # Cleaning the padding
-    conf["public_key"] = conf["public_key"].replace("=", "")
+    # Cleaning the padding to have a key usable by the API
+    conf["public_key"] = clean_pubkey(conf["public_key"])
 
     # Example
-    cert = get_cert(conf)
-    print("------------------------ Cert1")
-    print(cert[0])
-    print("------------------------ Cert2")
-    print(cert[1])
+    certList = get_cert(conf)
+    for i in range(len(certList)):
+        print(f"{'-'*12} Cert{i+1}{'-'*12}\n{certList[i]}")
 
 
 if __name__ == "__main__":
