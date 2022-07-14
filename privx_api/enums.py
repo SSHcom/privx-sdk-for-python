@@ -329,6 +329,7 @@ class AuthorizerEnum:
     EXTENDER_CONFIG = "AUTHORIZER.EXTENDER_CONFIG"
     EXTENDER_CONFIG_SESSION_ID = "AUTHORIZER.EXTENDER_CONFIG_SESSION_ID"
     EXTENDER_TRUST_ANCHOR = "AUTHORIZER.EXTENDER_TRUST_ANCHOR"
+    GET_CERTIFICATES_LIST = "AUTHORIZER.GET_CERTIFICATES_LIST"
     GROUP_PRINCIPAL_KEY = "AUTHORIZER.GROUP_PRINCIPAL_KEY"
     IMPORT_GROUP_PRINCIPAL_KEY = "AUTHORIZER.IMPORT_GROUP_PRINCIPAL_KEY"
     PRINCIPALS = "AUTHORIZER.PRINCIPALS"
@@ -366,6 +367,7 @@ class AuthorizerEnum:
         EXTENDER_CONFIG_SESSION_ID: "/authorizer/api/v1/extender/conf"
         "/{trusted_client_id}",
         EXTENDER_TRUST_ANCHOR: "/authorizer/api/v1/extender-trust-anchor",
+        GET_CERTIFICATES_LIST: "/authorizer/api/v1/cert",
         GROUP_PRINCIPAL_KEY: "/authorizer/api/v1/principals/{group_id}",
         IMPORT_GROUP_PRINCIPAL_KEY: "/authorizer/api/v1/principals/{group_id}/import",
         PRINCIPALS: "/authorizer/api/v1/principals",

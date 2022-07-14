@@ -55,7 +55,8 @@ class AuthorizerAPI(BasePrivXAPI):
             PrivXStreamResponse
         """
         response = self._http_stream(
-            UrlEnum.AUTHORIZER.CERT_REVOCATION_LIST, path_params={"id": cert_id}
+            UrlEnum.AUTHORIZER.CERT_REVOCATION_LIST, path_params={
+                "id": cert_id}
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
@@ -190,7 +191,8 @@ class AuthorizerAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        search_params = self._get_search_params(access_group_id=access_group_id)
+        search_params = self._get_search_params(
+            access_group_id=access_group_id)
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.COMPONENT_CERTS,
             path_params={"ca_type": ca_type},
@@ -527,7 +529,8 @@ class AuthorizerAPI(BasePrivXAPI):
             PrivXStreamResponse
         """
         response_status, data = self._http_delete(
-            UrlEnum.AUTHORIZER.ACCESS_GROUP, path_params={"id": access_group_id}
+            UrlEnum.AUTHORIZER.ACCESS_GROUP, path_params={
+                "id": access_group_id}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -555,5 +558,17 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.SEARCH_CERTS,
             query_params=search_params,
             body=cert_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_certificates_list(self) -> PrivXAPIResponse:
+        """
+        Get all Certificates.
+
+        Returns:
+            PrivXStreamResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.AUTHORIZER.GET_CERTIFICATES_LIST,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
