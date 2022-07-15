@@ -572,3 +572,16 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.GET_CERTIFICATES_LIST,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_certificate_by_id(self, cert_id: str) -> PrivXAPIResponse:
+        """
+        Get Certificate by ID
+
+        Returns:
+            PrivXStreamResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.AUTHORIZER.GET_CERT_BY_ID,
+            path_params={"id": cert_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
