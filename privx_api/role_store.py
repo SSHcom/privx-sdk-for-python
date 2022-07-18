@@ -14,9 +14,7 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(
-            UrlEnum.ROLE_STORE.STATUS,
-        )
+        response_status, data = self._http_get(UrlEnum.ROLE_STORE.STATUS)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_sources(self) -> PrivXAPIResponse:
@@ -38,8 +36,7 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.ROLE_STORE.SOURCES,
-            body=source_params,
+            UrlEnum.ROLE_STORE.SOURCES, body=source_params
         )
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
@@ -51,8 +48,7 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivxAPIResponse
         """
         response_status, data = self._http_get(
-            UrlEnum.ROLE_STORE.SOURCE,
-            path_params={"source_id": source_id},
+            UrlEnum.ROLE_STORE.SOURCE, path_params={"source_id": source_id}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -64,8 +60,7 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_delete(
-            UrlEnum.ROLE_STORE.SOURCE,
-            path_params={"source_id": source_id},
+            UrlEnum.ROLE_STORE.SOURCE, path_params={"source_id": source_id}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -92,8 +87,7 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.ROLE_STORE.REFRESH_SOURCES,
-            body=source_ids,
+            UrlEnum.ROLE_STORE.REFRESH_SOURCES, body=source_ids
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -104,12 +98,9 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
              PrivXAPIResponse
         """
-        search_params = self._get_search_params(
-            refresh=refresh,
-        )
+        search_params = self._get_search_params(refresh=refresh)
         response_status, data = self._http_get(
-            UrlEnum.ROLE_STORE.AWS_ROLES,
-            query_params=search_params,
+            UrlEnum.ROLE_STORE.AWS_ROLES, query_params=search_params
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -121,8 +112,7 @@ class RoleStoreAPI(BasePrivXAPI):
              PrivXAPIResponse
         """
         response_status, data = self._http_get(
-            UrlEnum.ROLE_STORE.AWS_ROLE,
-            path_params={"awsrole_id": aws_role_id},
+            UrlEnum.ROLE_STORE.AWS_ROLE, path_params={"awsrole_id": aws_role_id}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -136,8 +126,7 @@ class RoleStoreAPI(BasePrivXAPI):
               PrivXAPIResponse
         """
         response_status, data = self._http_delete(
-            UrlEnum.ROLE_STORE.AWS_ROLE,
-            path_params={"awsrole_id": aws_role_id},
+            UrlEnum.ROLE_STORE.AWS_ROLE, path_params={"awsrole_id": aws_role_id}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -187,8 +176,7 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_post(
-            UrlEnum.ROLE_STORE.ROLES, body=role)
+        response_status, data = self._http_post(UrlEnum.ROLE_STORE.ROLES, body=role)
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
     def resolve_roles(self, role_names: list) -> PrivXAPIResponse:
@@ -319,8 +307,7 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.ROLE_STORE.GENERATE_PRINCIPAL_KEY,
-            path_params={"role_id": role_id},
+            UrlEnum.ROLE_STORE.GENERATE_PRINCIPAL_KEY, path_params={"role_id": role_id}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
@@ -470,8 +457,7 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(
-            UrlEnum.ROLE_STORE.RESOLVE_USER,
-            path_params={"user_id": user_id},
+            UrlEnum.ROLE_STORE.RESOLVE_USER, path_params={"user_id": user_id}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -515,16 +501,12 @@ class RoleStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def search_external_users(
-        self,
-        external_params: dict,
-    ) -> PrivXAPIResponse:
+    def search_external_users(self, external_params: dict) -> PrivXAPIResponse:
         """
         Search users with user search parameters.
         """
         response_status, data = self._http_post(
-            UrlEnum.ROLE_STORE.EXTERNAL_SEARCH,
-            body=external_params,
+            UrlEnum.ROLE_STORE.EXTERNAL_SEARCH, body=external_params
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -536,15 +518,12 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(
-            UrlEnum.ROLE_STORE.USER_AUTHORIZED_KEYS,
-            path_params={"user_id": user_id},
+            UrlEnum.ROLE_STORE.USER_AUTHORIZED_KEYS, path_params={"user_id": user_id}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def create_user_authorize_key(
-        self,
-        user_id: str,
-        key_params: dict,
+        self, user_id: str, key_params: dict
     ) -> PrivXAPIResponse:
         """
         Register an authorized key for user.
@@ -605,9 +584,7 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
              PrivXAPIResponse
         """
-        response_status, data = self._http_get(
-            UrlEnum.ROLE_STORE.LOG_CONF_COLLECTORS,
-        )
+        response_status, data = self._http_get(UrlEnum.ROLE_STORE.LOG_CONF_COLLECTORS)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def create_log_collector(self, collector: dict) -> PrivXAPIResponse:
@@ -618,8 +595,7 @@ class RoleStoreAPI(BasePrivXAPI):
              PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.ROLE_STORE.LOG_CONF_COLLECTORS,
-            body=collector,
+            UrlEnum.ROLE_STORE.LOG_CONF_COLLECTORS, body=collector
         )
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
@@ -682,8 +658,7 @@ class RoleStoreAPI(BasePrivXAPI):
             offset=offset, limit=limit, sortkey=sort_key, sortdir=sort_dir
         )
         response_status, data = self._http_get(
-            UrlEnum.ROLE_STORE.ALL_AUTHORIZED_KEYS,
-            query_params=search_params,
+            UrlEnum.ROLE_STORE.ALL_AUTHORIZED_KEYS, query_params=search_params
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -695,15 +670,12 @@ class RoleStoreAPI(BasePrivXAPI):
              PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.ROLE_STORE.RESOLVE_AUTHORIZED_KEYS,
-            body=authorized_keys,
+            UrlEnum.ROLE_STORE.RESOLVE_AUTHORIZED_KEYS, body=authorized_keys
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def list_all_idendity_providers(
-        self,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
+        self, offset: Optional[int] = None, limit: Optional[int] = None
     ) -> PrivXAPIResponse:
         """
         List all idendity providers
@@ -711,12 +683,9 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
              PrivXAPIResponse
         """
-        search_params = self._get_search_params(
-            offset=offset, limit=limit
-        )
+        search_params = self._get_search_params(offset=offset, limit=limit)
         response_status, data = self._http_get(
-            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS,
-            query_params=search_params,
+            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS, query_params=search_params
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -728,12 +697,13 @@ class RoleStoreAPI(BasePrivXAPI):
              PrivXAPIResponse
         """
         response_status, data = self._http_get(
-            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS_ID,
-            path_params={"id": id},
+            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS_ID, path_params={"id": id}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def create_idendity_provider(self, idendity_provider_params: dict) -> PrivXAPIResponse:
+    def create_idendity_provider(
+        self, idendity_provider_params: dict
+    ) -> PrivXAPIResponse:
         """
         Create a new Identity Provider.
 
@@ -741,8 +711,7 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS,
-            body=idendity_provider_params,
+            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS, body=idendity_provider_params
         )
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
@@ -754,12 +723,13 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_delete(
-            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS_ID,
-            path_params={"id": id},
+            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS_ID, path_params={"id": id}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def update_idendity_provider(self, id: str, idendity_provider_params: dict) -> PrivXAPIResponse:
+    def update_idendity_provider(
+        self, id: str, idendity_provider_params: dict
+    ) -> PrivXAPIResponse:
         """
         Update an Idendity provider.
 
