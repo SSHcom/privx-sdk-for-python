@@ -187,7 +187,8 @@ class RoleStoreAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_post(UrlEnum.ROLE_STORE.ROLES, body=role)
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.ROLES, body=role)
         return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
     def resolve_roles(self, role_names: list) -> PrivXAPIResponse:
@@ -696,5 +697,104 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.RESOLVE_AUTHORIZED_KEYS,
             body=authorized_keys,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def list_all_idendity_providers(
+        self,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+    ) -> PrivXAPIResponse:
+        """
+        List all idendity providers
+
+        Returns:
+             PrivXAPIResponse
+        """
+        search_params = self._get_search_params(
+            offset=offset, limit=limit
+        )
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS,
+            query_params=search_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_idendity_provider_by_id(self, id: str) -> PrivXAPIResponse:
+        """
+        Get idendity provider by  ID
+
+        Returns:
+             PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS_ID,
+            path_params={"id": id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def create_idendity_provider(self, idendity_provider_params: dict) -> PrivXAPIResponse:
+        """
+        Create a new Identity Provider.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS,
+            body=idendity_provider_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+
+    def delete_idendity_provider(self, id: str) -> PrivXAPIResponse:
+        """
+        Delete Idendity Provider by ID.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_delete(
+            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS_ID,
+            path_params={"id": id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def update_idendity_provider(self, id: str, idendity_provider_params: dict) -> PrivXAPIResponse:
+        """
+        Update an Idendity provider.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS_ID,
+            path_params={"id": id},
+            body=idendity_provider_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def search_idendity_providers(
+        self,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_key: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+        keywords: Optional[str] = None,
+    ) -> PrivXAPIResponse:
+        """
+        Search Idendity providers.
+
+        Returns:
+            PrivXAPIResponse
+        """
+
+        search_params = self._get_search_params(
+            offset=offset, limit=limit, sortkey=sort_key, sortdir=sort_dir
+        )
+
+        response_status, data = self._http_post(
+            UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS_SEARCH,
+            query_params=search_params,
+            body=get_value(keywords, dict()),
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)

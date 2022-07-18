@@ -57,7 +57,10 @@ class RoleStoreEnum:
     EVALUATE = "ROLE_STORE.EVALUATE"
     EXTERNAL_SEARCH = "ROLE_STORE.EXTERNAL_SEARCH"
     GENERATE_PRINCIPAL_KEY = "ROLE_STORE.GENERATE_PRINCIPAL_KEY"
+    IDENDITY_PROVIDERS_ID = "ROLE_STORE.IDENDITY_PROVIDERS_ID"
     IMPORT_PRINCIPAL_KEY = "ROLE_STORE.IMPORT_PRINCIPAL_KEY"
+    IDENDITY_PROVIDERS = "ROLE_STORE.LIST_IDENDITY_PROVIDERS"
+    IDENDITY_PROVIDERS_SEARCH = "ROLE_STORE.IDENDITY_PROVIDERS_SEARCH"
     LOG_CONF_COLLECTOR = "ROLE_STORE.LOG_CONF_COLLECTOR"
     LOG_CONF_COLLECTORS = "ROLE_STORE.LOG_CONF_COLLECTORS"
     MEMBERS = "ROLE_STORE.MEMBERS"
@@ -94,7 +97,10 @@ class RoleStoreEnum:
         EXTERNAL_SEARCH: "/role-store/api/v1/users/search/external",
         GENERATE_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys"
         "/generate",
+        IDENDITY_PROVIDERS_ID: "/role-store/api/v1/identity-providers/{id}",
+        IDENDITY_PROVIDERS_SEARCH: "/role-store/api/v1/identity-providers/search",
         IMPORT_PRINCIPAL_KEY: "/role-store/api/v1/roles/{role_id}/principalkeys/import",
+        IDENDITY_PROVIDERS: "/role-store/api/v1/identity-providers",
         LOG_CONF_COLLECTOR: "/role-store/api/v1/logconf/collectors/{collector_id}",
         LOG_CONF_COLLECTORS: "/role-store/api/v1/logconf/collectors",
         MEMBERS: "/role-store/api/v1/roles/{role_id}/members",
