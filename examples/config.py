@@ -3,7 +3,7 @@
 HOSTNAME = "example.privx.com"
 HOSTPORT = 443
 
-CA_CERT = u"""
+CA_CERT = """
 ADD PRIVX CA CERT HERE
 """
 
