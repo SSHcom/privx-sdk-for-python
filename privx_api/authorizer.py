@@ -563,7 +563,7 @@ class AuthorizerAPI(BasePrivXAPI):
         Get all Certificates.
 
         Returns:
-            PrivXStreamResponse
+            PrivXAPIResponse
         """
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.GET_CERTIFICATES_LIST,
@@ -575,7 +575,7 @@ class AuthorizerAPI(BasePrivXAPI):
         Get Certificate by ID
 
         Returns:
-            PrivXStreamResponse
+            PrivXAPIResponse
         """
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.GET_CERT_BY_ID,
