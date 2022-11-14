@@ -176,14 +176,14 @@ class ConnectionManagerEnum:
     TRAIL_SESSION_ID = "CONNECTION_MANAGER.TRAIL_SESSION_ID"
     UEBA_CONFIGURATIONS = "CONNECTION_MANAGER.UEBA_CONFIGURATIONS"
     UEBA_ANOMALY_SETTINGS = "CONNECTION_MANAGER.UEBA_ANOMALY_SETTINGS"
-    START_UEBA_ANALYSIS = "CONNECTION_MANAGER.START_UEBA_ANALYSIS"
-    STOP_UEBA_ANALYSIS = "CONNECTION_MANAGER.STOP_UEBA_ANALYSIS"
+    START_ANALYSIS = "CONNECTION_MANAGER.START_ANALYSIS"
+    STOP_ANALYSIS = "CONNECTION_MANAGER.STOP_ANALYSIS"
     UEBA_SETUP_SCRIPT = "CONNECTION_MANAGER.UEBA_SETUP_SCRIPT"
-    DOWNLOAD_UEBA_SCRIPT = "CONNECTION_MANAGER.DOWNLOAD_UEBA_SCRIPT"
+    DOWNLOAD_SCRIPT = "CONNECTION_MANAGER.DOWNLOAD_SCRIPT"
     UEBA_DATASETS = "CONNECTION_MANAGER.UEBA_DATASETS"
     UEBA_DATASET = "CONNECTION_MANAGER.UEBA_DATASET"
     UEBA_TRAIN_DATASET = "CONNECTION_MANAGER.UEBA_TRAIN_DATASET"
-    UEBA_QUERY_CONNECTION_COUNT = "CONNECTION_MANAGER.UEBA_QUERY_CONNECTION_COUNT"
+    UEBA_CONNECTION_COUNT = "CONNECTION_MANAGER.UEBA_CONNECTION_COUNT"
 
     urls = {
         ACCESS_ROLE: "/connection-manager/api/v1/connections/access_roles/{role_id}",
@@ -210,14 +210,14 @@ class ConnectionManagerEnum:
         "/channel/{channel_id}/file/{file_id}",
         UEBA_CONFIGURATIONS: "/connection-manager/api/v1/ueba/configure",
         UEBA_ANOMALY_SETTINGS: "/connection-manager/api/v1/ueba/anomaly-settings",
-        START_UEBA_ANALYSIS: "/connection-manager/api/v1/ueba/start-analyzing/{dataset_id}",
-        STOP_UEBA_ANALYSIS: "/connection-manager/api/v1/ueba/stop-analyzing",
+        START_ANALYSIS: "/connection-manager/api/v1/ueba/start-analyzing/{dataset_id}",
+        STOP_ANALYSIS: "/connection-manager/api/v1/ueba/stop-analyzing",
         UEBA_SETUP_SCRIPT: "/connection-manager/api/v1/ueba/setup-script",
-        DOWNLOAD_UEBA_SCRIPT: "/connection-manager/api/v1/ueba/setup-script/{session_id}",
+        DOWNLOAD_SCRIPT: "/connection-manager/api/v1/ueba/setup-script/{session_id}",
         UEBA_DATASETS: "/connection-manager/api/v1/ueba/datasets",
         UEBA_DATASET: "/connection-manager/api/v1/ueba/datasets/{dataset_id}",
         UEBA_TRAIN_DATASET: "/connection-manager/api/v1/ueba/train/{dataset_id}",
-        UEBA_QUERY_CONNECTION_COUNT: "/connection-manager/api/v1/ueba/query-connection-count",
+        UEBA_CONNECTION_COUNT: "/connection-manager/api/v1/ueba/query-connection-count",
     }
 
 
