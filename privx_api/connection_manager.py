@@ -15,7 +15,8 @@ class ConnectionManagerAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.CONNECTION_MANAGER.STATUS)
+        response_status, data = self._http_get(
+            UrlEnum.CONNECTION_MANAGER.STATUS)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_connections(
@@ -301,5 +302,207 @@ class ConnectionManagerAPI(BasePrivXAPI):
                 "user_id": user_id,
             },
             body=termination_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    # UEBA Management
+
+    def get_ueba_configurations(self) -> PrivXAPIResponse:
+        """
+        Get UEBA configurations
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.CONNECTION_MANAGER.UEBA_CONFIGURATIONS
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def set_ueba_configurations(self, payload) -> PrivXAPIResponse:
+        """
+        Set UEBA configurations
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.CONNECTION_MANAGER.UEBA_CONFIGURATIONS,
+            body=get_value(payload, dict()),
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_ueba_anomaly_settings(self) -> PrivXAPIResponse:
+        """
+        Get Anomaly settings
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.CONNECTION_MANAGER.UEBA_ANOMALY_SETTINGS
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def set_ueba_anomaly_settings(self, payload) -> PrivXAPIResponse:
+        """
+        Set UEBA anomaly settings
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.CONNECTION_MANAGER.UEBA_ANOMALY_SETTINGS,
+            body=get_value(payload, dict()),
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def start_ueba_analysis(self, dataset_id: str) -> PrivXAPIResponse:
+        """
+        Start analyzing connection with a saved dataset
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.CONNECTION_MANAGER.START_UEBA_ANALYSIS,
+            path_params={
+                "dataset_id": dataset_id,
+            },
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def stop_ueba_analysis(self) -> PrivXAPIResponse:
+        """
+        Stop analyzing connection anomalies
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.CONNECTION_MANAGER.STOP_UEBA_ANALYSIS
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def create_id_for_ueba_script(self) -> PrivXAPIResponse:
+        """
+        Create session ID for UEBA setup script
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.CONNECTION_MANAGER.UEBA_SETUP_SCRIPT
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def download_ueba_script(self, session_id: str) -> PrivXAPIResponse:
+        """
+        Download UEBA setup script
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.CONNECTION_MANAGER.DOWNLOAD_UEBA_SCRIPT,
+            path_params={"session_id": session_id}
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_ueba_datasets(self) -> PrivXAPIResponse:
+        """
+        Get UEBA dataset object list
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.CONNECTION_MANAGER.UEBA_DATASETS
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def save_ueba_datasets(self, dataset_definition) -> PrivXAPIResponse:
+        """
+        Save new UEBA dataset definition
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.CONNECTION_MANAGER.UEBA_DATASETS,
+            body=get_value(dataset_definition, dict()),
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+
+    def get_ueba_dataset(self, dataset_id: str, logs: bool, bin_count: int) -> PrivXAPIResponse:
+        """
+        Get UEBA dataset by id
+
+        Returns:
+            PrivXAPIResponse
+        """
+        search_params = self._get_search_params(
+            logs=logs, bin_count=bin_count
+        )
+        response_status, data = self._http_get(
+            UrlEnum.CONNECTION_MANAGER.UEBA_DATASET,
+            path_params={"dataset_id": dataset_id},
+            query_params=search_params
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def update_ueba_dataset(self, dataset_id: str, dataset_definition) -> PrivXAPIResponse:
+        """
+        Update UEBA dataset 
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.CONNECTION_MANAGER.UEBA_DATASET,
+            path_params={"dataset_id": dataset_id},
+            body=get_value(dataset_definition, dict()),
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def delete_ueba_dataset(self, dataset_id: str) -> PrivXAPIResponse:
+        """
+        Delete UEBA dataset
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_delete(
+            UrlEnum.CONNECTION_MANAGER.UEBA_DATASET,
+            path_params={"dataset_id": dataset_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def train_ueba_dataset(self, dataset_id: str, set_active_after_training: bool) -> PrivXAPIResponse:
+        """
+        Train or retrain UEBA dataset
+
+        Returns:
+            PrivXAPIResponse
+        """
+        search_params = self._get_search_params(
+            set_active_after_training=set_active_after_training
+        )
+        response_status, data = self._http_post(
+            UrlEnum.CONNECTION_MANAGER.UEBA_TRAIN_DATASET,
+            path_params={"dataset_id": dataset_id},
+            query_params=search_params)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_ueba_connection_count(self, payload) -> PrivXAPIResponse:
+        """
+        Get number of connections for dataset with given parameters.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.CONNECTION_MANAGER.UEBA_QUERY_CONNECTION_COUNT,
+            body=get_value(payload, dict()),
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
