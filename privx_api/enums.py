@@ -9,11 +9,17 @@ class AuthEnum:
     AUTHORIZE = "AUTH.AUTHORIZE"
     TOKEN = "AUTH.TOKEN"
     STATUS = "AUTH.STATUS"
+    IDP_CLIENT = "AUTH.IDP_CLIENT"
+    IDP_CLIENTS = "AUTH.IDP_CLIENTS"
+    REGENERATE_IDP_CLIENT = "AUTH.REGENERATE_IDP_CLIENT"
 
     urls = {
         AUTHORIZE: "/auth/api/v1/oauth/authorize",
         TOKEN: "/auth/api/v1/oauth/token",
         STATUS: "/auth/api/v1/status",
+        IDP_CLIENT: "/auth/api/v1/idp/clients/{idp_id}",
+        IDP_CLIENTS: "/auth/api/v1/idp/clients",
+        REGENERATE_IDP_CLIENT: "/auth/api/v1/idp/clients/{idp_id}/regenerate",
     }
 
 
@@ -168,6 +174,16 @@ class ConnectionManagerEnum:
     TRAIL_LOG = "CONNECTION_MANAGER.TRAIL_LOG"
     TRAIL_LOG_SESSION_ID = "CONNECTION_MANAGER.TRAIL_LOG_SESSION_ID"
     TRAIL_SESSION_ID = "CONNECTION_MANAGER.TRAIL_SESSION_ID"
+    UEBA_CONFIGURATIONS = "CONNECTION_MANAGER.UEBA_CONFIGURATIONS"
+    UEBA_ANOMALY_SETTINGS = "CONNECTION_MANAGER.UEBA_ANOMALY_SETTINGS"
+    START_ANALYSIS = "CONNECTION_MANAGER.START_ANALYSIS"
+    STOP_ANALYSIS = "CONNECTION_MANAGER.STOP_ANALYSIS"
+    UEBA_SETUP_SCRIPT = "CONNECTION_MANAGER.UEBA_SETUP_SCRIPT"
+    DOWNLOAD_SCRIPT = "CONNECTION_MANAGER.DOWNLOAD_SCRIPT"
+    UEBA_DATASETS = "CONNECTION_MANAGER.UEBA_DATASETS"
+    UEBA_DATASET = "CONNECTION_MANAGER.UEBA_DATASET"
+    UEBA_TRAIN_DATASET = "CONNECTION_MANAGER.UEBA_TRAIN_DATASET"
+    UEBA_CONNECTION_COUNT = "CONNECTION_MANAGER.UEBA_CONNECTION_COUNT"
 
     urls = {
         ACCESS_ROLE: "/connection-manager/api/v1/connections/access_roles/{role_id}",
@@ -192,6 +208,16 @@ class ConnectionManagerEnum:
         "/channel/{channel_id}/log/{session_id}",
         TRAIL_SESSION_ID: "/connection-manager/api/v1/connections/{connection_id}"
         "/channel/{channel_id}/file/{file_id}",
+        UEBA_CONFIGURATIONS: "/connection-manager/api/v1/ueba/configure",
+        UEBA_ANOMALY_SETTINGS: "/connection-manager/api/v1/ueba/anomaly-settings",
+        START_ANALYSIS: "/connection-manager/api/v1/ueba/start-analyzing/{dataset_id}",
+        STOP_ANALYSIS: "/connection-manager/api/v1/ueba/stop-analyzing",
+        UEBA_SETUP_SCRIPT: "/connection-manager/api/v1/ueba/setup-script",
+        DOWNLOAD_SCRIPT: "/connection-manager/api/v1/ueba/setup-script/{session_id}",
+        UEBA_DATASETS: "/connection-manager/api/v1/ueba/datasets",
+        UEBA_DATASET: "/connection-manager/api/v1/ueba/datasets/{dataset_id}",
+        UEBA_TRAIN_DATASET: "/connection-manager/api/v1/ueba/train/{dataset_id}",
+        UEBA_CONNECTION_COUNT: "/connection-manager/api/v1/ueba/query-connection-count",
     }
 
 
