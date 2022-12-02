@@ -508,3 +508,25 @@ class ConnectionManagerAPI(BasePrivXAPI):
             body=get_value(payload, dict()),
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_ueba_status(self) -> PrivXAPIResponse:
+        """
+        Get UEBA microservice status
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(UrlEnum.CONNECTION_MANAGER.UEBA_STATUS)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_ueba_internal_status(self) -> PrivXAPIResponse:
+        """
+        Get UEBA microservice internal status
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.CONNECTION_MANAGER.UEBA_INTERNAL_STATUS
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
