@@ -1,3 +1,4 @@
+"""Version information for pip."""
 from setuptools import setup
 
 setup(
@@ -11,7 +12,6 @@ setup(
         'Intended Audience :: System Administrators',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-	'Topic :: Software Development :: Libraries :: Python Modules'
+        'Topic :: Software Development :: Libraries :: Python Modules'
     ],
 )
-
