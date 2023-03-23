@@ -24,6 +24,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         limit: Optional[int] = None,
         sort_key: Optional[str] = None,
         sort_dir: Optional[str] = None,
+        fuzzy_count: Optional[bool] = False,
     ) -> PrivXAPIResponse:
         """
         Get connections.
@@ -32,7 +33,11 @@ class ConnectionManagerAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         search_params = self._get_search_params(
-            offset=offset, limit=limit, sortkey=sort_key, sortdir=sort_dir
+            offset=offset,
+            limit=limit,
+            sortkey=sort_key,
+            sortdir=sort_dir,
+            fuzzycount=bool(fuzzy_count),
         )
         response_status, data = self._http_get(
             UrlEnum.CONNECTION_MANAGER.CONNECTIONS,
@@ -47,6 +52,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         sort_key: Optional[str] = None,
         sort_dir: Optional[str] = None,
         connection_params: Optional[dict] = None,
+        fuzzy_count: Optional[bool] = False,
     ) -> PrivXAPIResponse:
         """
         Search for connections.
@@ -55,7 +61,11 @@ class ConnectionManagerAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         search_params = self._get_search_params(
-            offset=offset, limit=limit, sortkey=sort_key, sortdir=sort_dir
+            offset=offset,
+            limit=limit,
+            sortkey=sort_key,
+            sortdir=sort_dir,
+            fuzzycount=bool(fuzzy_count),
         )
 
         response_status, data = self._http_post(
