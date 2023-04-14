@@ -12,6 +12,12 @@ class AuthEnum:
     IDP_CLIENT = "AUTH.IDP_CLIENT"
     IDP_CLIENTS = "AUTH.IDP_CLIENTS"
     REGENERATE_IDP_CLIENT = "AUTH.REGENERATE_IDP_CLIENT"
+    USER_SESSIONS = "AUTH.USER_SESSIONS"
+    SOURCE_SESSIONS = "AUTH.SOURCE_SESSIONS"
+    SEARCH_SESSIONS = "AUTH.SEARCH_SESSIONS"
+    TERMINATE_SESSION = "AUTH.TERMINATE_SESSION"
+    TERMINATE_USER_SESSIONS = "AUTH.TERMINATE_USER_SESSIONS"
+    LOGOUT = "AUTH.LOGOUT"
 
     urls = {
         AUTHORIZE: "/auth/api/v1/oauth/authorize",
@@ -20,6 +26,14 @@ class AuthEnum:
         IDP_CLIENT: "/auth/api/v1/idp/clients/{idp_id}",
         IDP_CLIENTS: "/auth/api/v1/idp/clients",
         REGENERATE_IDP_CLIENT: "/auth/api/v1/idp/clients/{idp_id}/regenerate",
+        USER_SESSIONS: "/auth/api/v1/sessionstorage/users/{user_id}/sessions",
+        SOURCE_SESSIONS: "/auth/api/v1/sessionstorage/sources/{source_id}/sessions",
+        SEARCH_SESSIONS: "/auth/api/v1/sessionstorage/sessions/search",
+        TERMINATE_SESSION: "/auth/api/v1/sessionstorage/sessions/{session_id}"
+        "/terminate",
+        TERMINATE_USER_SESSIONS: "/auth/api/v1/sessionstorage/users/{user_id}"
+        "/sessions/terminate",
+        LOGOUT: "/auth/api/v1/logout",
     }
 
 
