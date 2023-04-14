@@ -94,7 +94,14 @@ class AuthAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_user_sessions(self, user_id: str) -> PrivXAPIResponse:
+    def get_user_sessions(
+        self,
+        user_id: str,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_key: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+    ) -> PrivXAPIResponse:
         """
         Fetch valid sessions for the user.
 
@@ -105,9 +112,17 @@ class AuthAPI(BasePrivXAPI):
             UrlEnum.AUTH.USER_SESSIONS,
             path_params={"user_id": user_id},
         )
+        print(response_status, data)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_source_sessions(self, source_id: str) -> PrivXAPIResponse:
+    def get_source_sessions(
+        self,
+        source_id: str,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_key: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+    ) -> PrivXAPIResponse:
         """
         Fetch valid source sessions.
 
