@@ -239,6 +239,13 @@ class ConnectionManagerEnum:
     }
 
 
+class DbProxyEnum:
+    STATUS = "DB_PROXY.STATUS"
+    CONF = "DB_PROXY.CONF"
+
+    urls = {STATUS: "/db-proxy/api/v1/status", CONF: "/db-proxy/api/v1/conf"}
+
+
 class VaultEnum:
     METADATA = "VAULT.METADATA"
     SCHEMAS = "VAULT.SCHEMAS"
@@ -456,6 +463,7 @@ class UrlEnum:
     AUTH = AuthEnum
     AUTHORIZER = AuthorizerEnum
     CONNECTION_MANAGER = ConnectionManagerEnum
+    DB_PROXY = DbProxyEnum
     HOST_STORE = HostStoreEnum
     LICENSE = LicenseManagerEnum
     MONITOR = MonitorServiceEnum

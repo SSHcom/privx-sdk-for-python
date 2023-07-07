@@ -19,6 +19,7 @@
 from privx_api.auth import AuthAPI
 from privx_api.authorizer import AuthorizerAPI
 from privx_api.connection_manager import ConnectionManagerAPI
+from privx_api.db_proxy import DbProxyAPI
 from privx_api.host_store import HostStoreAPI
 from privx_api.license_manager import LicenseManagerAPI
 from privx_api.monitor_service import MonitorServiceAPI
@@ -35,6 +36,7 @@ class PrivXAPI(
     AuthAPI,
     AuthorizerAPI,
     ConnectionManagerAPI,
+    DbProxyAPI,
     HostStoreAPI,
     LicenseManagerAPI,
     MonitorServiceAPI,
