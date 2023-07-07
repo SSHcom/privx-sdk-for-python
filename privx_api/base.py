@@ -65,7 +65,7 @@ class BasePrivXAPI:
     def __init__(
         self,
         hostname: str,
-        hostport: str,
+        hostport: int,
         ca_cert: str,
         oauth_client_id: str,
         oauth_client_secret: str,
