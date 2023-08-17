@@ -200,6 +200,9 @@ class ConnectionManagerEnum:
     UEBA_CONNECTION_COUNT = "CONNECTION_MANAGER.UEBA_CONNECTION_COUNT"
     UEBA_INTERNAL_STATUS = "CONNECTION_MANAGER.UEBA_INTERNAL_STATUS"
     UEBA_STATUS = "CONNECTION_MANAGER.UEBA_STATUS"
+    CONNECTION_TAGS = "CONNECTION_MANAGER.CONNECTION_TAGS"
+    UPDATE_CONNECTION_TAGS = "CONNECTION_MANAGER.UPDATE_CONNECTION_TAGS"
+
 
     urls = {
         ACCESS_ROLE: "/connection-manager/api/v1/connections/access_roles/{role_id}",
@@ -236,6 +239,8 @@ class ConnectionManagerEnum:
         UEBA_CONNECTION_COUNT: "/connection-manager/api/v1/ueba/query-connection-count",
         UEBA_STATUS: "/connection-manager/api/v1/ueba/status",
         UEBA_INTERNAL_STATUS: "/connection-manager/api/v1/ueba/status/internal",
+        CONNECTION_TAGS: "/connection-manager/api/v1/connections/tags",
+        UPDATE_CONNECTION_TAGS: "/connection-manager/api/v1/connections/{connection_id}/tags",
     }
 
 
