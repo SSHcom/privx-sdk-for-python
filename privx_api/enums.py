@@ -374,6 +374,8 @@ class TrailIndexEnum:
 class AuthorizerEnum:
     ACCESS_GROUP = "AUTHORIZER.ACCESS_GROUP"
     ACCESS_GROUPS = "AUTHORIZER.ACCESS_GROUPS"
+    CREATE_ACCESS_GROUP_CA_KEY = "AUTHORIZER.CREATE_ACCESS_GROUP_CA_KEY"
+    DELETE_ACCESS_GROUP_CA_KEY = "AUTHORIZER.DELETE_ACCESS_GROUP_CA_KEY"
     AUTHORIZER_CERT = "AUTHORIZER.AUTHORIZER_CERT"
     AUTHORIZER_CERT_ID = "AUTHORIZER.AUTHORIZER_CERT_ID"
     CARRIER_CONFIG_SESSION_ID = "AUTHORIZER.CARRIER_CONFIG_SESSION_ID"
@@ -407,6 +409,8 @@ class AuthorizerEnum:
     urls = {
         ACCESS_GROUP: "/authorizer/api/v1/accessgroups/{id}",
         ACCESS_GROUPS: "/authorizer/api/v1/accessgroups",
+        CREATE_ACCESS_GROUP_CA_KEY: "/authorizer/api/v1/accessgroups/{id}/cas",
+        DELETE_ACCESS_GROUP_CA_KEY: "/authorizer/api/v1/accessgroups/{id}/cas/{ca_id}",
         AUTHORIZER_CERT: "/authorizer/api/v1/cas",
         AUTHORIZER_CERT_ID: "/authorizer/api/v1/cas/{id}",
         CARRIER_CONFIG_SESSION_ID: "/authorizer/api/v1/carrier/conf"
