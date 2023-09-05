@@ -88,6 +88,48 @@ class ConnectionManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
+    def get_connection_tags(
+        self,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_dir: Optional[str] = None,
+        query: Optional[str] = None,
+    ) -> PrivXAPIResponse:
+        """
+        Get connection tags.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        search_params = self._get_search_params(
+            offset=offset,
+            limit=limit,
+            sortdir=sort_dir,
+            query=query,
+        )
+
+        response_status, data = self._http_get(
+            UrlEnum.CONNECTION_MANAGER.CONNECTION_TAGS,
+            query_params=search_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+    
+    def update_connection_tags(
+        self, connection_id: str, connection_tags
+    ) -> PrivXAPIResponse:
+        """
+        Update connection tags
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.CONNECTION_MANAGER.UPDATE_CONNECTION_TAGS,
+            path_params={"connection_id": connection_id},
+            body=get_value(connection_tags, []),
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
     def create_trail_download_handle(
         self, connection_id: str, channel_id: str, file_id: str
     ) -> PrivXAPIResponse:
