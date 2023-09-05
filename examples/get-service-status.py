@@ -44,8 +44,9 @@ def main():
     print("Checking for anomalies on PrivX Servers..")
 
     for server_name, microservices in response.data.items():
-        problem_microservices = [m for m in microservices
-                                 if m['status']['status_message'] != 'OK']
+        problem_microservices = [
+            m for m in microservices if m["status"]["status_message"] != "OK"
+        ]
         if problem_microservices:
             print(f"Potential problems with microservice(s) on {server_name}")
             for problem in problem_microservices:

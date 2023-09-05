@@ -50,6 +50,7 @@ def get_connection_tags(offset, limit, sort_dir, query):
     print(connection.data["details"])
     sys.exit(1)
 
+
 def update_connection_tags(conn_id: str, connection_tags):
     """Update connection tags object"""
     result = api.update_connection_tags(conn_id, connection_tags)
@@ -59,11 +60,13 @@ def update_connection_tags(conn_id: str, connection_tags):
     print(result.data["details"])
     sys.exit(1)
 
+
 def main():
     """Update and fetch the connection tags."""
     update_connection_tags(CONNECTION_ID, CONNECTION_TAGS)
     connection_tags = get_connection_tags(OFFSET, LIMIT, SORTDIR, QUERY)
     print(connection_tags)
+
 
 if __name__ == "__main__":
     main()

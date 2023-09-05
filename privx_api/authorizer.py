@@ -530,7 +530,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.ACCESS_GROUP, path_params={"id": access_group_id}
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
-    
+
     def get_access_group_CA_key(
         self,
         access_group_id: str,
@@ -546,8 +546,10 @@ class AuthorizerAPI(BasePrivXAPI):
             path_params={"id": access_group_id},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
-    
-    def delete_access_group_CA_key(self, access_group_id: str, ca_id: str) -> PrivXAPIResponse:
+
+    def delete_access_group_CA_key(
+        self, access_group_id: str, ca_id: str
+    ) -> PrivXAPIResponse:
         """
         Delete access group CA key.
 
@@ -555,7 +557,8 @@ class AuthorizerAPI(BasePrivXAPI):
             PrivXStreamResponse
         """
         response_status, data = self._http_delete(
-            UrlEnum.AUTHORIZER.DELETE_ACCESS_GROUP_CA_KEY, path_params={"id": access_group_id, "ca_id": ca_id}
+            UrlEnum.AUTHORIZER.DELETE_ACCESS_GROUP_CA_KEY,
+            path_params={"id": access_group_id, "ca_id": ca_id},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 

@@ -113,7 +113,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             query_params=search_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
-    
+
     def update_connection_tags(
         self, connection_id: str, connection_tags
     ) -> PrivXAPIResponse:

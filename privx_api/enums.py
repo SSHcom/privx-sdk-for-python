@@ -203,7 +203,6 @@ class ConnectionManagerEnum:
     CONNECTION_TAGS = "CONNECTION_MANAGER.CONNECTION_TAGS"
     UPDATE_CONNECTION_TAGS = "CONNECTION_MANAGER.UPDATE_CONNECTION_TAGS"
 
-
     urls = {
         ACCESS_ROLE: "/connection-manager/api/v1/connections/access_roles/{role_id}",
         CONNECTION: "/connection-manager/api/v1/connections/{connection_id}",
@@ -240,7 +239,8 @@ class ConnectionManagerEnum:
         UEBA_STATUS: "/connection-manager/api/v1/ueba/status",
         UEBA_INTERNAL_STATUS: "/connection-manager/api/v1/ueba/status/internal",
         CONNECTION_TAGS: "/connection-manager/api/v1/connections/tags",
-        UPDATE_CONNECTION_TAGS: "/connection-manager/api/v1/connections/{connection_id}/tags",
+        UPDATE_CONNECTION_TAGS: "/connection-manager/api/v1/connections/"
+        "{connection_id}/tags",
     }
 
 
