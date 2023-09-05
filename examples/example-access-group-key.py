@@ -34,6 +34,7 @@ api = privx_api.PrivXAPI(
 # NOTE: fill in your credentials from secure storage, this is just an example
 api.authenticate(config.API_CLIENT_ID, config.API_CLIENT_SECRET)
 
+
 def get_access_group_CA_key(access_group_id):
     result = api.get_access_group_CA_key(access_group_id)
     if result.ok:
@@ -57,6 +58,7 @@ def main():
     ca_id = get_access_group_CA_key(ACCESS_GROUP_ID)
     print(ca_id)
     delete_access_group_CA_key(ACCESS_GROUP_ID, ca_id)
+
 
 if __name__ == "__main__":
     main()

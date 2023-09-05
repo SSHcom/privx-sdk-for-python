@@ -53,8 +53,7 @@ def get_connections_data():
     offset = 0
     limit = 1000
     resp = api.search_connections(
-        connection_params={"type": ["SSH"]},
-        offset=offset, limit=limit
+        connection_params={"type": ["SSH"]}, offset=offset, limit=limit
     )
     if resp.ok:
         data_load = resp.data
@@ -63,8 +62,7 @@ def get_connections_data():
         while count > 0:
             offset = offset + limit
             resp = api.search_connections(
-                connection_params={"type": ["SSH"]},
-                offset=offset, limit=limit
+                connection_params={"type": ["SSH"]}, offset=offset, limit=limit
             )
             if resp.ok:
                 data_load = resp.data
@@ -73,7 +71,7 @@ def get_connections_data():
         audited_data_items = []
         for data in data_items:
             if data.get("audit_enabled"):
-                audited_data_items.append(data['id'])
+                audited_data_items.append(data["id"])
         return audited_data_items
     else:
         error = "Get users Connection data operation failed:"
@@ -122,7 +120,7 @@ def process_connections(connections, SEARCH_STRING):
     for connection in connections:
         if "channels" in connection.get("trail", ""):
             for channel in connection["trail"]["channels"]:
-                channel_status = channel["protocol_file"]['status']
+                channel_status = channel["protocol_file"]["status"]
                 if channel["type"] == "shell" and channel_status != "UNCLEAN_CLOSE":
                     # Get a session ID for trail download
                     session = create_trail_session(connection["id"], channel["id"])
@@ -132,8 +130,11 @@ def process_connections(connections, SEARCH_STRING):
                     )
                     # Parse the trail
                     details = (
-                        "\r\nstdin conn " + connection["id"]
-                        + " chan " + channel["id"] + " : "
+                        "\r\nstdin conn "
+                        + connection["id"]
+                        + " chan "
+                        + channel["id"]
+                        + " : "
                     )
                     print_trail(trail_log, SEARCH_STRING, details)
 
@@ -158,13 +159,12 @@ def process_error(messages):
 def main():
     SEARCH_STRING = False
     CONNECTION_ID = False
-    if (len(sys.argv) > 5 or len(sys.argv) == 4 or len(sys.argv) == 1):
+    if len(sys.argv) > 5 or len(sys.argv) == 4 or len(sys.argv) == 1:
         usage()
         sys.exit(2)
     try:
         opts, args = getopt.getopt(
-            sys.argv[1:], "hc:s:",
-            ["help", "connection-id=", "search-string="]
+            sys.argv[1:], "hc:s:", ["help", "connection-id=", "search-string="]
         )
     except getopt.GetoptError:
         usage()

@@ -34,7 +34,7 @@ api.authenticate(config.API_CLIENT_ID, config.API_CLIENT_SECRET)
 SEARCH_PARAMETERS = {
     "start_time": "2021-08-01T00:00:00Z",
     "end_time": "2021-10-01T00:00:00Z",
-    "session_id": "607977d7-4791-4ec4-795f-ab0af1ad8eb4"
+    "session_id": "607977d7-4791-4ec4-795f-ab0af1ad8eb4",
 }
 
 
