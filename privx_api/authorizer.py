@@ -554,7 +554,7 @@ class AuthorizerAPI(BasePrivXAPI):
         Delete access group CA key.
 
         Returns:
-            PrivXStreamResponse
+            PrivXAPIResponse
         """
         response_status, data = self._http_delete(
             UrlEnum.AUTHORIZER.DELETE_ACCESS_GROUP_CA_KEY,
