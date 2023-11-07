@@ -195,3 +195,31 @@ class AuthAPI(BasePrivXAPI):
         """
         response_status, data = self._http_post(UrlEnum.AUTH.LOGOUT)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_user_mobile_devices(self, user_id: str) -> PrivXAPIResponse:
+        """
+        Get a user's mobile devices
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.AUTH.MGW_USER_DEVICES,
+            path_params={"user_id": user_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def unpair_user_mobile_device(
+        self, user_id: str, device_id: str
+    ) -> PrivXAPIResponse:
+        """
+        Unpair a user's mobile device
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_delete(
+            UrlEnum.AUTH.MGW_USER_DEVICES_UNPAIR,
+            path_params={"user_id": user_id, "device_id": device_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)

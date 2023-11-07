@@ -75,3 +75,33 @@ class LicenseManagerAPI(BasePrivXAPI):
             UrlEnum.LICENSE.DEACTIVATE,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_mobilegw_registration_status(self) -> PrivXAPIResponse:
+        """
+        Get Mobile Gateway registration status
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(UrlEnum.LICENSE.MGW_STATUS)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def register_privx_to_mobilegw(self) -> PrivXAPIResponse:
+        """
+        Register PrivX to the Mobile Gateway
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status = self._http_post(UrlEnum.LICENSE.MGW_REGISTER)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, "")
+
+    def unregister_privx_from_mobilegw(self) -> PrivXAPIResponse:
+        """
+        Unregister PrivX from the Mobile Gateway
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status = self._http_post(UrlEnum.LICENSE.MGW_UNREGISTER)
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, "")
