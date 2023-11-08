@@ -31,10 +31,13 @@ api = privx_api.PrivXAPI(
 # NOTE: fill in your credentials from secure storage, this is just an example
 api.authenticate(config.API_CLIENT_ID, config.API_CLIENT_SECRET)
 
-# Default search order how to report user names in the output file. 
+# Default search order how to report user names in the output file.
 # NOTE: Not all user records have "principal" field defined necessarily,
 # hence the script will check samaccountname and DN fields as a backup
-username_attributes_to_check = ['principal', 'samaccountname', 'distinguished_name']
+username_attributes_to_check = ['principal',
+                                'samaccountname',
+                                'distinguished_name']
+
 
 def get_roles():
     resp = api.get_roles()
@@ -77,11 +80,12 @@ def get_role_mapping_data(role_id, role_name):
         for attribute in username_attributes_to_check:
             if attribute in member:
                 members.append(member[attribute])
-                # Break: no need to continue checking other attributes to find user name
+                # Break: Found username, no need to continue
                 break
         else:
-            print(f"Did not find user attribute, please configure script to use correct fields for user name attributes")
-            members.append(member["Username not defined in these attribute fields: {username_attributes_to_check}"])
+            # Did not find username, please configure script to
+            # use correct fields for user name attributes
+            members.append("UserID not found")
 
     members = ",".join(members)
     for host_data in data_load["items"]:
