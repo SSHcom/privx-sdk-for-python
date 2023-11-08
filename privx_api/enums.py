@@ -18,6 +18,8 @@ class AuthEnum:
     TERMINATE_SESSION = "AUTH.TERMINATE_SESSION"
     TERMINATE_USER_SESSIONS = "AUTH.TERMINATE_USER_SESSIONS"
     LOGOUT = "AUTH.LOGOUT"
+    MGW_USER_DEVICES = "AUTH.MOBILE_GW_USER_DEVICES"
+    MGW_USER_DEVICES_UNPAIR = "AUTH.MOBILE_GW_USER_DEVICES_UNPAIR"
 
     urls = {
         AUTHORIZE: "/auth/api/v1/oauth/authorize",
@@ -34,6 +36,8 @@ class AuthEnum:
         TERMINATE_USER_SESSIONS: "/auth/api/v1/sessionstorage/users/{user_id}"
         "/sessions/terminate",
         LOGOUT: "/auth/api/v1/logout",
+        MGW_USER_DEVICES: "/auth/api/v1/users/{user_id}/devices",
+        MGW_USER_DEVICES_UNPAIR: "/auth/api/v1/users/{user_id}/devices/{device_id}",
     }
 
 
@@ -281,6 +285,9 @@ class LicenseManagerEnum:
     REFRESH = "LICENSE_MANAGER.REFRESH"
     OPT_IN = "LICENSE_MANAGER.OPT_IN"
     DEACTIVATE = "LICENSE_MANAGER.DEACTIVATE"
+    MGW_STATUS = "MOBILE_GW.STATUS"
+    MGW_REGISTER = "MOBILE_GW.REGISTER"
+    MGW_UNREGISTER = "MOBILE_GW.UNREGISTER"
 
     urls = {
         STATUS: "/license-manager/api/v1/status",
@@ -288,6 +295,9 @@ class LicenseManagerEnum:
         REFRESH: "/license-manager/api/v1/license/refresh",
         OPT_IN: "/license-manager/api/v1/license/optin",
         DEACTIVATE: "/license-manager/api/v1/license/deactivate",
+        MGW_STATUS: "/license-manager/api/v1/mobilegw/status",
+        MGW_REGISTER: "/license-manager/api/v1/mobilegw/register",
+        MGW_UNREGISTER: "/license-manager/api/v1/mobilegw/unregister",
     }
 
 
