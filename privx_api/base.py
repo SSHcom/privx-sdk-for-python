@@ -84,6 +84,7 @@ class BasePrivXAPI:
         self._re_auth_deadline = None
         self._access_token_age = None
         self._re_auth_margin = re_auth_margin
+        self._sticky_session = None
 
     def _authenticate(self, username: str, password: str) -> None:
         # saving the creds for the re-auth purposes
@@ -122,6 +123,7 @@ class BasePrivXAPI:
             except (JSONDecodeError, TypeError) as e:
                 raise InternalAPIException(e) from e
 
+            self._sticky_session = response.getheader("Set-Cookie")
             # privx response includes access token age in seconds
             self._access_token_age = data.get("expires_in")
             self._re_auth_deadline = (
@@ -139,7 +141,6 @@ class BasePrivXAPI:
         query_params: Optional[dict] = None,
         body: Optional[Union[dict, str, list]] = None,
     ) -> dict:
-
         path_params = path_params or {}
         query_params = query_params or {}
         self._reauthenticate_access_token(url_name)
@@ -174,6 +175,8 @@ class BasePrivXAPI:
         }
         if self._access_token:
             headers["Authorization"] = "Bearer {}".format(self._access_token)
+        if self._sticky_session:
+            headers["Cookie"] = self._sticky_session
         return headers
 
     def _get_search_params(self, **kwargs: Union[str, int]) -> dict:
@@ -192,7 +195,6 @@ class BasePrivXAPI:
         path_params: Optional[dict] = None,
         query_params: Optional[dict] = None,
     ) -> Tuple:
-
         with Connection(self._connection_info) as conn:
             try:
                 conn.request(
@@ -228,7 +230,6 @@ class BasePrivXAPI:
         path_params: Optional[dict] = None,
         query_params: Optional[dict] = None,
     ) -> Tuple:
-
         with Connection(self._connection_info) as conn:
             try:
                 conn.request(
@@ -252,7 +253,6 @@ class BasePrivXAPI:
         path_params: Optional[dict] = None,
         query_params: Optional[dict] = None,
     ) -> Tuple:
-
         with Connection(self._connection_info) as conn:
             try:
                 conn.request(
@@ -276,7 +276,6 @@ class BasePrivXAPI:
         path_params: Optional[dict] = None,
         query_params: Optional[dict] = None,
     ) -> Tuple:
-
         with Connection(self._connection_info) as conn:
             try:
                 conn.request(
