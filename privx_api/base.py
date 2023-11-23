@@ -123,7 +123,9 @@ class BasePrivXAPI:
             except (JSONDecodeError, TypeError) as e:
                 raise InternalAPIException(e) from e
 
-            self._sticky_session = response.getheader("Set-Cookie")
+            if not self._sticky_session:
+                self._sticky_session = response.getheader("Set-Cookie")
+
             # privx response includes access token age in seconds
             self._access_token_age = data.get("expires_in")
             self._re_auth_deadline = (
