@@ -23,7 +23,7 @@ def format_path_components(format_str: str, **kw) -> str:
             if isinstance(v, str) is False
         }
         error_message = (
-            f"Expect argument type str but got:\n"
+            f"Expect argument type str but got: \n"
             f"{json.dumps(incorrect_params, indent=4)}"
         )
         raise InternalAPIException(error_message)

@@ -78,7 +78,7 @@ def main():
     # Example
     certList = get_cert(conf)
     for i in range(len(certList)):
-        print(f"{'-'*12} Cert{i+1} {'-'*12}\n{certList[i]}")
+        print(f"{'-' * 12} Cert{i + 1} {'-' * 12}\n{certList[i]}")
 
 
 if __name__ == "__main__":
