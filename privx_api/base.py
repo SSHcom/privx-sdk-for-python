@@ -70,6 +70,7 @@ class BasePrivXAPI:
         oauth_client_id: str,
         oauth_client_secret: str,
         re_auth_margin: int = 3,
+        use_cookies=False,
     ) -> None:
         self._access_token = ""
         self._oauth_client_id = oauth_client_id
@@ -84,6 +85,8 @@ class BasePrivXAPI:
         self._re_auth_deadline = None
         self._access_token_age = None
         self._re_auth_margin = re_auth_margin
+        self._use_cookies = use_cookies
+        self._cookies = None
 
     def _authenticate(self, username: str, password: str) -> None:
         # saving the creds for the re-auth purposes
@@ -121,6 +124,11 @@ class BasePrivXAPI:
                 data = json.loads(response.read())
             except (JSONDecodeError, TypeError) as e:
                 raise InternalAPIException(e) from e
+
+            # save and never change cookie`s value,
+            # in order to communicate with the same node
+            if self._cookies is None and self._use_cookies:
+                self._cookies = response.getheader("Set-Cookie")
 
             # privx response includes access token age in seconds
             self._access_token_age = data.get("expires_in")
@@ -174,6 +182,8 @@ class BasePrivXAPI:
         }
         if self._access_token:
             headers["Authorization"] = "Bearer {}".format(self._access_token)
+        if self._cookies:
+            headers["Cookie"] = self._cookies
         return headers
 
     def _get_search_params(self, **kwargs: Union[str, int]) -> dict:
