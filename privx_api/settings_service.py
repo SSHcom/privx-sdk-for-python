@@ -7,6 +7,20 @@ from privx_api.response import PrivXAPIResponse
 
 
 class SettingsServiceAPI(BasePrivXAPI):
+    def restart_required(self, scope: str, scope_params: dict) -> PrivXAPIResponse:
+        """
+        Verify if restart is required for given settings scope.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.SETTINGS.RESTART_REQUIRED,
+            path_params={"scope": scope},
+            body=scope_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
     def get_settings_service_status(self) -> PrivXAPIResponse:
         """
         Get microservice status.
