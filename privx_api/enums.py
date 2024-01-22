@@ -324,6 +324,7 @@ class MonitorServiceEnum:
 
 
 class PrivXSettingsEnum:
+    RESTART_REQUIRED = "SETTINGS.RESTART_REQUIRED"
     SCOPE = "SETTINGS.SCOPE"
     SCOPE_SCHEMA = "SETTINGS.SCOPE_SCHEMA"
     SCOPE_SECTION = "SETTINGS.SCOPE_SECTION"
@@ -331,6 +332,7 @@ class PrivXSettingsEnum:
     STATUS = "SETTINGS.STATUS"
 
     urls = {
+        RESTART_REQUIRED: "/settings/api/v1/restart_required/{scope}",
         SCOPE: "/settings/api/v1/settings/{scope}",
         SCOPE_SCHEMA: "/settings/api/v1/schema/{scope}",
         SCOPE_SECTION: "/settings/api/v1/settings/{scope}/{section}",
