@@ -1,4 +1,4 @@
-# Download a pre-configured deployment script.
+# Download a pre-configured extender config.
 
 import json
 import sys
