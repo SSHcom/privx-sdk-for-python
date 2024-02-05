@@ -399,11 +399,15 @@ class AuthorizerEnum:
     CREATE_GROUP_PRINCIPAL_KEY = "AUTHORIZER.CREATE_GROUP_PRINCIPAL_KEY"
     DEPLOYMENT_SCRIPT_SESSION_ID = "AUTHORIZER.DEPLOYMENT_SCRIPT_SESSION_ID"
     DOWNLOAD_CARRIER_CONFIG = "AUTHORIZER.DOWNLOAD_CARRIER_CONFIG"
+    GET_CARRIER_CONFIG = "AUTHORIZER.GET_CARRIER_CONFIG"
     DOWNLOAD_COMMAND_SCRIPT = "AUTHORIZER.DOWNLOAD_COMMAND_SCRIPT"
     DOWNLOAD_DEPLOYMENT_SCRIPT = "AUTHORIZER.DOWNLOAD_DEPLOYMENT_SCRIPT"
+    GET_DEPLOYMENT_SCRIPT = "AUTHORIZER.GET_DEPLOYMENT_SCRIPT"
     DOWNLOAD_WEB_PROXY_CONFIG = "AUTHORIZER.DOWNLOAD_WEB_PROXY_CONFIG"
+    GET_WEB_PROXY_CONFIG = "AUTHORIZER.GET_WEB_PROXY_CONFIG"
     EXTENDER_CONFIG = "AUTHORIZER.EXTENDER_CONFIG"
     EXTENDER_CONFIG_SESSION_ID = "AUTHORIZER.EXTENDER_CONFIG_SESSION_ID"
+    GET_EXTENDER_CONFIG = "AUTHORIZER.GET_EXTENDER_CONFIG"
     EXTENDER_TRUST_ANCHOR = "AUTHORIZER.EXTENDER_TRUST_ANCHOR"
     GET_CERT_BY_ID = "AUTHORIZER.GET_CERT_BY_ID"
     GET_CERTIFICATES_LIST = "AUTHORIZER.GET_CERTIFICATES_LIST"
@@ -436,15 +440,19 @@ class AuthorizerEnum:
         DEPLOYMENT_SCRIPT_SESSION_ID: "/authorizer/api/v1/deploy/{trusted_client_id}",
         DOWNLOAD_CARRIER_CONFIG: "/authorizer/api/v1/carrier/conf/{trusted_client_id}"
         "/{session_id}",
+        GET_CARRIER_CONFIG: "/authorizer/api/v1/carrier/conf/{trusted_client_id}",
         DOWNLOAD_COMMAND_SCRIPT: "/authorizer/api/v1/deploy/principals_command.sh",
         DOWNLOAD_DEPLOYMENT_SCRIPT: "/authorizer/api/v1/deploy/{trusted_client_id}/{"
         "session_id}",
+        GET_DEPLOYMENT_SCRIPT: "/authorizer/api/v1/deploy/{trusted_client_id}",
         DOWNLOAD_WEB_PROXY_CONFIG: "/authorizer/api/v1/icap/conf/{trusted_client_id}"
         "/{session_id}",
+        GET_WEB_PROXY_CONFIG: "/authorizer/api/v1/icap/conf/{trusted_client_id}",
         EXTENDER_CONFIG: "/authorizer/api/v1/extender/conf/{trusted_client_id}"
         "/{session_id}",
         EXTENDER_CONFIG_SESSION_ID: "/authorizer/api/v1/extender/conf"
         "/{trusted_client_id}",
+        GET_EXTENDER_CONFIG: "/authorizer/api/v1/extender/conf/{trusted_client_id}",
         EXTENDER_TRUST_ANCHOR: "/authorizer/api/v1/extender-trust-anchor",
         GET_CERT_BY_ID: "/authorizer/api/v1/cert/{id}",
         GET_CERTIFICATES_LIST: "/authorizer/api/v1/cert",

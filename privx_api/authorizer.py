@@ -239,6 +239,8 @@ class AuthorizerAPI(BasePrivXAPI):
         """
         Gets a extender-config.toml pre-configured for this PrivX installation.
 
+        Deprecated: use get_extender_config instead.
+
         Returns:
             PrivXAPIResponse
         """
@@ -256,6 +258,8 @@ class AuthorizerAPI(BasePrivXAPI):
         """
         Gets a extender-config.toml pre-configured for this PrivX installation.
 
+        Deprecated: use get_extender_config instead.
+
         Returns:
             PrivXStreamResponse
         """
@@ -268,11 +272,31 @@ class AuthorizerAPI(BasePrivXAPI):
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
 
+    def get_extender_config(
+        self,
+        trusted_client_id: str,
+    ) -> PrivXStreamResponse:
+        """
+        Gets a extender-config.toml pre-configured for this PrivX installation.
+
+        Returns:
+            PrivXStreamResponse
+        """
+        response = self._http_stream(
+            UrlEnum.AUTHORIZER.GET_EXTENDER_CONFIG,
+            path_params={
+                "trusted_client_id": trusted_client_id,
+            },
+        )
+        return PrivXStreamResponse(response, HTTPStatus.OK)
+
     def create_deployment_script_download_handle(
         self, trusted_client_id: str
     ) -> PrivXAPIResponse:
         """
         Gets a deployment script pre-configured for this PrivX installation.
+
+        Deprecated: use get_deployment_script instead.
 
         Returns:
             PrivXAPIResponse
@@ -291,6 +315,8 @@ class AuthorizerAPI(BasePrivXAPI):
         """
         Gets a deployment script pre-configured for this PrivX installation.
 
+        Deprecated: use get_deployment_script instead.
+
         Returns:
             PrivXStreamResponse
         """
@@ -299,6 +325,24 @@ class AuthorizerAPI(BasePrivXAPI):
             path_params={
                 "trusted_client_id": trusted_client_id,
                 "session_id": session_id,
+            },
+        )
+        return PrivXStreamResponse(response, HTTPStatus.OK)
+
+    def get_deployment_script(
+        self,
+        trusted_client_id: str,
+    ) -> PrivXStreamResponse:
+        """
+        Gets a deployment script pre-configured for this PrivX installation.
+
+        Returns:
+            PrivXStreamResponse
+        """
+        response = self._http_stream(
+            UrlEnum.AUTHORIZER.GET_DEPLOYMENT_SCRIPT,
+            path_params={
+                "trusted_client_id": trusted_client_id,
             },
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
@@ -321,6 +365,8 @@ class AuthorizerAPI(BasePrivXAPI):
         """
         Gets a carrier-config.toml pre-configured for this PrivX installation.
 
+        Deprecated: use get_carrier_config instead.
+
         Returns:
             PrivXStreamResponse
         """
@@ -338,6 +384,8 @@ class AuthorizerAPI(BasePrivXAPI):
         """
         Gets a carrier-config.toml pre-configured for this PrivX installation.
 
+        Deprecated: use get_carrier_config instead.
+
         Returns:
             PrivXStreamResponse
         """
@@ -349,12 +397,32 @@ class AuthorizerAPI(BasePrivXAPI):
             },
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
+    
+    def get_carrier_config(
+        self,
+        trusted_client_id: str,
+    ) -> PrivXStreamResponse:
+        """
+        Gets a carrier-config.toml pre-configured for this PrivX installation.
+
+        Returns:
+            PrivXStreamResponse
+        """
+        response = self._http_stream(
+            UrlEnum.AUTHORIZER.GET_CARRIER_CONFIG,
+            path_params={
+                "trusted_client_id": trusted_client_id,
+            },
+        )
+        return PrivXStreamResponse(response, HTTPStatus.OK)
 
     def create_web_proxy_config_download_handle(
         self, trusted_client_id: str
     ) -> PrivXAPIResponse:
         """
         Gets a web-proxy-config.toml pre-configured for this PrivX installation.
+
+        Deprecated: use get_web_proxy_config instead.
 
         Returns:
             PrivXStreamResponse
@@ -373,6 +441,8 @@ class AuthorizerAPI(BasePrivXAPI):
         """
         Gets a web-proxy-config.toml pre-configured for this PrivX installation.
 
+        Deprecated: use get_web_proxy_config instead.
+
         Returns:
             PrivXStreamResponse
         """
@@ -381,6 +451,24 @@ class AuthorizerAPI(BasePrivXAPI):
             path_params={
                 "trusted_client_id": trusted_client_id,
                 "session_id": session_id,
+            },
+        )
+        return PrivXStreamResponse(response, HTTPStatus.OK)
+
+    def get_web_proxy_config(
+        self,
+        trusted_client_id: str,
+    ) -> PrivXStreamResponse:
+        """
+        Gets a web-proxy-config.toml pre-configured for this PrivX installation.
+
+        Returns:
+            PrivXStreamResponse
+        """
+        response = self._http_stream(
+            UrlEnum.AUTHORIZER.GET_WEB_PROXY_CONFIG,
+            path_params={
+                "trusted_client_id": trusted_client_id,
             },
         )
         return PrivXStreamResponse(response, HTTPStatus.OK)
