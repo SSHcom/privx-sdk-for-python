@@ -29,9 +29,9 @@ class AuthorizerAPI(BasePrivXAPI):
         """
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.AUTHORIZER_CERT,
-            query_params={"access_group_id": access_group_id}
-            if access_group_id
-            else None,
+            query_params=(
+                {"access_group_id": access_group_id} if access_group_id else None
+            ),
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 

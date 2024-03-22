@@ -34,9 +34,7 @@ api.authenticate(config.API_CLIENT_ID, config.API_CLIENT_SECRET)
 # Default search order how to report user names in the output file.
 # NOTE: Not all user records have "principal" field defined necessarily,
 # hence the script will check samaccountname and DN fields as a backup
-username_attributes_to_check = ['principal',
-                                'samaccountname',
-                                'distinguished_name']
+username_attributes_to_check = ["principal", "samaccountname", "distinguished_name"]
 
 
 def get_roles():
@@ -55,8 +53,8 @@ def get_roles():
 
 def get_username_info(data):
     """
-       Get usernames: check (configurable) list of fields to find usernames
-       Return: list of found usernames
+    Get usernames: check (configurable) list of fields to find usernames
+    Return: list of found usernames
     """
 
     app_members = []
