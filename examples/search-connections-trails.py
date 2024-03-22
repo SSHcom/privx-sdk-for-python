@@ -2,6 +2,7 @@
 This example fetches a trail file and prints stdin events seen in the trail.
 
 """
+
 import base64
 import getopt
 import json

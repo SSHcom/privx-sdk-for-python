@@ -2,6 +2,7 @@
 This example updates connection tags and fetch connection tags.
 
 """
+
 import sys
 
 import config
