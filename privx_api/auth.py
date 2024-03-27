@@ -108,8 +108,13 @@ class AuthAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
+        search_params = self._get_search_params(
+            offset=offset, limit=limit, sortkey=sort_key, sortdir=sort_dir
+        )
+
         response_status, data = self._http_get(
             UrlEnum.AUTH.USER_SESSIONS,
+            query_params=search_params,
             path_params={"user_id": user_id},
         )
         print(response_status, data)
@@ -129,8 +134,13 @@ class AuthAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
+        search_params = self._get_search_params(
+            offset=offset, limit=limit, sortkey=sort_key, sortdir=sort_dir
+        )
+
         response_status, data = self._http_get(
             UrlEnum.AUTH.SOURCE_SESSIONS,
+            query_params=search_params,
             path_params={"source_id": source_id},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
