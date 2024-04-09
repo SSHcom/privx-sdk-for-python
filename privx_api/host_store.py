@@ -48,14 +48,31 @@ class HostStoreAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_hosts(self) -> PrivXAPIResponse:
+    def get_hosts(
+        self,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_key: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+        filter_param: Optional[str] = None,
+    ) -> PrivXAPIResponse:
         """
         Get hosts.
 
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.HOST_STORE.HOSTS)
+        search_params = self._get_search_params(
+            offset=offset,
+            limit=limit,
+            sortkey=sort_key,
+            sortdir=sort_dir,
+            filter=filter_param,
+        )
+
+        response_status, data = self._http_get(
+            UrlEnum.HOST_STORE.HOSTS, query_params=search_params
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def create_host(self, host: dict) -> PrivXAPIResponse:
