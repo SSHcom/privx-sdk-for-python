@@ -625,9 +625,7 @@ class AuthorizerAPI(BasePrivXAPI):
         Returns:
             PrivxAPIResponse
         """
-        search_params = self._get_search_params(
-            limit=limit, sortdir=sort_dir
-        )
+        search_params = self._get_search_params(limit=limit, sortdir=sort_dir)
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.ACCOUNT_SECRETS,
             query_params=search_params,
@@ -646,9 +644,7 @@ class AuthorizerAPI(BasePrivXAPI):
         Returns:
             PrivxAPIResponse
         """
-        search_params = self._get_search_params(
-            limit=limit, sortdir=sort_dir
-        )
+        search_params = self._get_search_params(limit=limit, sortdir=sort_dir)
 
         response_status, data = self._http_post(
             UrlEnum.AUTHORIZER.SEARCH_ACCOUNT_SECRETS,
@@ -683,9 +679,7 @@ class AuthorizerAPI(BasePrivXAPI):
         Returns:
             PrivxAPIResponse
         """
-        search_params = self._get_search_params(
-            limit=limit, sortdir=sort_dir
-        )
+        search_params = self._get_search_params(limit=limit, sortdir=sort_dir)
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.CHECKOUT_ACCOUNT_SECRETS,
             query_params=search_params,

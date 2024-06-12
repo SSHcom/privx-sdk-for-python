@@ -6,6 +6,7 @@ from privx_api.enums import UrlEnum
 from privx_api.response import PrivXAPIResponse
 from privx_api.utils import get_value
 
+
 class SecretsManagerAPI(BasePrivXAPI):
     def get_secrets_manager_service_status(self) -> PrivXAPIResponse:
         """
@@ -24,7 +25,9 @@ class SecretsManagerAPI(BasePrivXAPI):
         Returns:
             PrivxAPIResponse
         """
-        response_status, data = self._http_get(UrlEnum.SECRETS_MANAGER.PASSWORD_POLICIES)
+        response_status, data = self._http_get(
+            UrlEnum.SECRETS_MANAGER.PASSWORD_POLICIES
+        )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def create_password_policy(self, source_params: dict) -> PrivXAPIResponse:
@@ -126,7 +129,9 @@ class SecretsManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def update_script_template(self, id: str, template_params: dict) -> PrivXAPIResponse:
+    def update_script_template(
+        self, id: str, template_params: dict
+    ) -> PrivXAPIResponse:
         """
         Update a script template.
 
@@ -228,11 +233,14 @@ class SecretsManagerAPI(BasePrivXAPI):
             PrivxAPIResponse
         """
         response_status, data = self._http_get(
-            UrlEnum.SECRETS_MANAGER.TARGET_DOMAIN, path_params={"target_domain_id": target_domain_id}
+            UrlEnum.SECRETS_MANAGER.TARGET_DOMAIN,
+            path_params={"target_domain_id": target_domain_id},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def update_target_domain(self, target_domain_id: str, td_params: dict) -> PrivXAPIResponse:
+    def update_target_domain(
+        self, target_domain_id: str, td_params: dict
+    ) -> PrivXAPIResponse:
         """
         Update a target domain.
 
@@ -254,7 +262,8 @@ class SecretsManagerAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_delete(
-            UrlEnum.SECRETS_MANAGER.TARGET_DOMAIN, path_params={"target_domain_id": target_domain_id}
+            UrlEnum.SECRETS_MANAGER.TARGET_DOMAIN,
+            path_params={"target_domain_id": target_domain_id},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -266,7 +275,8 @@ class SecretsManagerAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.SECRETS_MANAGER.TARGET_DOMAIN, path_params={"target_domain_id": target_domain_id}
+            UrlEnum.SECRETS_MANAGER.TARGET_DOMAIN,
+            path_params={"target_domain_id": target_domain_id},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
@@ -321,7 +331,9 @@ class SecretsManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_target_domain_account(self, target_domain_id: str, account_id: str) -> PrivXAPIResponse:
+    def get_target_domain_account(
+        self, target_domain_id: str, account_id: str
+    ) -> PrivXAPIResponse:
         """
         Get target domain account.
 
@@ -330,11 +342,16 @@ class SecretsManagerAPI(BasePrivXAPI):
         """
         response_status, data = self._http_get(
             UrlEnum.SECRETS_MANAGER.TARGET_DOMAIN_ACCOUNT,
-            path_params={"target_domain_id": target_domain_id, "account_id": account_id},
+            path_params={
+                "target_domain_id": target_domain_id,
+                "account_id": account_id,
+            },
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def update_target_domain_account(self, target_domain_id: str, account_id: str, td_params: dict) -> PrivXAPIResponse:
+    def update_target_domain_account(
+        self, target_domain_id: str, account_id: str, td_params: dict
+    ) -> PrivXAPIResponse:
         """
         Update a target domain account.
 
@@ -343,12 +360,17 @@ class SecretsManagerAPI(BasePrivXAPI):
         """
         response_status, data = self._http_put(
             UrlEnum.SECRETS_MANAGER.TARGET_DOMAIN_ACCOUNT,
-            path_params={"target_domain_id": target_domain_id, "account_id": account_id},
+            path_params={
+                "target_domain_id": target_domain_id,
+                "account_id": account_id,
+            },
             body=td_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def batch_update_target_domain_account(self, target_domain_id: str, td_params: dict) -> PrivXAPIResponse:
+    def batch_update_target_domain_account(
+        self, target_domain_id: str, td_params: dict
+    ) -> PrivXAPIResponse:
         """
         Update a target domain account in batch.
 
@@ -386,7 +408,9 @@ class SecretsManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def create_target_domain_managed_account(self, target_domain_id: str, td_params: dict) -> PrivXAPIResponse:
+    def create_target_domain_managed_account(
+        self, target_domain_id: str, td_params: dict
+    ) -> PrivXAPIResponse:
         """
         Create a managed account.
         Id, author, created & updated are automatically populated by the PrivX server.
@@ -428,7 +452,9 @@ class SecretsManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def get_target_domain_managed_account(self, target_domain_id: str, managed_account_id: str) -> PrivXAPIResponse:
+    def get_target_domain_managed_account(
+        self, target_domain_id: str, managed_account_id: str
+    ) -> PrivXAPIResponse:
         """
         Get managed account.
 
@@ -437,11 +463,16 @@ class SecretsManagerAPI(BasePrivXAPI):
         """
         response_status, data = self._http_get(
             UrlEnum.SECRETS_MANAGER.TARGET_DOMAIN_MANAGED_ACCOUNT,
-            path_params={"target_domain_id": target_domain_id, "managed_account_id": managed_account_id},
+            path_params={
+                "target_domain_id": target_domain_id,
+                "managed_account_id": managed_account_id,
+            },
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def update_target_domain_managed_account(self, target_domain_id: str, managed_account_id: str, td_params: dict) -> PrivXAPIResponse:
+    def update_target_domain_managed_account(
+        self, target_domain_id: str, managed_account_id: str, td_params: dict
+    ) -> PrivXAPIResponse:
         """
         Update a managed account.
 
@@ -450,12 +481,17 @@ class SecretsManagerAPI(BasePrivXAPI):
         """
         response_status, data = self._http_put(
             UrlEnum.SECRETS_MANAGER.TARGET_DOMAIN_MANAGED_ACCOUNT,
-            path_params={"target_domain_id": target_domain_id, "managed_account_id": managed_account_id},
+            path_params={
+                "target_domain_id": target_domain_id,
+                "managed_account_id": managed_account_id,
+            },
             body=td_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def delete_target_domain_managed_account(self, target_domain_id: str, managed_account_id: str) -> PrivXAPIResponse:
+    def delete_target_domain_managed_account(
+        self, target_domain_id: str, managed_account_id: str
+    ) -> PrivXAPIResponse:
         """
         Delete a managed account by ID.
 
@@ -464,11 +500,16 @@ class SecretsManagerAPI(BasePrivXAPI):
         """
         response_status, data = self._http_delete(
             UrlEnum.SECRETS_MANAGER.TARGET_DOMAIN_MANAGED_ACCOUNT,
-            path_params={"target_domain_id": target_domain_id, "managed_account_id": managed_account_id},
+            path_params={
+                "target_domain_id": target_domain_id,
+                "managed_account_id": managed_account_id,
+            },
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def rotate_target_domain_managed_account(self, target_domain_id: str, managed_account_id: str) -> PrivXAPIResponse:
+    def rotate_target_domain_managed_account(
+        self, target_domain_id: str, managed_account_id: str
+    ) -> PrivXAPIResponse:
         """
         Trigger managed account password rotation.
 
@@ -477,11 +518,16 @@ class SecretsManagerAPI(BasePrivXAPI):
         """
         response_status, data = self._http_post(
             UrlEnum.SECRETS_MANAGER.ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNT,
-            path_params={"target_domain_id": target_domain_id, "managed_account_id": managed_account_id},
+            path_params={
+                "target_domain_id": target_domain_id,
+                "managed_account_id": managed_account_id,
+            },
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def password_target_domain_managed_account(self, target_domain_id: str, managed_account_id: str, td_params: dict) -> PrivXAPIResponse:
+    def password_target_domain_managed_account(
+        self, target_domain_id: str, managed_account_id: str, td_params: dict
+    ) -> PrivXAPIResponse:
         """
         Provide password for managed account.
 
@@ -490,12 +536,17 @@ class SecretsManagerAPI(BasePrivXAPI):
         """
         response_status, data = self._http_post(
             UrlEnum.SECRETS_MANAGER.PASSWORD_TARGET_DOMAIN_MANAGED_ACCOUNT,
-            path_params={"target_domain_id": target_domain_id, "managed_account_id": managed_account_id},
+            path_params={
+                "target_domain_id": target_domain_id,
+                "managed_account_id": managed_account_id,
+            },
             body=td_params,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def batch_create_target_domain_managed_account(self, target_domain_id: str, td_params: dict) -> PrivXAPIResponse:
+    def batch_create_target_domain_managed_account(
+        self, target_domain_id: str, td_params: dict
+    ) -> PrivXAPIResponse:
         """
         Create a batch of managed accounts.
 
@@ -509,7 +560,9 @@ class SecretsManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def batch_update_target_domain_managed_account(self, target_domain_id: str, td_params: dict) -> PrivXAPIResponse:
+    def batch_update_target_domain_managed_account(
+        self, target_domain_id: str, td_params: dict
+    ) -> PrivXAPIResponse:
         """
         Update a batch of managed accounts.
 
@@ -523,7 +576,9 @@ class SecretsManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def batch_delete_target_domain_managed_account(self, target_domain_id: str, td_params: dict) -> PrivXAPIResponse:
+    def batch_delete_target_domain_managed_account(
+        self, target_domain_id: str, td_params: dict
+    ) -> PrivXAPIResponse:
         """
         Delete a batch of managed accounts.
 
@@ -537,7 +592,9 @@ class SecretsManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
-    def batch_rotate_target_domain_managed_account(self, target_domain_id: str, td_params: dict) -> PrivXAPIResponse:
+    def batch_rotate_target_domain_managed_account(
+        self, target_domain_id: str, td_params: dict
+    ) -> PrivXAPIResponse:
         """
         Trigger password rotation for a batch of managed accounts.
 
