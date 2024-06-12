@@ -547,20 +547,34 @@ class SecretsManagerEnum:
         TARGET_DOMAINS: "/secrets-manager/api/v1/targetdomains",
         SEARCH_TARGET_DOMAINS: "/secrets-manager/api/v1/targetdomains/search",
         TARGET_DOMAIN: "/secrets-manager/api/v1/targetdomains/{target_domain_id}",
-        REFRESH_TARGET_DOMAIN: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/refresh",
-        TARGET_DOMAIN_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/accounts",
-        SEARCH_TARGET_DOMAIN_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/accounts/search",
-        TARGET_DOMAIN_ACCOUNT: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/accounts/{account_id}",
-        BATH_UPDATE_TARGET_DOMAIN_ACCOUNT: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/accounts/batch/edit",
-        TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/managedaccounts",
-        SEARCH_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/managedaccounts/search",
-        TARGET_DOMAIN_MANAGED_ACCOUNT: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/managedaccounts/{managed_account_id}",
-        ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNT: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/managedaccounts/{managed_account_id}/rotate",
-        PASSWORD_TARGET_DOMAIN_MANAGED_ACCOUNT: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/managedaccounts/{managed_account_id}/password",
-        BATCH_CREATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/managedaccounts/batch/create",
-        BATCH_UPDATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/managedaccounts/batch/edit",
-        BATCH_DELETE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/managedaccounts/batch/delete",
-        BATCH_ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/{target_domain_id}/managedaccounts/batch/rotate",
+        REFRESH_TARGET_DOMAIN: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/refresh",
+        TARGET_DOMAIN_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/accounts",
+        SEARCH_TARGET_DOMAIN_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/accounts/search",
+        TARGET_DOMAIN_ACCOUNT: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/accounts/{account_id}",
+        BATH_UPDATE_TARGET_DOMAIN_ACCOUNT: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/accounts/batch/edit",
+        TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts",
+        SEARCH_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts/search",
+        TARGET_DOMAIN_MANAGED_ACCOUNT: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts/{managed_account_id}",
+        ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNT: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts/{managed_account_id}/rotate",
+        PASSWORD_TARGET_DOMAIN_MANAGED_ACCOUNT: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts/{managed_account_id}/password",
+        BATCH_CREATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts/batch/create",
+        BATCH_UPDATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts/batch/edit",
+        BATCH_DELETE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts/batch/delete",
+        BATCH_ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts/batch/rotate",
     }
 
 
