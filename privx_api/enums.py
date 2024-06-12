@@ -567,14 +567,14 @@ class SecretsManagerEnum:
         "{target_domain_id}/managedaccounts/{managed_account_id}/rotate",
         PASSWORD_TARGET_DOMAIN_MANAGED_ACCOUNT: "/secrets-manager/api/v1/targetdomains/"
         "{target_domain_id}/managedaccounts/{managed_account_id}/password",
-        BATCH_CREATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
-        "{target_domain_id}/managedaccounts/batch/create",
-        BATCH_UPDATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
-        "{target_domain_id}/managedaccounts/batch/edit",
-        BATCH_DELETE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
-        "{target_domain_id}/managedaccounts/batch/delete",
-        BATCH_ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
-        "{target_domain_id}/managedaccounts/batch/rotate",
+        BATCH_CREATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/"
+        "targetdomains/{target_domain_id}/managedaccounts/batch/create",
+        BATCH_UPDATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/"
+        "targetdomains/{target_domain_id}/managedaccounts/batch/edit",
+        BATCH_DELETE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/"
+        "targetdomains/{target_domain_id}/managedaccounts/batch/delete",
+        BATCH_ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/"
+        "targetdomains/{target_domain_id}/managedaccounts/batch/rotate",
     }
 
 
