@@ -25,8 +25,8 @@ from privx_api.license_manager import LicenseManagerAPI
 from privx_api.monitor_service import MonitorServiceAPI
 from privx_api.network_access_manager import NetworkAccessManagerAPI
 from privx_api.role_store import RoleStoreAPI
-from privx_api.settings_service import SettingsServiceAPI
 from privx_api.secrets_manager import SecretsManagerAPI
+from privx_api.settings_service import SettingsServiceAPI
 from privx_api.trail_index import TrailIndexAPI
 from privx_api.user_store import UserStoreAPI
 from privx_api.vault import VaultAPI
