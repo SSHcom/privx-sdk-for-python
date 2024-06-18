@@ -613,3 +613,99 @@ class AuthorizerAPI(BasePrivXAPI):
             path_params={"id": cert_id},
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_account_secrets(
+        self,
+        limit: Optional[int] = None,
+        sort_dir: Optional[str] = None,
+    ) -> PrivXAPIResponse:
+        """
+        Get all accessible account secrets.
+
+        Returns:
+            PrivxAPIResponse
+        """
+        search_params = self._get_search_params(limit=limit, sortdir=sort_dir)
+        response_status, data = self._http_get(
+            UrlEnum.AUTHORIZER.ACCOUNT_SECRETS,
+            query_params=search_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def search_account_secrets(
+        self,
+        limit: Optional[int] = None,
+        sort_dir: Optional[str] = None,
+        search_payload: Optional[dict] = None,
+    ) -> PrivXAPIResponse:
+        """
+        Search accessible account secrets.
+
+        Returns:
+            PrivxAPIResponse
+        """
+        search_params = self._get_search_params(limit=limit, sortdir=sort_dir)
+
+        response_status, data = self._http_post(
+            UrlEnum.AUTHORIZER.SEARCH_ACCOUNT_SECRETS,
+            query_params=search_params,
+            body=get_value(search_payload, dict()),
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def checkout_account_secrets(
+        self,
+        checkout_params: dict,
+    ) -> PrivXAPIResponse:
+        """
+        Checkout account secret.
+
+        Returns:
+            PrivxAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.AUTHORIZER.CHECKOUT_ACCOUNT_SECRETS, body=checkout_params
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_account_secret_checkouts(
+        self,
+        limit: Optional[int] = None,
+        sort_dir: Optional[str] = None,
+    ) -> PrivXAPIResponse:
+        """
+        Get secret checkouts.
+
+        Returns:
+            PrivxAPIResponse
+        """
+        search_params = self._get_search_params(limit=limit, sortdir=sort_dir)
+        response_status, data = self._http_get(
+            UrlEnum.AUTHORIZER.CHECKOUT_ACCOUNT_SECRETS,
+            query_params=search_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_account_secret_checkout(self, id: str) -> PrivXAPIResponse:
+        """
+        Get secret checkout by ID.
+
+        Returns:
+            PrivxAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.AUTHORIZER.CHECKOUT_ACCOUNT_SECRET, path_params={"id": id}
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def release_account_secret_checkout(self, id: str) -> PrivXAPIResponse:
+        """
+        Release secret checkout.
+
+        Returns:
+            PrivxAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.AUTHORIZER.RELEASE_ACCOUNT_SECRET, path_params={"id": id}
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)

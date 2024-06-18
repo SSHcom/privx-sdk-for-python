@@ -386,6 +386,7 @@ class TrailIndexEnum:
 class AuthorizerEnum:
     ACCESS_GROUP = "AUTHORIZER.ACCESS_GROUP"
     ACCESS_GROUPS = "AUTHORIZER.ACCESS_GROUPS"
+    ACCOUNT_SECRETS = "AUTHORIZER.ACCOUNT_SECRETS"
     CREATE_ACCESS_GROUP_CA_KEY = "AUTHORIZER.CREATE_ACCESS_GROUP_CA_KEY"
     DELETE_ACCESS_GROUP_CA_KEY = "AUTHORIZER.DELETE_ACCESS_GROUP_CA_KEY"
     AUTHORIZER_CERT = "AUTHORIZER.AUTHORIZER_CERT"
@@ -397,6 +398,8 @@ class AuthorizerEnum:
     COMPONENT_CERTS = "AUTHORIZER.COMPONENT_CERTS"
     COMPONENT_CERT_REVOCATION_LIST = "AUTHORIZER.COMPONENT_CERT_REVOCATION_LIST"
     CREATE_GROUP_PRINCIPAL_KEY = "AUTHORIZER.CREATE_GROUP_PRINCIPAL_KEY"
+    CHECKOUT_ACCOUNT_SECRETS = "AUTHORIZER.ACCOUNT_SECRETS_CHECKOUT"
+    CHECKOUT_ACCOUNT_SECRET = "AUTHORIZER.CHECKOUT_ACCOUNT_SECRET"
     DEPLOYMENT_SCRIPT_SESSION_ID = "AUTHORIZER.DEPLOYMENT_SCRIPT_SESSION_ID"
     DOWNLOAD_CARRIER_CONFIG = "AUTHORIZER.DOWNLOAD_CARRIER_CONFIG"
     DOWNLOAD_COMMAND_SCRIPT = "AUTHORIZER.DOWNLOAD_COMMAND_SCRIPT"
@@ -410,8 +413,10 @@ class AuthorizerEnum:
     GROUP_PRINCIPAL_KEY = "AUTHORIZER.GROUP_PRINCIPAL_KEY"
     IMPORT_GROUP_PRINCIPAL_KEY = "AUTHORIZER.IMPORT_GROUP_PRINCIPAL_KEY"
     PRINCIPALS = "AUTHORIZER.PRINCIPALS"
+    RELEASE_ACCOUNT_SECRET = "AUTHORIZER.RELEASE_ACCOUNT_SECRET"
     SEARCH_ACCESS_GROUPS = "AUTHORIZER.SEARCH_ACCESS_GROUPS"
     SEARCH_CERTS = "AUTHORIZER.SEARCH_CERTS"
+    SEARCH_ACCOUNT_SECRETS = "AUTHORIZER.SEARCH_ACCOUNT_SECRETS"
     SIGN_GROUP_PRINCIPAL_KEY = "AUTHORIZER.SIGN_GROUP_PRINCIPAL_KEY"
     SSL_TRUST_ANCHOR = "AUTHORIZER.SSL_TRUST_ANCHOR"
     STATUS = "AUTHORIZER.STATUS"
@@ -458,6 +463,11 @@ class AuthorizerEnum:
         STATUS: "/authorizer/api/v1/status",
         TARGET_HOST: "/authorizer/api/v1/ca/authorize",
         WEB_PROXY_CONFIG_SESSION_ID: "/authorizer/api/v1/icap/conf/{trusted_client_id}",
+        ACCOUNT_SECRETS: "/authorizer/api/v1/secrets",
+        SEARCH_ACCOUNT_SECRETS: "/authorizer/api/v1/secrets/search",
+        CHECKOUT_ACCOUNT_SECRETS: "/authorizer/api/v1/secrets/checkouts",
+        CHECKOUT_ACCOUNT_SECRET: "/authorizer/api/v1/secrets/checkouts/{id}",
+        RELEASE_ACCOUNT_SECRET: "/authorizer/api/v1/secrets/checkouts/{id}/release",
     }
 
 
@@ -480,6 +490,94 @@ class NetworkAccessManager:
     }
 
 
+class SecretsManagerEnum:
+    BATCH_CREATE_TARGET_DOMAIN_MANAGED_ACCOUNTS = (
+        "SECRETS_MANAGER.BATCH_CREATE_TARGET_DOMAIN_MANAGED_ACCOUNTS"
+    )
+    BATCH_UPDATE_TARGET_DOMAIN_MANAGED_ACCOUNTS = (
+        "SECRETS_MANAGER.BATCH_UPDATE_TARGET_DOMAIN_MANAGED_ACCOUNTS"
+    )
+    BATCH_DELETE_TARGET_DOMAIN_MANAGED_ACCOUNTS = (
+        "SECRETS_MANAGER.BATCH_DELETE_TARGET_DOMAIN_MANAGED_ACCOUNTS"
+    )
+    BATCH_ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNTS = (
+        "SECRETS_MANAGER.BATCH_ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNTS"
+    )
+    BATH_UPDATE_TARGET_DOMAIN_ACCOUNT = (
+        "SECRETS_MANAGER.BATH_UPDATE_TARGET_DOMAIN_ACCOUNT"
+    )
+    COMPILE_SCRIPT_TEMPLATE = "SECRETS_MANAGER.COMPILE_SCRIPT_TEMPLATE"
+    CREATE_SCRIPT_TEMPLATE = "SECRETS_MANAGER.CREATE_SCRIPT_TEMPLATE"
+    CREATE_PASSWORD_POLICY = "SECRETS_MANAGER.CREATE_PASSWORD_POLICY"
+    PASSWORD_POLICIES = "SECRETS_MANAGER.PASSWORD_POLICIES"
+    PASSWORD_POLICY = "SECRETS_MANAGER.PASSWORD_POLICY"
+    PASSWORD_TARGET_DOMAIN_MANAGED_ACCOUNT = (
+        "SECRETS_MANAGER.PASSWORD_TARGET_DOMAIN_MANAGED_ACCOUNT"
+    )
+    ROTATE_HOST_PASSWORD = "SECRETS_MANAGER.DISABLE_NETWORK_TARGET"
+    REFRESH_TARGET_DOMAIN = "SECRETS_MANAGER.REFRESH_TARGET_DOMAIN"
+    ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNT = (
+        "SECRETS_MANAGER.ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNT"
+    )
+    STATUS = "SECRETS_MANAGER.STATUS"
+    SCRIPT_TEMPLATES = "SECRETS_MANAGER.SCRIPT_TEMPLATES"
+    SCRIPT_TEMPLATE = "SECRETS_MANAGER.SCRIPT_TEMPLATE"
+    SEARCH_TARGET_DOMAINS = "SECRETS_MANAGER.SEARCH_TARGET_DOMAINS"
+    SEARCH_TARGET_DOMAIN_ACCOUNTS = "SECRETS_MANAGER.SEARCH_TARGET_DOMAIN_ACCOUNTS"
+    SEARCH_TARGET_DOMAIN_MANAGED_ACCOUNTS = (
+        "SECRETS_MANAGER.SEARCH_TARGET_DOMAIN_MANAGED_ACCOUNTS"
+    )
+    TARGET_DOMAINS = "SECRETS_MANAGER.TARGET_DOMAINS"
+    TARGET_DOMAIN = "SECRETS_MANAGER.TARGET_DOMAIN"
+    TARGET_DOMAIN_ACCOUNTS = "SECRETS_MANAGER.TARGET_DOMAIN_ACCOUNTS"
+    TARGET_DOMAIN_ACCOUNT = "SECRETS_MANAGER.TARGET_DOMAIN_ACCOUNT"
+    TARGET_DOMAIN_MANAGED_ACCOUNTS = "SECRETS_MANAGER.TARGET_DOMAIN_MANAGED_ACCOUNTS"
+    TARGET_DOMAIN_MANAGED_ACCOUNT = "SECRETS_MANAGER.TARGET_DOMAIN_MANAGED_ACCOUNT"
+
+    urls = {
+        BATCH_CREATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/"
+        "targetdomains/{target_domain_id}/managedaccounts/batch/create",
+        BATCH_UPDATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/"
+        "targetdomains/{target_domain_id}/managedaccounts/batch/edit",
+        BATCH_DELETE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/"
+        "targetdomains/{target_domain_id}/managedaccounts/batch/delete",
+        BATCH_ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/"
+        "targetdomains/{target_domain_id}/managedaccounts/batch/rotate",
+        BATH_UPDATE_TARGET_DOMAIN_ACCOUNT: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/accounts/batch/edit",
+        COMPILE_SCRIPT_TEMPLATE: "/secrets-manager/api/v1/script-template/compile",
+        CREATE_SCRIPT_TEMPLATE: "/secrets-manager/api/v1/script-template",
+        CREATE_PASSWORD_POLICY: "/secrets-manager/api/v1/password-policy",
+        PASSWORD_POLICIES: "/secrets-manager/api/v1/password-policies",
+        PASSWORD_POLICY: "/secrets-manager/api/v1/password-policy/{id}",
+        PASSWORD_TARGET_DOMAIN_MANAGED_ACCOUNT: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts/{managed_account_id}/password",
+        ROTATE_HOST_PASSWORD: "/secrets-manager/api/v1/rotate/{host_id}/{account}",
+        REFRESH_TARGET_DOMAIN: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/refresh",
+        ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNT: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts/{managed_account_id}/rotate",
+        STATUS: "/secrets-manager/api/v1/status",
+        SCRIPT_TEMPLATES: "/secrets-manager/api/v1/script-templates",
+        SCRIPT_TEMPLATE: "/secrets-manager/api/v1/script-template/{id}",
+        SEARCH_TARGET_DOMAINS: "/secrets-manager/api/v1/targetdomains/search",
+        SEARCH_TARGET_DOMAIN_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/accounts/search",
+        SEARCH_TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts/search",
+        TARGET_DOMAINS: "/secrets-manager/api/v1/targetdomains",
+        TARGET_DOMAIN: "/secrets-manager/api/v1/targetdomains/{target_domain_id}",
+        TARGET_DOMAIN_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/accounts",
+        TARGET_DOMAIN_ACCOUNT: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/accounts/{account_id}",
+        TARGET_DOMAIN_MANAGED_ACCOUNTS: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts",
+        TARGET_DOMAIN_MANAGED_ACCOUNT: "/secrets-manager/api/v1/targetdomains/"
+        "{target_domain_id}/managedaccounts/{managed_account_id}",
+    }
+
+
 class UrlEnum:
     AUTH = AuthEnum
     AUTHORIZER = AuthorizerEnum
@@ -491,6 +589,7 @@ class UrlEnum:
     NETWORK_ACCESS_MANAGER = NetworkAccessManager
     ROLE_STORE = RoleStoreEnum
     SETTINGS = PrivXSettingsEnum
+    SECRETS_MANAGER = SecretsManagerEnum
     TRAIL_INDEX = TrailIndexEnum
     USER_STORE = UserStoreEnum
     VAULT = VaultEnum
