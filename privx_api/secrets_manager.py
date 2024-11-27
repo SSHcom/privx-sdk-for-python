@@ -525,6 +525,22 @@ class SecretsManagerAPI(BasePrivXAPI):
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
+    def resolve_target_domains(
+        self,
+        target_domain_names: list,
+    ) -> PrivXAPIResponse:
+        """
+        Resolve target domain names to target domain IDs
+
+         Returns:
+             PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.SECRETS_MANAGER.RESOLVE_TARGET_DOMAINS,
+            body=target_domain_names,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
     def password_target_domain_managed_account(
         self, target_domain_id: str, managed_account_id: str, td_params: dict
     ) -> PrivXAPIResponse:
