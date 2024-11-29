@@ -519,6 +519,7 @@ class SecretsManagerEnum:
     ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNT = (
         "SECRETS_MANAGER.ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNT"
     )
+    RESOLVE_TARGET_DOMAINS = "SECRETS_MANAGER.RESOLVE_TARGET_DOMAINS"
     STATUS = "SECRETS_MANAGER.STATUS"
     SCRIPT_TEMPLATES = "SECRETS_MANAGER.SCRIPT_TEMPLATES"
     SCRIPT_TEMPLATE = "SECRETS_MANAGER.SCRIPT_TEMPLATE"
@@ -557,6 +558,7 @@ class SecretsManagerEnum:
         "{target_domain_id}/refresh",
         ROTATE_TARGET_DOMAIN_MANAGED_ACCOUNT: "/secrets-manager/api/v1/targetdomains/"
         "{target_domain_id}/managedaccounts/{managed_account_id}/rotate",
+        RESOLVE_TARGET_DOMAINS: "/secrets-manager/api/v1/targetdomains/resolve",
         STATUS: "/secrets-manager/api/v1/status",
         SCRIPT_TEMPLATES: "/secrets-manager/api/v1/script-templates",
         SCRIPT_TEMPLATE: "/secrets-manager/api/v1/script-template/{id}",
