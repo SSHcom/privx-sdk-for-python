@@ -217,3 +217,136 @@ class HostStoreAPI(BasePrivXAPI):
             UrlEnum.HOST_STORE.SETTINGS,
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_command_restriction_whitelists(
+        self,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        query: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+    ) -> PrivXAPIResponse:
+        """
+        Get all whitelists.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        search_params = self._get_search_params(
+            offset=offset,
+            limit=limit,
+            query=query,
+            sortdir=sort_dir,
+        )
+        response_status, data = self._http_get(
+            UrlEnum.HOST_STORE.WHITELISTS,
+            query_params=search_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def create_command_restriction_whitelist(self, whitelist: dict) -> PrivXAPIResponse:
+        """
+        Create a whitelist, see required fields from API docs.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.HOST_STORE.WHITELISTS,
+            body=whitelist,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+
+    def get_command_restriction_whitelist(self, whitelist_id: str) -> PrivXAPIResponse:
+        """
+        Get a whitelist by id.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_get(
+            UrlEnum.HOST_STORE.WHITELIST,
+            path_params={"whitelist_id": whitelist_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def delete_command_restriction_whitelist(
+        self, whitelist_id: str
+    ) -> PrivXAPIResponse:
+        """
+        Remove a whitelist by id.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_delete(
+            UrlEnum.HOST_STORE.WHITELIST,
+            path_params={"whitelist_id": whitelist_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def update_command_restriction_whitelist(
+        self, whitelist_id: str, whitelist: dict
+    ) -> PrivXAPIResponse:
+        """
+        Update a whitelist by id, see required fields from API docs.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_put(
+            UrlEnum.HOST_STORE.WHITELIST,
+            path_params={"whitelist_id": whitelist_id},
+            body=whitelist,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def search_command_restriction_whitelists(
+        self,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_key: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+        search_payload: Optional[dict] = None,
+    ) -> PrivXAPIResponse:
+        """
+        Search for whitelists, more granular search could be done
+        via "keywords" body param
+        search_payload = {
+            "keywords": "common_whitelist,allow_all_cmds",
+        }
+
+        Returns:
+            PrivXAPIResponse
+        """
+        search_params = self._get_search_params(
+            offset=offset,
+            limit=limit,
+            sortkey=sort_key,
+            sortdir=sort_dir,
+        )
+
+        response_status, data = self._http_post(
+            UrlEnum.HOST_STORE.WHITELIST_SEARCH,
+            query_params=search_params,
+            body=get_value(search_payload, dict()),
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def eval_commands_against_whitelist(
+        self, whitelist: dict, rshell_variant: str, cmds: [str]
+    ) -> PrivXAPIResponse:
+        """
+        Evaluate commands against the whitelist,see required fields from API docs.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.HOST_STORE.WHITELIST_EVALUATE,
+            body={
+                "whitelist": whitelist,
+                "rshell_variant": rshell_variant,
+                "commands": cmds,
+            },
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)

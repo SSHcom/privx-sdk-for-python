@@ -53,6 +53,10 @@ class HostStoreEnum:
     SETTINGS = "HOST_STORE.SETTINGS"
     STATUS = "HOST_STORE.STATUS"
     TAGS = "HOST_STORE.TAGS"
+    WHITELISTS = "HOST_STORE.WHITELISTS"
+    WHITELIST_SEARCH = "HOST_STORE.WHITELIST_SEARCH"
+    WHITELIST_EVALUATE = "HOST_STORE.WHITELIST_EVALUATE"
+    WHITELIST = "HOST_STORE.WHITELIST"
 
     urls = {
         DEPLOY: "/host-store/api/v1/hosts/deploy",
@@ -66,6 +70,10 @@ class HostStoreEnum:
         SETTINGS: "/host-store/api/v1/settings/default_service_options",
         STATUS: "/host-store/api/v1/status",
         TAGS: "/host-store/api/v1/hosts/tags",
+        WHITELISTS: "/host-store/api/v1/whitelists",
+        WHITELIST: "/host-store/api/v1/whitelists/{whitelist_id}",
+        WHITELIST_SEARCH: "/host-store/api/v1/whitelists/search",
+        WHITELIST_EVALUATE: "/host-store/api/v1/whitelists/evaluate",
     }
 
 
