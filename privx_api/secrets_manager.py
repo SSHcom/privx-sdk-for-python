@@ -574,7 +574,7 @@ class SecretsManagerAPI(BasePrivXAPI):
             path_params={"target_domain_id": target_domain_id},
             body=td_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
 
     def batch_update_target_domain_managed_account(
         self, target_domain_id: str, td_params: dict
