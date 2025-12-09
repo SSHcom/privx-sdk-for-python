@@ -51,6 +51,8 @@ class HostStoreEnum:
     RESOLVE = "HOST_STORE.RESOLVE"
     SEARCH = "HOST_STORE.SEARCH"
     SETTINGS = "HOST_STORE.SETTINGS"
+    SESSION_HOST_CERT = "HOST_STORE.SESSION_HOST_CERT"
+    SESSION_HOST_CERTS = "HOST_STORE.SESSION_HOST_CERTS"
     STATUS = "HOST_STORE.STATUS"
     TAGS = "HOST_STORE.TAGS"
     WHITELISTS = "HOST_STORE.WHITELISTS"
@@ -68,6 +70,10 @@ class HostStoreEnum:
         RESOLVE: "/host-store/api/v1/hosts/resolve",
         SEARCH: "/host-store/api/v1/hosts/search",
         SETTINGS: "/host-store/api/v1/settings/default_service_options",
+        SESSION_HOST_CERT: "/host-store/api/v1/hosts/{host_id}/"
+        "session_host_certificates{certificate_id}",
+        SESSION_HOST_CERTS: "/host-store/api/v1/hosts/{host_id}/"
+        "session_host_certificates",
         STATUS: "/host-store/api/v1/status",
         TAGS: "/host-store/api/v1/hosts/tags",
         WHITELISTS: "/host-store/api/v1/whitelists",

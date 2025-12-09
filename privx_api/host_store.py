@@ -350,3 +350,64 @@ class HostStoreAPI(BasePrivXAPI):
             },
         )
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def get_session_host_certificates(
+        self,
+        host_id: str,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_key: Optional[str] = None,
+        sort_dir: Optional[str] = None,
+    ) -> PrivXAPIResponse:
+        """
+        Get session host certificates.
+
+        Returns:
+            PrivXAPIResponse
+        """
+
+        search_params = self._get_search_params(
+            offset=offset,
+            limit=limit,
+            sortkey=sort_key,
+            sortdir=sort_dir,
+        )
+
+        response_status, data = self._http_get(
+            UrlEnum.HOST_STORE.SESSION_HOST_CERTS,
+            path_params={"host_id": host_id},
+            query_params=search_params,
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def delete_session_host_certificates(self, host_id: str) -> PrivXAPIResponse:
+        """
+        Delete host's session hosts certificates.
+
+        Returns:
+            PrivXAPIResponse
+        """
+
+        response_status, data = self._http_delete(
+            UrlEnum.HOST_STORE.SESSION_HOST_CERTS,
+            path_params={"host_id": host_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+
+    def delete_session_host_certificate(
+        self,
+        host_id: str,
+        certificate_id: str,
+    ) -> PrivXAPIResponse:
+        """
+        Delete a session host's certificate.
+
+        Returns:
+            PrivXAPIResponse
+        """
+
+        response_status, data = self._http_delete(
+            UrlEnum.HOST_STORE.SESSION_HOST_CERT,
+            query_params={"host_id": host_id, "certificate_id": certificate_id},
+        )
+        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
