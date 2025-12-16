@@ -133,7 +133,6 @@ class BasePrivXAPI:
                 int(time.time()) + self._access_token_age - self._re_auth_margin
             )
             self._access_token = data.get("access_token")
-            print(self._access_token)
             if self._access_token == "":
                 raise InternalAPIException("Failed to get access token")
 
@@ -217,7 +216,6 @@ class BasePrivXAPI:
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
-            print(response.getheader("x-upstream-addr"))
             self._store_response_cookies(response, request["url"])
             return response.status, response.read()
 
