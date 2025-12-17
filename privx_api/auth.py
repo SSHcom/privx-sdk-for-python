@@ -117,7 +117,6 @@ class AuthAPI(BasePrivXAPI):
             query_params=search_params,
             path_params={"user_id": user_id},
         )
-        print(response_status, data)
         return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
 
     def get_source_sessions(
