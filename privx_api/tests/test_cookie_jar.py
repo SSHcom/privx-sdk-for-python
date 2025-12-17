@@ -54,6 +54,41 @@ def test_get_header_drops_expired_cookies(monkeypatch):
 
 
 @pytest.mark.parametrize(
+    "date_str, expected",
+    [
+        ("Wed, 17 Dec 2025 18:55:59 GMT", 1765997759.0),
+        ("Wed, 17-Dec-2025 18:55:59 GMT", 1765997759.0),
+        ("Wednesday, 17-Dec-25 18:55:59 GMT", 1765997759.0),
+        ("Wed, 17-Dec-25 18:55:59 GMT", 1765997759.0),
+    ],
+)
+def test_parse_http_date_valid(date_str, expected):
+    assert RoutingCookieJar._parse_http_date(date_str) == expected
+
+
+def test_parse_http_date_invalid():
+    assert RoutingCookieJar._parse_http_date("Wed, 17 Dec 2025 18:55:59 PST") is None
+    assert RoutingCookieJar._parse_http_date("") is None
+
+
+def test_store_overwrites_existing_cookie(monkeypatch):
+    jar = RoutingCookieJar()
+    now = {"value": 100}
+
+    def fake_time():
+        return now["value"]
+
+    monkeypatch.setattr("privx_api.cookie_jar.time.time", fake_time)
+
+    jar.store(["ROUTE=old; Max-Age=5"], host="api.example.com", request_path="/api")
+    assert jar.get_header("api.example.com", "/api") == "ROUTE=old"
+
+    now["value"] = 102
+    jar.store(["ROUTE=new; Max-Age=5"], host="api.example.com", request_path="/api")
+    assert jar.get_header("api.example.com", "/api") == "ROUTE=new"
+
+
+@pytest.mark.parametrize(
     "request_path, expected",
     [
         ("/api/v1/resource", "/api/v1"),

@@ -1,5 +1,5 @@
 import time
-from email.utils import parsedate_to_datetime
+from datetime import datetime, timezone
 from http import cookies
 from typing import Iterable, Optional
 
@@ -88,11 +88,41 @@ class RoutingCookieJar:
                 return None
         expires = morsel["expires"]
         if expires:
-            try:
-                return parsedate_to_datetime(expires).timestamp()
-            except (TypeError, ValueError, OverflowError):
-                return None
+            return RoutingCookieJar._parse_http_date(expires)
+
         return None
+
+    @staticmethod
+    def _parse_http_date(date_str: str) -> Optional[float]:
+        date_str = (date_str or "").strip()
+        if not date_str:
+            return None
+        formats = (
+            ("%a, %d %b %Y %H:%M:%S GMT", False),  # IMF-fixdate (RFC 7231)
+            ("%a, %d-%b-%Y %H:%M:%S GMT", False),  # RFC 850 but 4-digit year
+            ("%a, %d-%b-%y %H:%M:%S GMT", True),  # RFC 850 two-digit year
+            ("%A, %d-%b-%y %H:%M:%S GMT", True),  # RFC 850 weekday spelled out
+        )
+        for fmt, needs_adjust in formats:
+            try:
+                parsed = datetime.strptime(date_str, fmt)
+            except (TypeError, ValueError):
+                continue
+            if needs_adjust:
+                parsed = RoutingCookieJar._adjust_two_digit_year(parsed)
+            parsed = parsed.replace(tzinfo=timezone.utc)
+            return parsed.timestamp()
+        return None
+
+    @staticmethod
+    def _adjust_two_digit_year(dt: datetime) -> datetime:
+        year = dt.year
+        if year < 100:
+            if year < 70:
+                year += 2000
+            else:
+                year += 1900
+        return dt.replace(year=year)
 
     @staticmethod
     def _domain_matches(host: str, domain: str) -> bool:
