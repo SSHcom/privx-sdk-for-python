@@ -71,7 +71,7 @@ class HostStoreEnum:
         SEARCH: "/host-store/api/v1/hosts/search",
         SETTINGS: "/host-store/api/v1/settings/default_service_options",
         SESSION_HOST_CERT: "/host-store/api/v1/hosts/{host_id}/"
-        "session_host_certificates{certificate_id}",
+        "session_host_certificates/{certificate_id}",
         SESSION_HOST_CERTS: "/host-store/api/v1/hosts/{host_id}/"
         "session_host_certificates",
         STATUS: "/host-store/api/v1/status",
@@ -296,8 +296,7 @@ class ApiProxyEnum:
         "client-credentials/{credential_id}",
         CURRENT_CLIENT_CREDENTIAL_SECRET: "/api-proxy/api/v1/users/"
         "current/client-credentials/{credential_id}/secret",
-        USER_CLIENT_CREDENTIALS: "/api-proxy/api/v1/users/{user_id}/"
-        "client-credentials",
+        USER_CLIENT_CREDENTIALS: "/api-proxy/api/v1/users/{user_id}/client-credentials",
         USER_CLIENT_CREDENTIAL: "/api-proxy/api/v1/users/{user_id}/"
         "client-credentials/{credential_id}",
         USER_CLIENT_CREDENTIAL_SECRET: "/api-proxy/api/v1/users/{user_id}/"
