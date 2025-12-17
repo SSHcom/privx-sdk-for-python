@@ -127,7 +127,7 @@ class RoutingCookieJar:
     @staticmethod
     def _domain_matches(host: str, domain: str) -> bool:
         host = (host or "").lower()
-        domain = (domain or "").lower()
+        domain = domain or ""
         if not host or not domain:
             return False
         return host == domain or host.endswith(f".{domain}")
