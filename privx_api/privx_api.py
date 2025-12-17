@@ -16,6 +16,7 @@
 #
 # PrivX API lib response.
 #
+from privx_api.api_proxy import ApiProxyAPI
 from privx_api.auth import AuthAPI
 from privx_api.authorizer import AuthorizerAPI
 from privx_api.connection_manager import ConnectionManagerAPI
@@ -34,6 +35,7 @@ from privx_api.workflow_engine import WorkFlowEngineAPI
 
 
 class PrivXAPI(
+    ApiProxyAPI,
     AuthAPI,
     AuthorizerAPI,
     ConnectionManagerAPI,

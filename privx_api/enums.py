@@ -51,6 +51,8 @@ class HostStoreEnum:
     RESOLVE = "HOST_STORE.RESOLVE"
     SEARCH = "HOST_STORE.SEARCH"
     SETTINGS = "HOST_STORE.SETTINGS"
+    SESSION_HOST_CERT = "HOST_STORE.SESSION_HOST_CERT"
+    SESSION_HOST_CERTS = "HOST_STORE.SESSION_HOST_CERTS"
     STATUS = "HOST_STORE.STATUS"
     TAGS = "HOST_STORE.TAGS"
     WHITELISTS = "HOST_STORE.WHITELISTS"
@@ -68,6 +70,10 @@ class HostStoreEnum:
         RESOLVE: "/host-store/api/v1/hosts/resolve",
         SEARCH: "/host-store/api/v1/hosts/search",
         SETTINGS: "/host-store/api/v1/settings/default_service_options",
+        SESSION_HOST_CERT: "/host-store/api/v1/hosts/{host_id}/"
+        "session_host_certificates/{certificate_id}",
+        SESSION_HOST_CERTS: "/host-store/api/v1/hosts/{host_id}/"
+        "session_host_certificates",
         STATUS: "/host-store/api/v1/status",
         TAGS: "/host-store/api/v1/hosts/tags",
         WHITELISTS: "/host-store/api/v1/whitelists",
@@ -261,6 +267,41 @@ class DbProxyEnum:
     CONF = "DB_PROXY.CONF"
 
     urls = {STATUS: "/db-proxy/api/v1/status", CONF: "/db-proxy/api/v1/conf"}
+
+
+class ApiProxyEnum:
+    STATUS = "API_PROXY.STATUS"
+    CONFIGURATION = "API_PROXY.CONFIGURATION"
+    API_TARGETS = "API_PROXY.API_TARGETS"
+    API_TARGET = "API_PROXY.API_TARGET"
+    API_TARGET_SEARCH = "API_PROXY.API_TARGET_SEARCH"
+    API_TARGET_TAGS = "API_PROXY.API_TARGET_TAGS"
+    CURRENT_CLIENT_CREDENTIALS = "API_PROXY.CURRENT_CLIENT_CREDENTIALS"
+    CURRENT_CLIENT_CREDENTIAL = "API_PROXY.CURRENT_CLIENT_CREDENTIAL"
+    CURRENT_CLIENT_CREDENTIAL_SECRET = "API_PROXY.CURRENT_CLIENT_CREDENTIAL_SECRET"
+    USER_CLIENT_CREDENTIALS = "API_PROXY.USER_CLIENT_CREDENTIALS"
+    USER_CLIENT_CREDENTIAL = "API_PROXY.USER_CLIENT_CREDENTIAL"
+    USER_CLIENT_CREDENTIAL_SECRET = "API_PROXY.USER_CLIENT_CREDENTIAL_SECRET"
+
+    urls = {
+        STATUS: "/api-proxy/api/v1/status",
+        CONFIGURATION: "/api-proxy/api/v1/conf",
+        API_TARGETS: "/api-proxy/api/v1/api-targets",
+        API_TARGET: "/api-proxy/api/v1/api-targets/{api_target_id}",
+        API_TARGET_SEARCH: "/api-proxy/api/v1/api-targets/search",
+        API_TARGET_TAGS: "/api-proxy/api/v1/api-targets/tags",
+        CURRENT_CLIENT_CREDENTIALS: "/api-proxy/api/v1/users/current/"
+        "client-credentials",
+        CURRENT_CLIENT_CREDENTIAL: "/api-proxy/api/v1/users/current/"
+        "client-credentials/{credential_id}",
+        CURRENT_CLIENT_CREDENTIAL_SECRET: "/api-proxy/api/v1/users/"
+        "current/client-credentials/{credential_id}/secret",
+        USER_CLIENT_CREDENTIALS: "/api-proxy/api/v1/users/{user_id}/client-credentials",
+        USER_CLIENT_CREDENTIAL: "/api-proxy/api/v1/users/{user_id}/"
+        "client-credentials/{credential_id}",
+        USER_CLIENT_CREDENTIAL_SECRET: "/api-proxy/api/v1/users/{user_id}/"
+        "client-credentials/{credential_id}/secret",
+    }
 
 
 class VaultEnum:
@@ -591,6 +632,7 @@ class SecretsManagerEnum:
 class UrlEnum:
     AUTH = AuthEnum
     AUTHORIZER = AuthorizerEnum
+    API_PROXY = ApiProxyEnum
     CONNECTION_MANAGER = ConnectionManagerEnum
     DB_PROXY = DbProxyEnum
     HOST_STORE = HostStoreEnum
