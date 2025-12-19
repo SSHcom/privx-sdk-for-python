@@ -9,6 +9,7 @@ from http.client import HTTPException, HTTPResponse
 from json import JSONDecodeError
 from typing import Optional, Tuple, Union
 
+from privx_api.cookie_jar import RoutingCookieJar
 from privx_api.enums import NO_AUTH_STATUS_URLS, UrlEnum
 from privx_api.exceptions import InternalAPIException
 
@@ -85,8 +86,7 @@ class BasePrivXAPI:
         self._re_auth_deadline = None
         self._access_token_age = None
         self._re_auth_margin = re_auth_margin
-        self._use_cookies = use_cookies
-        self._cookies = None
+        self._cookie_jar = RoutingCookieJar() if use_cookies else None
 
     def _authenticate(self, username: str, password: str) -> None:
         # saving the creds for the re-auth purposes
@@ -107,16 +107,18 @@ class BasePrivXAPI:
                 "Content-type": "application/x-www-form-urlencoded",
                 "Authorization": "Basic {}".format(basic_auth.decode("utf-8")),
             }
+            token_url = self._get_url(UrlEnum.AUTH.TOKEN)
             try:
                 conn.request(
                     "POST",
-                    self._get_url(UrlEnum.AUTH.TOKEN),
+                    token_url,
                     body=urllib.parse.urlencode(token_request),
                     headers=headers,
                 )
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
+            self._store_response_cookies(response, token_url)
             if response.status != 200:
                 raise InternalAPIException("Invalid response: ", response.status)
 
@@ -124,11 +126,6 @@ class BasePrivXAPI:
                 data = json.loads(response.read())
             except (JSONDecodeError, TypeError) as e:
                 raise InternalAPIException(e) from e
-
-            # save and never change cookie`s value,
-            # in order to communicate with the same node
-            if self._cookies is None and self._use_cookies:
-                self._cookies = response.getheader("Set-Cookie")
 
             # privx response includes access token age in seconds
             self._access_token_age = data.get("expires_in")
@@ -151,8 +148,8 @@ class BasePrivXAPI:
         path_params = path_params or {}
         query_params = query_params or {}
         self._reauthenticate_access_token(url_name)
-        headers = self._get_headers()
         url = self._build_url(url_name, path_params, query_params)
+        headers = self._get_headers(url)
         request_dict = dict(method=method, url=url, headers=headers)
         if body is not None:
             request_dict["body"] = self._make_body_params(body)
@@ -176,14 +173,18 @@ class BasePrivXAPI:
 
         return url
 
-    def _get_headers(self) -> dict:
+    def _get_headers(self, url: str) -> dict:
         headers = {
             "Content-type": "application/json",
         }
         if self._access_token:
             headers["Authorization"] = "Bearer {}".format(self._access_token)
-        if self._cookies:
-            headers["Cookie"] = self._cookies
+        if self._cookie_jar:
+            cookie_header = self._cookie_jar.get_header(
+                self._connection_info["host"], url
+            )
+            if cookie_header:
+                headers["Cookie"] = cookie_header
         return headers
 
     def _get_search_params(self, **kwargs: Union[str, int]) -> dict:
@@ -204,24 +205,24 @@ class BasePrivXAPI:
     ) -> Tuple:
 
         with Connection(self._connection_info) as conn:
+            request = self._build_request(
+                "GET",
+                url_name,
+                path_params,
+                query_params,
+            )
             try:
-                conn.request(
-                    **self._build_request(
-                        "GET",
-                        url_name,
-                        path_params,
-                        query_params,
-                    )
-                )
+                conn.request(**request)
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
+            self._store_response_cookies(response, request["url"])
             return response.status, response.read()
 
     def _http_get_no_auth(self, url_name: str) -> Tuple:
         request = self._build_request("GET", url_name)
         headers = request["headers"]
-        del headers["Authorization"]
+        headers.pop("Authorization", None)
 
         with Connection(self._connection_info) as conn:
             try:
@@ -229,6 +230,7 @@ class BasePrivXAPI:
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
+            self._store_response_cookies(response, request["url"])
             return response.status, response.read()
 
     def _http_post(
@@ -240,19 +242,19 @@ class BasePrivXAPI:
     ) -> Tuple:
 
         with Connection(self._connection_info) as conn:
+            request = self._build_request(
+                "POST",
+                url_name,
+                path_params,
+                query_params,
+                body=body,
+            )
             try:
-                conn.request(
-                    **self._build_request(
-                        "POST",
-                        url_name,
-                        path_params,
-                        query_params,
-                        body=body,
-                    )
-                )
+                conn.request(**request)
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
+            self._store_response_cookies(response, request["url"])
             return response.status, response.read()
 
     def _http_put(
@@ -264,19 +266,19 @@ class BasePrivXAPI:
     ) -> Tuple:
 
         with Connection(self._connection_info) as conn:
+            request = self._build_request(
+                "PUT",
+                url_name,
+                path_params,
+                query_params,
+                body=body,
+            )
             try:
-                conn.request(
-                    **self._build_request(
-                        "PUT",
-                        url_name,
-                        path_params,
-                        query_params,
-                        body=body,
-                    )
-                )
+                conn.request(**request)
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
+            self._store_response_cookies(response, request["url"])
             return response.status, response.read()
 
     def _http_delete(
@@ -288,19 +290,19 @@ class BasePrivXAPI:
     ) -> Tuple:
 
         with Connection(self._connection_info) as conn:
+            request = self._build_request(
+                "DELETE",
+                url_name,
+                path_params,
+                query_params,
+                body=body,
+            )
             try:
-                conn.request(
-                    **self._build_request(
-                        "DELETE",
-                        url_name,
-                        path_params,
-                        query_params,
-                        body=body,
-                    )
-                )
+                conn.request(**request)
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
+            self._store_response_cookies(response, request["url"])
             return response.status, response.read()
 
     def _http_stream(
@@ -311,19 +313,20 @@ class BasePrivXAPI:
         query_params: Optional[dict] = None,
     ) -> HTTPResponse:
         conn = Connection(self._connection_info).connect()
+        request = self._build_request(
+            "GET",
+            url_name,
+            path_params,
+            query_params,
+            body=body,
+        )
         try:
-            conn.request(
-                **self._build_request(
-                    "GET",
-                    url_name,
-                    path_params,
-                    query_params,
-                    body=body,
-                )
-            )
+            conn.request(**request)
         except (OSError, HTTPException) as e:
             raise InternalAPIException(e)
-        return conn.getresponse()
+        response = conn.getresponse()
+        self._store_response_cookies(response, request["url"])
+        return response
 
     def _make_body_params(self, data: Union[dict, str]) -> str:
         return data if isinstance(data, str) else json.dumps(data)
@@ -349,3 +352,25 @@ class BasePrivXAPI:
             raise InternalAPIException("api client credentials are not valid")
         self._api_client_id = username
         self._api_client_password = password
+
+    def _store_response_cookies(
+        self, response: HTTPResponse, request_path: str
+    ) -> None:
+        if not self._cookie_jar:
+            return
+
+        headers = []
+        if getattr(response, "headers", None):
+            headers = response.headers.get_all("Set-Cookie") or []
+        if not headers and getattr(response, "msg", None):
+            headers = response.msg.get_all("Set-Cookie") or []
+        if not headers:
+            header = response.getheader("Set-Cookie")
+            headers = [header] if header else []
+
+        if headers:
+            self._cookie_jar.store(
+                headers,
+                self._connection_info["host"],
+                request_path,
+            )
