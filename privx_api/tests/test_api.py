@@ -1,6 +1,7 @@
 from unittest import mock
 
 import pytest
+from enum import Enum
 
 from privx_api.base import format_path_components
 from privx_api.enums import UrlEnum
@@ -113,6 +114,31 @@ def test_url_enum_get_exception_similar_url_name(url_name, expected_url):
 def test_make_body_params(value, expected_value):
     api = PrivXAPI("", "", "", "", "")
     assert api._make_body_params(value) == expected_value
+
+
+class DummyEnum(Enum):
+    SAMPLE = "VaLue"
+
+
+def test_get_search_params_coercion():
+    api = PrivXAPI("", 0, "", "", "")
+
+    params = api._get_search_params(
+        truthy=True,
+        falsy=False,
+        enum_value=DummyEnum.SAMPLE,
+        mixed_case="FoObAr",
+        keep_int=5,
+        skip_none=None,
+    )
+
+    assert params == {
+        "truthy": "true",
+        "falsy": "false",
+        "enum_value": "VaLue",
+        "mixed_case": "foobar",
+        "keep_int": 5,
+    }
 
 
 @pytest.mark.parametrize(
