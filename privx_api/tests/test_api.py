@@ -1,7 +1,8 @@
+from enum import Enum
+from http import HTTPStatus
 from unittest import mock
 
 import pytest
-from enum import Enum
 
 from privx_api.base import format_path_components
 from privx_api.enums import UrlEnum
@@ -139,6 +140,69 @@ def test_get_search_params_coercion():
         "mixed_case": "foobar",
         "keep_int": 5,
     }
+
+
+class DummyHTTPResponse:
+    def __init__(self, payload: bytes, *, status: HTTPStatus = HTTPStatus.OK) -> None:
+        self._payload = payload
+        self.status = status
+
+    def read(self, chunk_size: int = -1) -> bytes:
+        if chunk_size == -1:
+            data = self._payload
+            self._payload = b""
+            return data
+        chunk = self._payload[:chunk_size]
+        self._payload = self._payload[chunk_size:]
+        return chunk
+
+    def close(self) -> None:
+        return None
+
+
+def test_api_response_helper_passes_last_response_headers():
+    api = PrivXAPI("", 0, "", "", "")
+    api._store_response_headers({"Content-Type": "application/json"})
+
+    resp = api._api_response(HTTPStatus.OK, HTTPStatus.OK, b'{"k": "v"}')
+
+    assert resp.headers["content-type"] == "application/json"
+    assert resp.status == HTTPStatus.OK
+    assert resp.ok is True
+
+
+def test_stream_response_helper_passes_last_response_headers():
+    api = PrivXAPI("", 0, "", "", "")
+    api._store_response_headers({"X-Request-Id": "req-123"})
+
+    resp = api._stream_api_response(DummyHTTPResponse(b"abc"), HTTPStatus.OK)
+
+    assert resp.headers["x-request-id"] == "req-123"
+    assert resp.status == HTTPStatus.OK
+    assert resp.ok is True
+
+
+def test_api_response_helper_marks_non_expected_status_as_not_ok():
+    api = PrivXAPI("", 0, "", "", "")
+    api._store_response_headers({"Content-Type": "application/json"})
+
+    resp = api._api_response(HTTPStatus.BAD_REQUEST, HTTPStatus.OK, b'{"error":"x"}')
+
+    assert resp.ok is False
+    assert resp.data == {"status": HTTPStatus.BAD_REQUEST, "details": {"error": "x"}}
+
+
+def test_stream_response_helper_marks_non_expected_status_as_not_ok():
+    api = PrivXAPI("", 0, "", "", "")
+    api._store_response_headers({"X-Request-Id": "req-123"})
+
+    resp = api._stream_api_response(
+        DummyHTTPResponse(b"abc", status=HTTPStatus.BAD_REQUEST),
+        HTTPStatus.OK,
+    )
+
+    assert resp.ok is False
+    assert resp.status == HTTPStatus.BAD_REQUEST
 
 
 @pytest.mark.parametrize(
