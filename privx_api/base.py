@@ -13,6 +13,7 @@ from typing import Optional, Tuple, Union
 from privx_api.cookie_jar import RoutingCookieJar
 from privx_api.enums import NO_AUTH_STATUS_URLS, UrlEnum
 from privx_api.exceptions import InternalAPIException
+from privx_api.response import PrivXAPIResponse, PrivXStreamResponse
 
 
 def format_path_components(format_str: str, **kw) -> str:
@@ -88,6 +89,7 @@ class BasePrivXAPI:
         self._access_token_age = None
         self._re_auth_margin = re_auth_margin
         self._cookie_jar = RoutingCookieJar() if use_cookies else None
+        self._last_response_headers = {}
 
     def _authenticate(self, username: str, password: str) -> None:
         # saving the creds for the re-auth purposes
@@ -220,6 +222,46 @@ class BasePrivXAPI:
             raise InternalAPIException("URL missing: ", name)
         return url
 
+    def _collect_headers(self, response: HTTPResponse) -> dict:
+        if getattr(response, "headers", None):
+            headers = dict(response.headers)
+        elif getattr(response, "msg", None):
+            headers = dict(response.msg.items())
+        else:
+            headers = dict(response.getheaders())
+        return {k.lower(): v for k, v in headers.items()}
+
+    def _store_response_headers(self, headers: dict) -> None:
+        self._last_response_headers = dict(headers)
+
+    @property
+    def last_response_headers(self) -> dict:
+        return dict(self._last_response_headers)
+
+    def _api_response(
+        self,
+        response_status: http.HTTPStatus,
+        expected_status: int,
+        data: Union[dict, str, list, bytes, None],
+    ) -> PrivXAPIResponse:
+        return PrivXAPIResponse(
+            response_status,
+            expected_status,
+            data,
+            headers=self.last_response_headers,
+        )
+
+    def _stream_api_response(
+        self,
+        response: HTTPResponse,
+        expected_status: int,
+    ) -> PrivXStreamResponse:
+        return PrivXStreamResponse(
+            response,
+            expected_status,
+            headers=self.last_response_headers,
+        )
+
     def _http_get(
         self,
         url_name: str,
@@ -239,6 +281,8 @@ class BasePrivXAPI:
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
+            headers = self._collect_headers(response)
+            self._store_response_headers(headers)
             self._store_response_cookies(response, request["url"])
             return response.status, response.read()
 
@@ -253,6 +297,8 @@ class BasePrivXAPI:
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
+            headers = self._collect_headers(response)
+            self._store_response_headers(headers)
             self._store_response_cookies(response, request["url"])
             return response.status, response.read()
 
@@ -277,6 +323,8 @@ class BasePrivXAPI:
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
+            headers = self._collect_headers(response)
+            self._store_response_headers(headers)
             self._store_response_cookies(response, request["url"])
             return response.status, response.read()
 
@@ -301,6 +349,8 @@ class BasePrivXAPI:
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
+            headers = self._collect_headers(response)
+            self._store_response_headers(headers)
             self._store_response_cookies(response, request["url"])
             return response.status, response.read()
 
@@ -325,6 +375,8 @@ class BasePrivXAPI:
             except (OSError, HTTPException) as e:
                 raise InternalAPIException(e)
             response = conn.getresponse()
+            headers = self._collect_headers(response)
+            self._store_response_headers(headers)
             self._store_response_cookies(response, request["url"])
             return response.status, response.read()
 
@@ -348,6 +400,8 @@ class BasePrivXAPI:
         except (OSError, HTTPException) as e:
             raise InternalAPIException(e)
         response = conn.getresponse()
+        headers = self._collect_headers(response)
+        self._store_response_headers(headers)
         self._store_response_cookies(response, request["url"])
         return response
 
