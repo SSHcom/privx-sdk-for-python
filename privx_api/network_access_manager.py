@@ -16,7 +16,7 @@ class NetworkAccessManagerAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.NETWORK_ACCESS_MANAGER.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_network_target(
         self,
@@ -26,7 +26,7 @@ class NetworkAccessManagerAPI(BasePrivXAPI):
             UrlEnum.NETWORK_ACCESS_MANAGER.NETWORK_TARGET,
             path_params={"network_target_id": network_target_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_network_targets(
         self,
@@ -47,14 +47,14 @@ class NetworkAccessManagerAPI(BasePrivXAPI):
             UrlEnum.NETWORK_ACCESS_MANAGER.NETWORK_TARGETS,
             query_params=get_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_network_target(self, network_target: dict):
         response_status, data = self._http_post(
             UrlEnum.NETWORK_ACCESS_MANAGER.NETWORK_TARGETS,
             body=network_target,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def update_network_target(self, network_target_id: str, network_target: dict):
         response_status, data = self._http_put(
@@ -62,7 +62,7 @@ class NetworkAccessManagerAPI(BasePrivXAPI):
             path_params={"network_target_id": network_target_id},
             body=network_target,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def disable_network_target(self, network_target_id: str, disabled: dict):
         response_status, data = self._http_put(
@@ -70,14 +70,14 @@ class NetworkAccessManagerAPI(BasePrivXAPI):
             path_params={"network_target_id": network_target_id},
             body=disabled,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_network_target(self, network_target_id: str):
         response_status, data = self._http_delete(
             UrlEnum.NETWORK_ACCESS_MANAGER.NETWORK_TARGET,
             path_params={"network_target_id": network_target_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_network_targets(
         self,
@@ -107,4 +107,4 @@ class NetworkAccessManagerAPI(BasePrivXAPI):
             query_params=search_params,
             body=get_value(search_payload, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)

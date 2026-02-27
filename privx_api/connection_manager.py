@@ -16,7 +16,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.CONNECTION_MANAGER.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_connections(
         self,
@@ -43,7 +43,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             UrlEnum.CONNECTION_MANAGER.CONNECTIONS,
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_connections(
         self,
@@ -73,7 +73,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             query_params=search_params,
             body=get_value(connection_params, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_connection(self, connection_id: str) -> PrivXAPIResponse:
         """
@@ -86,7 +86,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             UrlEnum.CONNECTION_MANAGER.CONNECTION,
             path_params={"connection_id": connection_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_connection_tags(
         self,
@@ -112,7 +112,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             UrlEnum.CONNECTION_MANAGER.CONNECTION_TAGS,
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_connection_tags(
         self,
@@ -130,7 +130,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             path_params={"connection_id": connection_id},
             body=get_value(connection_tags, []),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_trail_download_handle(
         self, connection_id: str, channel_id: str, file_id: str
@@ -149,7 +149,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
                 "file_id": file_id,
             },
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def download_trail(
         self,
@@ -175,7 +175,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
                 "session_id": session_id,
             },
         )
-        return PrivXStreamResponse(response_obj, HTTPStatus.OK)
+        return self._stream_api_response(response_obj, HTTPStatus.OK)
 
     def create_trail_log_download_handle(
         self, connection_id: str, channel_id: str
@@ -193,7 +193,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
                 "channel_id": channel_id,
             },
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def download_trail_log(
         self,
@@ -223,7 +223,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             },
             query_params=search_params,
         )
-        return PrivXStreamResponse(response_obj, HTTPStatus.OK)
+        return self._stream_api_response(response_obj, HTTPStatus.OK)
 
     def get_connection_access_roles(self, connection_id: str) -> PrivXAPIResponse:
         """
@@ -238,7 +238,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
                 "connection_id": connection_id,
             },
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def grant_access_role_to_connection(
         self,
@@ -258,7 +258,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
                 "role_id": role_id,
             },
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def revoke_access_role_from_connection(
         self,
@@ -278,7 +278,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
                 "role_id": role_id,
             },
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def revoke_role_permissions_from_connections(
         self,
@@ -296,7 +296,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
                 "role_id": role_id,
             },
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def terminate_connection(
         self,
@@ -316,7 +316,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             },
             body=termination_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def terminate_connection_by_host(
         self,
@@ -336,7 +336,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             },
             body=termination_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def terminate_connection_by_user(
         self,
@@ -356,7 +356,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             },
             body=termination_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     # UEBA Management
 
@@ -370,7 +370,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.CONNECTION_MANAGER.UEBA_CONFIGURATIONS
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def set_ueba_configurations(self, payload) -> PrivXAPIResponse:
         """
@@ -383,7 +383,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             UrlEnum.CONNECTION_MANAGER.UEBA_CONFIGURATIONS,
             body=get_value(payload, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_ueba_anomaly_settings(self) -> PrivXAPIResponse:
         """
@@ -395,7 +395,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.CONNECTION_MANAGER.UEBA_ANOMALY_SETTINGS
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def set_ueba_anomaly_settings(self, payload) -> PrivXAPIResponse:
         """
@@ -408,7 +408,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             UrlEnum.CONNECTION_MANAGER.UEBA_ANOMALY_SETTINGS,
             body=get_value(payload, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def start_ueba_analysis(self, dataset_id: str) -> PrivXAPIResponse:
         """
@@ -423,7 +423,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
                 "dataset_id": dataset_id,
             },
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def stop_ueba_analysis(self) -> PrivXAPIResponse:
         """
@@ -435,7 +435,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.CONNECTION_MANAGER.STOP_ANALYSIS
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_id_for_ueba_script(self) -> PrivXAPIResponse:
         """
@@ -447,7 +447,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.CONNECTION_MANAGER.UEBA_SETUP_SCRIPT
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def download_ueba_script(self, session_id: str) -> PrivXAPIResponse:
         """
@@ -460,7 +460,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             UrlEnum.CONNECTION_MANAGER.DOWNLOAD_SCRIPT,
             path_params={"session_id": session_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_ueba_datasets(self) -> PrivXAPIResponse:
         """
@@ -470,7 +470,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.CONNECTION_MANAGER.UEBA_DATASETS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def save_ueba_datasets(self, dataset_definition) -> PrivXAPIResponse:
         """
@@ -483,7 +483,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             UrlEnum.CONNECTION_MANAGER.UEBA_DATASETS,
             body=get_value(dataset_definition, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_ueba_dataset(
         self, dataset_id: str, logs: bool, bin_count: int
@@ -500,7 +500,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             path_params={"dataset_id": dataset_id},
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_ueba_dataset(
         self, dataset_id: str, dataset_definition
@@ -516,7 +516,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             path_params={"dataset_id": dataset_id},
             body=get_value(dataset_definition, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_ueba_dataset(self, dataset_id: str) -> PrivXAPIResponse:
         """
@@ -529,7 +529,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             UrlEnum.CONNECTION_MANAGER.UEBA_DATASET,
             path_params={"dataset_id": dataset_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def train_ueba_dataset(
         self, dataset_id: str, set_active_after_training: bool
@@ -548,7 +548,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             path_params={"dataset_id": dataset_id},
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_ueba_connection_count(self, payload) -> PrivXAPIResponse:
         """
@@ -561,7 +561,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             UrlEnum.CONNECTION_MANAGER.UEBA_CONNECTION_COUNT,
             body=get_value(payload, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_ueba_status(self) -> PrivXAPIResponse:
         """
@@ -571,7 +571,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.CONNECTION_MANAGER.UEBA_STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_ueba_internal_status(self) -> PrivXAPIResponse:
         """
@@ -583,4 +583,4 @@ class ConnectionManagerAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.CONNECTION_MANAGER.UEBA_INTERNAL_STATUS
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)

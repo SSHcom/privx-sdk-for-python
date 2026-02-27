@@ -15,7 +15,7 @@ class TrailIndexAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.TRAIL_INDEX.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_indexing_status(self, conn_id: str) -> PrivXAPIResponse:
         """
@@ -28,7 +28,7 @@ class TrailIndexAPI(BasePrivXAPI):
             UrlEnum.TRAIL_INDEX.CONNECTION_INDEXING_STATUS,
             path_params={"connection_id": conn_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def resolve_indexing_statuses(self, conn_ids: list) -> PrivXAPIResponse:
         """
@@ -41,7 +41,7 @@ class TrailIndexAPI(BasePrivXAPI):
             UrlEnum.TRAIL_INDEX.CONNECTIONS_INDEXING_STATUSES,
             body=conn_ids,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def start_indexing(self, conn_ids: list) -> PrivXAPIResponse:
         """
@@ -54,7 +54,7 @@ class TrailIndexAPI(BasePrivXAPI):
             UrlEnum.TRAIL_INDEX.START_INDEXING,
             body=conn_ids,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_index(
         self,
@@ -79,4 +79,4 @@ class TrailIndexAPI(BasePrivXAPI):
             query_params=search_params,
             body=trails_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)

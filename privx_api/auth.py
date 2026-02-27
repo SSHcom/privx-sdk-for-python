@@ -30,7 +30,7 @@ class AuthAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.AUTH.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_idp_client(self, idp_id: str) -> PrivXAPIResponse:
         """
@@ -43,7 +43,7 @@ class AuthAPI(BasePrivXAPI):
             UrlEnum.AUTH.IDP_CLIENT,
             path_params={"idp_id": idp_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_idp_client(self, idp_client: dict) -> PrivXAPIResponse:
         """
@@ -55,7 +55,7 @@ class AuthAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.AUTH.IDP_CLIENTS, body=idp_client
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def update_idp_client(self, idp_id: str, idp_client: dict) -> PrivXAPIResponse:
         """
@@ -67,7 +67,7 @@ class AuthAPI(BasePrivXAPI):
         response_status, data = self._http_put(
             UrlEnum.AUTH.IDP_CLIENT, path_params={"idp_id": idp_id}, body=idp_client
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_idp_client(self, idp_id: str) -> PrivXAPIResponse:
         """
@@ -79,7 +79,7 @@ class AuthAPI(BasePrivXAPI):
         response_status, data = self._http_delete(
             UrlEnum.AUTH.IDP_CLIENT, path_params={"idp_id": idp_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def regenerate_idp_client_config(self, idp_id: str) -> PrivXAPIResponse:
         """
@@ -92,7 +92,7 @@ class AuthAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.AUTH.REGENERATE_IDP_CLIENT, path_params={"idp_id": idp_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_user_sessions(
         self,
@@ -117,7 +117,7 @@ class AuthAPI(BasePrivXAPI):
             query_params=search_params,
             path_params={"user_id": user_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_source_sessions(
         self,
@@ -142,7 +142,7 @@ class AuthAPI(BasePrivXAPI):
             query_params=search_params,
             path_params={"source_id": source_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_sessions(
         self,
@@ -167,7 +167,7 @@ class AuthAPI(BasePrivXAPI):
             query_params=search_params,
             body=get_value(search_payload, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def terminate_session(self, session_id: str) -> PrivXAPIResponse:
         """
@@ -180,7 +180,7 @@ class AuthAPI(BasePrivXAPI):
             UrlEnum.AUTH.TERMINATE_SESSION,
             path_params={"session_id": session_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def terminate_user_sessions(self, user_id: str) -> PrivXAPIResponse:
         """
@@ -193,7 +193,7 @@ class AuthAPI(BasePrivXAPI):
             UrlEnum.AUTH.TERMINATE_USER_SESSIONS,
             path_params={"user_id": user_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def logout(self) -> PrivXAPIResponse:
         """
@@ -203,7 +203,7 @@ class AuthAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(UrlEnum.AUTH.LOGOUT)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_user_mobile_devices(self, user_id: str) -> PrivXAPIResponse:
         """
@@ -216,7 +216,7 @@ class AuthAPI(BasePrivXAPI):
             UrlEnum.AUTH.MGW_USER_DEVICES,
             path_params={"user_id": user_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def unpair_user_mobile_device(
         self, user_id: str, device_id: str
@@ -231,4 +231,4 @@ class AuthAPI(BasePrivXAPI):
             UrlEnum.AUTH.MGW_USER_DEVICES_UNPAIR,
             path_params={"user_id": user_id, "device_id": device_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)

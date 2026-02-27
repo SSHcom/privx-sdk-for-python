@@ -15,7 +15,7 @@ class MonitorServiceAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.MONITOR.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_privx_components_status(self) -> PrivXAPIResponse:
         """
@@ -25,7 +25,7 @@ class MonitorServiceAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.MONITOR.COMPONENTS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_privx_component_status(self, hostname: str) -> PrivXAPIResponse:
         """
@@ -37,7 +37,7 @@ class MonitorServiceAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.MONITOR.COMPONENT, path_params={"hostname": hostname}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_audit_events(
         self,
@@ -71,7 +71,7 @@ class MonitorServiceAPI(BasePrivXAPI):
             query_params=search_params,
             body=audit_event_params if audit_event_params else {},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_audit_events(
         self,
@@ -99,7 +99,7 @@ class MonitorServiceAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.MONITOR.AUDIT_EVENTS, query_params=search_params
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_audit_event_codes(self) -> PrivXAPIResponse:
         """
@@ -109,7 +109,7 @@ class MonitorServiceAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.MONITOR.AUDIT_EVENT_CODES)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_instance_status(self) -> PrivXAPIResponse:
         """
@@ -119,7 +119,7 @@ class MonitorServiceAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.MONITOR.INSTANCE_STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def terminate_privx_instances(self) -> PrivXAPIResponse:
         """
@@ -129,4 +129,4 @@ class MonitorServiceAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(UrlEnum.MONITOR.TERMINATE_INSTANCES)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)

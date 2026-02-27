@@ -16,7 +16,7 @@ class AuthorizerAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.AUTHORIZER.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_authorizer_cert(
         self, access_group_id: Optional[str] = None
@@ -33,7 +33,7 @@ class AuthorizerAPI(BasePrivXAPI):
                 {"access_group_id": access_group_id} if access_group_id else None
             ),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def download_authorizer_cert(self, cert_id: str) -> PrivXStreamResponse:
         """
@@ -45,7 +45,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response = self._http_stream(
             UrlEnum.AUTHORIZER.AUTHORIZER_CERT_ID, path_params={"id": cert_id}
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK)
+        return self._stream_api_response(response, HTTPStatus.OK)
 
     def download_cert_revocation_list(self, cert_id: str) -> PrivXStreamResponse:
         """
@@ -57,7 +57,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response = self._http_stream(
             UrlEnum.AUTHORIZER.CERT_REVOCATION_LIST, path_params={"id": cert_id}
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK)
+        return self._stream_api_response(response, HTTPStatus.OK)
 
     def get_target_host_credentials(
         self,
@@ -73,7 +73,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.TARGET_HOST,
             body=target_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_principals(self) -> PrivXAPIResponse:
         """
@@ -83,7 +83,7 @@ class AuthorizerAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.AUTHORIZER.PRINCIPALS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_principal(
         self,
@@ -106,7 +106,7 @@ class AuthorizerAPI(BasePrivXAPI):
             path_params={"group_id": group_id},
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_principal_key(
         self, group_id: str, key_id: Optional[str] = None
@@ -123,7 +123,7 @@ class AuthorizerAPI(BasePrivXAPI):
             path_params={"group_id": group_id},
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_principal_key(
         self,
@@ -139,7 +139,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.CREATE_GROUP_PRINCIPAL_KEY,
             path_params={"group_id": group_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def import_principal_key(
         self, group_id: str, principal_key_params: dict
@@ -155,7 +155,7 @@ class AuthorizerAPI(BasePrivXAPI):
             path_params={"group_id": group_id},
             body=principal_key_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def sign_with_principal_key(
         self,
@@ -176,7 +176,7 @@ class AuthorizerAPI(BasePrivXAPI):
             query_params=search_params,
             body=sign_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_component_certs(
         self,
@@ -196,7 +196,7 @@ class AuthorizerAPI(BasePrivXAPI):
             path_params={"ca_type": ca_type},
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def download_component_cert(
         self, ca_type: str, cert_id: str
@@ -212,7 +212,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.COMPONENT_CERT,
             path_params={"id": cert_id, "ca_type": ca_type},
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK)
+        return self._stream_api_response(response, HTTPStatus.OK)
 
     def download_component_cert_crl(
         self,
@@ -230,7 +230,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.COMPONENT_CERT_REVOCATION_LIST,
             path_params={"id": cert_id, "ca_type": ca_type},
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK)
+        return self._stream_api_response(response, HTTPStatus.OK)
 
     def create_extender_config_download_handle(
         self,
@@ -246,7 +246,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.EXTENDER_CONFIG_SESSION_ID,
             path_params={"trusted_client_id": trusted_client_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def download_extender_config(
         self,
@@ -266,7 +266,7 @@ class AuthorizerAPI(BasePrivXAPI):
                 "session_id": session_id,
             },
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK)
+        return self._stream_api_response(response, HTTPStatus.OK)
 
     def create_deployment_script_download_handle(
         self, trusted_client_id: str
@@ -281,7 +281,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.DEPLOYMENT_SCRIPT_SESSION_ID,
             path_params={"trusted_client_id": trusted_client_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def download_deployment_script(
         self,
@@ -301,7 +301,7 @@ class AuthorizerAPI(BasePrivXAPI):
                 "session_id": session_id,
             },
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK)
+        return self._stream_api_response(response, HTTPStatus.OK)
 
     def download_principal_command_script(self) -> PrivXStreamResponse:
         """
@@ -313,7 +313,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response = self._http_stream(
             UrlEnum.AUTHORIZER.DOWNLOAD_COMMAND_SCRIPT,
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK)
+        return self._stream_api_response(response, HTTPStatus.OK)
 
     def create_carrier_config_download_handle(
         self, trusted_client_id: str
@@ -328,7 +328,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.CARRIER_CONFIG_SESSION_ID,
             path_params={"trusted_client_id": trusted_client_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def download_carrier_config(
         self,
@@ -348,7 +348,7 @@ class AuthorizerAPI(BasePrivXAPI):
                 "session_id": session_id,
             },
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK)
+        return self._stream_api_response(response, HTTPStatus.OK)
 
     def create_web_proxy_config_download_handle(
         self, trusted_client_id: str
@@ -363,7 +363,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.WEB_PROXY_CONFIG_SESSION_ID,
             path_params={"trusted_client_id": trusted_client_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def download_web_proxy_config(
         self,
@@ -383,7 +383,7 @@ class AuthorizerAPI(BasePrivXAPI):
                 "session_id": session_id,
             },
         )
-        return PrivXStreamResponse(response, HTTPStatus.OK)
+        return self._stream_api_response(response, HTTPStatus.OK)
 
     def get_cert_auth_templates(
         self, service: Optional[str] = None
@@ -399,7 +399,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.CERT_AUTH_TEMPLATES,
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_ssl_trust_anchor(self) -> PrivXAPIResponse:
         """
@@ -411,7 +411,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.SSL_TRUST_ANCHOR,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_extender_trust_anchor(self) -> PrivXAPIResponse:
         """
@@ -423,7 +423,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.EXTENDER_TRUST_ANCHOR,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_access_groups(
         self,
@@ -448,7 +448,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.ACCESS_GROUPS,
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_access_group(self, access_group_params: dict) -> PrivXAPIResponse:
         """
@@ -461,7 +461,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.ACCESS_GROUPS,
             body=access_group_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def search_access_groups(
         self,
@@ -488,7 +488,7 @@ class AuthorizerAPI(BasePrivXAPI):
             query_params=search_params,
             body=get_value(access_group_params, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_access_group(self, access_group_id: str) -> PrivXAPIResponse:
         """
@@ -501,7 +501,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.ACCESS_GROUP,
             path_params={"id": access_group_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_access_group(
         self, access_group_id: str, access_group_params: dict
@@ -517,7 +517,7 @@ class AuthorizerAPI(BasePrivXAPI):
             path_params={"id": access_group_id},
             body=access_group_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_access_group(self, access_group_id: str) -> PrivXAPIResponse:
         """
@@ -529,7 +529,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response_status, data = self._http_delete(
             UrlEnum.AUTHORIZER.ACCESS_GROUP, path_params={"id": access_group_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_access_group_CA_key(
         self,
@@ -545,7 +545,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.CREATE_ACCESS_GROUP_CA_KEY,
             path_params={"id": access_group_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_access_group_CA_key(
         self, access_group_id: str, ca_id: str
@@ -560,7 +560,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.DELETE_ACCESS_GROUP_CA_KEY,
             path_params={"id": access_group_id, "ca_id": ca_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_certificates(
         self,
@@ -587,7 +587,7 @@ class AuthorizerAPI(BasePrivXAPI):
             query_params=search_params,
             body=cert_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_certificates_list(self) -> PrivXAPIResponse:
         """
@@ -599,7 +599,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.GET_CERTIFICATES_LIST,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_certificate_by_id(self, cert_id: str) -> PrivXAPIResponse:
         """
@@ -612,7 +612,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.GET_CERT_BY_ID,
             path_params={"id": cert_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_account_secrets(
         self,
@@ -630,7 +630,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.ACCOUNT_SECRETS,
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_account_secrets(
         self,
@@ -651,7 +651,7 @@ class AuthorizerAPI(BasePrivXAPI):
             query_params=search_params,
             body=get_value(search_payload, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def checkout_account_secrets(
         self,
@@ -666,7 +666,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.AUTHORIZER.CHECKOUT_ACCOUNT_SECRETS, body=checkout_params
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_account_secret_checkouts(
         self,
@@ -684,7 +684,7 @@ class AuthorizerAPI(BasePrivXAPI):
             UrlEnum.AUTHORIZER.CHECKOUT_ACCOUNT_SECRETS,
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_account_secret_checkout(self, id: str) -> PrivXAPIResponse:
         """
@@ -696,7 +696,7 @@ class AuthorizerAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.CHECKOUT_ACCOUNT_SECRET, path_params={"id": id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def release_account_secret_checkout(self, id: str) -> PrivXAPIResponse:
         """
@@ -708,4 +708,4 @@ class AuthorizerAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.AUTHORIZER.RELEASE_ACCOUNT_SECRET, path_params={"id": id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)

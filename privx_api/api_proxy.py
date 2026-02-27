@@ -16,7 +16,7 @@ class ApiProxyAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.API_PROXY.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_api_proxy_configuration(self) -> PrivXAPIResponse:
         """
@@ -26,7 +26,7 @@ class ApiProxyAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.API_PROXY.CONFIGURATION)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_api_target(self, api_target: dict) -> PrivXAPIResponse:
         """
@@ -39,7 +39,7 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.API_TARGETS,
             body=api_target,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_api_targets(
         self,
@@ -66,7 +66,7 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.API_TARGETS,
             query_params=query_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_api_target(self, api_target_id: str) -> PrivXAPIResponse:
         """
@@ -79,7 +79,7 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.API_TARGET,
             path_params={"api_target_id": api_target_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_api_target(
         self,
@@ -97,7 +97,7 @@ class ApiProxyAPI(BasePrivXAPI):
             path_params={"api_target_id": api_target_id},
             body=api_target,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_api_target(self, api_target_id: str) -> PrivXAPIResponse:
         """
@@ -110,7 +110,7 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.API_TARGET,
             path_params={"api_target_id": api_target_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_api_targets(
         self,
@@ -139,7 +139,7 @@ class ApiProxyAPI(BasePrivXAPI):
             query_params=query_params,
             body=get_value(search_payload, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_api_target_tags(
         self,
@@ -162,7 +162,7 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.API_TARGET_TAGS,
             query_params=query_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_current_user_client_credential(
         self,
@@ -178,7 +178,7 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.CURRENT_CLIENT_CREDENTIALS,
             body=credential,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_current_user_client_credentials(
         self,
@@ -203,7 +203,7 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.CURRENT_CLIENT_CREDENTIALS,
             query_params=query_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_current_user_client_credential(
         self,
@@ -219,7 +219,7 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.CURRENT_CLIENT_CREDENTIAL,
             path_params={"credential_id": credential_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_current_user_client_credential(
         self,
@@ -237,7 +237,7 @@ class ApiProxyAPI(BasePrivXAPI):
             path_params={"credential_id": credential_id},
             body=credential,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_current_user_client_credential(
         self,
@@ -253,7 +253,7 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.CURRENT_CLIENT_CREDENTIAL,
             path_params={"credential_id": credential_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_current_user_client_credential_secret(
         self,
@@ -269,7 +269,7 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.CURRENT_CLIENT_CREDENTIAL_SECRET,
             path_params={"credential_id": credential_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_user_client_credential(
         self,
@@ -287,7 +287,7 @@ class ApiProxyAPI(BasePrivXAPI):
             path_params={"user_id": user_id},
             body=credential,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_user_client_credentials(
         self,
@@ -314,7 +314,7 @@ class ApiProxyAPI(BasePrivXAPI):
             path_params={"user_id": user_id},
             query_params=query_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_user_client_credential(
         self,
@@ -331,7 +331,7 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.USER_CLIENT_CREDENTIAL,
             path_params={"user_id": user_id, "credential_id": credential_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_user_client_credential(
         self,
@@ -350,7 +350,7 @@ class ApiProxyAPI(BasePrivXAPI):
             path_params={"user_id": user_id, "credential_id": credential_id},
             body=credential,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_user_client_credential(
         self,
@@ -367,7 +367,7 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.USER_CLIENT_CREDENTIAL,
             path_params={"user_id": user_id, "credential_id": credential_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_user_client_credential_secret(
         self,
@@ -384,4 +384,4 @@ class ApiProxyAPI(BasePrivXAPI):
             UrlEnum.API_PROXY.USER_CLIENT_CREDENTIAL_SECRET,
             path_params={"user_id": user_id, "credential_id": credential_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
