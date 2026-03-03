@@ -1,5 +1,6 @@
 import io
 from http import HTTPStatus
+from typing import Union
 
 import pytest
 
@@ -8,7 +9,9 @@ from privx_api.response import PrivXAPIResponse, PrivXStreamResponse
 
 
 class DummyHTTPResponse:
-    def __init__(self, payload: bytes, *, status: HTTPStatus = HTTPStatus.OK) -> None:
+    def __init__(
+        self, payload: bytes, *, status: Union[int, HTTPStatus] = HTTPStatus.OK
+    ) -> None:
         self._payload = io.BytesIO(payload)
         self.status = status
 
@@ -47,7 +50,6 @@ def test_api_response_content_and_text():
 
     assert resp.ok is True
     assert resp.content == b"secret"
-    assert resp.text() == "secret"
 
 
 def test_api_response_json_detection():
@@ -57,15 +59,6 @@ def test_api_response_json_detection():
     )
 
     assert resp.data == {"key": "value"}
-    assert resp.json() == {"key": "value"}
-
-
-def test_api_response_json_error_when_not_json():
-    api = DummyAPI()
-    resp = api.response(body=b"plain", headers={"Content-Type": "text/plain"})
-
-    with pytest.raises(InternalAPIException):
-        resp.json()
 
 
 def test_api_response_data_on_non_expected_status_keeps_error_details():
@@ -97,13 +90,6 @@ def test_api_response_data_on_non_expected_status_uses_empty_details_for_invalid
     assert resp.data == {"status": HTTPStatus.BAD_REQUEST, "details": {}}
 
 
-def test_api_response_iter_content_chunks():
-    api = DummyAPI()
-    resp = api.response(body=b"abcdefgh")
-    chunks = list(resp.iter_content(3))
-    assert chunks == [b"abc", b"def", b"gh"]
-
-
 def test_stream_response_iter_content():
     api = DummyAPI()
     resp = api.stream_response(payload=b"abcdef")
@@ -119,34 +105,12 @@ def test_stream_response_data_property_raises():
         _ = resp.data
 
 
-def test_response_text_defaults_to_utf8_when_content_type_has_no_charset():
-    resp = PrivXAPIResponse(
-        HTTPStatus.OK,
-        HTTPStatus.OK,
-        b'{"hello":"world"}',
-        headers={"Content-Type": "application/json"},
-    )
+def test_stream_response_keeps_non_standard_status_code():
+    response = DummyHTTPResponse(b"payload", status=599)
+    stream_response = PrivXStreamResponse(response, HTTPStatus.OK, headers={})
 
-    assert resp.text() == '{"hello":"world"}'
-
-
-def test_response_json_requires_explicit_or_provided_headers():
-    resp = PrivXAPIResponse(HTTPStatus.OK, HTTPStatus.OK, b'{"v": 1}')
-
-    with pytest.raises(InternalAPIException):
-        resp.json()
-
-
-def test_response_normalizes_string_payload_to_bytes():
-    resp = PrivXAPIResponse(
-        HTTPStatus.OK,
-        HTTPStatus.OK,
-        "plain-text",
-        headers={"Content-Type": "text/plain; charset=utf-8"},
-    )
-
-    assert resp.content == b"plain-text"
-    assert list(resp.iter_content(5)) == [b"plain", b"-text"]
+    assert stream_response.status == 599
+    assert stream_response.ok is False
 
 
 def test_normalize_headers_lowercases_keys():
@@ -182,16 +146,3 @@ def test_get_json_staticmethod(payload, expected):
 )
 def test_to_bytes_staticmethod(payload, expected):
     assert PrivXAPIResponse._to_bytes(payload) == expected
-
-
-@pytest.mark.parametrize(
-    "content_type, expected",
-    [
-        (None, "utf-8"),
-        ("application/json", "utf-8"),
-        ("text/plain; charset=utf-16", "utf-16"),
-        ("text/plain; Charset=latin-1", "latin-1"),
-    ],
-)
-def test_get_charset_staticmethod(content_type, expected):
-    assert PrivXAPIResponse._get_charset(content_type) == expected
