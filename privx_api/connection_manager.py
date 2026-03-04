@@ -486,7 +486,8 @@ class ConnectionManagerAPI(BasePrivXAPI):
         return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_ueba_dataset(
-        self, dataset_id: str, logs: bool, bin_count: int
+        self,
+        dataset_id: str,
     ) -> PrivXAPIResponse:
         """
         Get UEBA dataset by id
@@ -494,11 +495,9 @@ class ConnectionManagerAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        search_params = self._get_search_params(logs=logs, bin_count=bin_count)
         response_status, data = self._http_get(
             UrlEnum.CONNECTION_MANAGER.UEBA_DATASET,
             path_params={"dataset_id": dataset_id},
-            query_params=search_params,
         )
         return self._api_response(response_status, HTTPStatus.OK, data)
 

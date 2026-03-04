@@ -34,14 +34,12 @@ class NetworkAccessManagerAPI(BasePrivXAPI):
         limit: Optional[int] = None,
         sort_key: Optional[str] = None,
         sort_dir: Optional[str] = None,
-        filter_param: Optional[str] = None,
     ):
         get_params = self._get_search_params(
             offset=offset,
             limit=limit,
             sortkey=sort_key,
             sortdir=sort_dir,
-            filter=filter_param,
         )
         response_status, data = self._http_get(
             UrlEnum.NETWORK_ACCESS_MANAGER.NETWORK_TARGETS,

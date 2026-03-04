@@ -142,6 +142,24 @@ def test_get_search_params_coercion():
     }
 
 
+def test_get_search_params_normalizes_common_query_params_for_server_compat():
+    api = PrivXAPI("", 0, "", "", "")
+
+    params = api._get_search_params(
+        filter="AcCeSsIbLe",
+        sortdir="ASC",
+        query="SomeText",
+        verbose=True,
+    )
+
+    assert params == {
+        "filter": "accessible",
+        "sortdir": "asc",
+        "query": "sometext",
+        "verbose": "true",
+    }
+
+
 class DummyHTTPResponse:
     def __init__(self, payload: bytes, *, status: HTTPStatus = HTTPStatus.OK) -> None:
         self._payload = payload

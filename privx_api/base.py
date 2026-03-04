@@ -193,10 +193,11 @@ class BasePrivXAPI:
     def _get_search_params(self, **kwargs: Union[str, int, bool, Enum]) -> dict:
         """Normalize query params before encoding into URLs.
 
-        Servers expect lowercase strings for most optional flags, while SDK
-        users may pass booleans, enums, or arbitrary truthy values. We coerce
-        the supported types here so every caller gets consistent serialization
-        without repeating the same formatting logic throughout the codebase.
+        PrivX backends have inconsistent validation and case handling for query
+        values. To keep requests predictable across services and versions, the
+        SDK intentionally normalizes non-enum string values to lowercase.
+        Boolean values are serialized as lowercase "true"/"false". Enum values
+        are forwarded as-is from enum definitions.
         """
         params = {}
         for key, value in kwargs.items():

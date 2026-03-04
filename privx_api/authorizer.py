@@ -181,7 +181,6 @@ class AuthorizerAPI(BasePrivXAPI):
     def get_component_certs(
         self,
         ca_type: str,
-        access_group_id: Optional[str] = None,
     ) -> PrivXAPIResponse:
         """
         Gets authorizer's CA certificates.
@@ -190,11 +189,9 @@ class AuthorizerAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        search_params = self._get_search_params(access_group_id=access_group_id)
         response_status, data = self._http_get(
             UrlEnum.AUTHORIZER.COMPONENT_CERTS,
             path_params={"ca_type": ca_type},
-            query_params=search_params,
         )
         return self._api_response(response_status, HTTPStatus.OK, data)
 
