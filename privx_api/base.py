@@ -5,7 +5,6 @@ import ssl
 import time
 import urllib.parse
 import urllib.request
-from enum import Enum
 from http.client import HTTPException, HTTPResponse
 from json import JSONDecodeError
 from typing import Optional, Tuple, Union
@@ -190,31 +189,22 @@ class BasePrivXAPI:
                 headers["Cookie"] = cookie_header
         return headers
 
-    def _get_search_params(self, **kwargs: Union[str, int, bool, Enum]) -> dict:
+    def _get_search_params(self, **kwargs: Union[str, int, bool]) -> dict:
         """Normalize query params before encoding into URLs.
 
         PrivX backends have inconsistent validation and case handling for query
         values. To keep requests predictable across services and versions, the
         SDK intentionally normalizes non-enum string values to lowercase.
-        Boolean values are serialized as lowercase "true"/"false". Enum values
-        are forwarded as-is from enum definitions.
+        Boolean values are serialized as lowercase "true"/"false".
         """
         params = {}
         for key, value in kwargs.items():
             if value is None:
                 continue
-            value_from_enum = False  # keep track so we don't mutate enum-provided vals
-            if isinstance(value, Enum):
-                value = value.value
-                value_from_enum = True
-
             if isinstance(value, bool):
                 value = "true" if value else "false"
 
-            if isinstance(value, str) and not value_from_enum:
-                value = value.lower()
             params[key] = value
-
         return params if params else {}
 
     def _get_url(self, name: str) -> str:

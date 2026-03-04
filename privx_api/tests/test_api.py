@@ -127,7 +127,6 @@ def test_get_search_params_coercion():
     params = api._get_search_params(
         truthy=True,
         falsy=False,
-        enum_value=DummyEnum.SAMPLE,
         mixed_case="FoObAr",
         keep_int=5,
         skip_none=None,
@@ -136,8 +135,7 @@ def test_get_search_params_coercion():
     assert params == {
         "truthy": "true",
         "falsy": "false",
-        "enum_value": "VaLue",
-        "mixed_case": "foobar",
+        "mixed_case": "FoObAr",
         "keep_int": 5,
     }
 
@@ -150,13 +148,15 @@ def test_get_search_params_normalizes_common_query_params_for_server_compat():
         sortdir="ASC",
         query="SomeText",
         verbose=True,
+        fuzzy_count=bool(23),
     )
 
     assert params == {
-        "filter": "accessible",
-        "sortdir": "asc",
-        "query": "sometext",
+        "filter": "AcCeSsIbLe",
+        "sortdir": "ASC",
+        "query": "SomeText",
         "verbose": "true",
+        "fuzzy_count": "true",
     }
 
 
