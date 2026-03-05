@@ -15,7 +15,7 @@ class UserStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.USER_STORE.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_users(
         self,
@@ -37,7 +37,7 @@ class UserStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.USER_STORE.USERS, query_params=search_params
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_user(self, user: dict) -> PrivXAPIResponse:
         """
@@ -47,7 +47,7 @@ class UserStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(UrlEnum.USER_STORE.USERS, body=user)
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_user(self, user_id: str) -> PrivXAPIResponse:
         """
@@ -60,7 +60,7 @@ class UserStoreAPI(BasePrivXAPI):
             UrlEnum.USER_STORE.USER,
             path_params={"user_id": user_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_user(self, user_id: str, user_params: dict) -> PrivXAPIResponse:
         """
@@ -74,7 +74,7 @@ class UserStoreAPI(BasePrivXAPI):
             path_params={"user_id": user_id},
             body=user_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_user(self, user_id: str) -> PrivXAPIResponse:
         """
@@ -86,7 +86,7 @@ class UserStoreAPI(BasePrivXAPI):
         response_status, data = self._http_delete(
             UrlEnum.USER_STORE.USER, path_params={"user_id": user_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def set_user_password(self, user_id: str, user_password: dict) -> PrivXAPIResponse:
         """
@@ -100,7 +100,7 @@ class UserStoreAPI(BasePrivXAPI):
             path_params={"user_id": user_id},
             body=user_password,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_user_tags(
         self,
@@ -122,7 +122,7 @@ class UserStoreAPI(BasePrivXAPI):
             UrlEnum.USER_STORE.USER_TAGS,
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_trusted_clients(self) -> PrivXAPIResponse:
         """
@@ -134,7 +134,7 @@ class UserStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.USER_STORE.TRUSTED_CLIENTS,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_trusted_client(self, client_params: dict) -> PrivXAPIResponse:
         """
@@ -149,7 +149,7 @@ class UserStoreAPI(BasePrivXAPI):
             UrlEnum.USER_STORE.TRUSTED_CLIENTS,
             body=client_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_trusted_client(self, client_id: str) -> PrivXAPIResponse:
         """
@@ -162,7 +162,7 @@ class UserStoreAPI(BasePrivXAPI):
             UrlEnum.USER_STORE.TRUSTED_CLIENT,
             path_params={"trusted_client_id": client_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_trusted_client(self, client_id: str) -> PrivXAPIResponse:
         """
@@ -175,7 +175,7 @@ class UserStoreAPI(BasePrivXAPI):
             UrlEnum.USER_STORE.TRUSTED_CLIENT,
             path_params={"trusted_client_id": client_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_trusted_client(
         self, client_id: str, client_params: dict
@@ -191,7 +191,7 @@ class UserStoreAPI(BasePrivXAPI):
             path_params={"trusted_client_id": client_id},
             body=client_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_extending_clients(self) -> PrivXAPIResponse:
         """
@@ -203,7 +203,7 @@ class UserStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.USER_STORE.EXTENDING_CLIENTS,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_api_clients(self) -> PrivXAPIResponse:
         """
@@ -215,7 +215,7 @@ class UserStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.USER_STORE.API_CLIENTS,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_api_client(self, api_client_params: dict) -> PrivXAPIResponse:
         """
@@ -230,7 +230,7 @@ class UserStoreAPI(BasePrivXAPI):
             UrlEnum.USER_STORE.API_CLIENTS,
             body=api_client_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_api_client(self, api_client_id: str) -> PrivXAPIResponse:
         """
@@ -243,7 +243,7 @@ class UserStoreAPI(BasePrivXAPI):
             UrlEnum.USER_STORE.API_CLIENT,
             path_params={"api_client_id": api_client_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_api_client(self, api_client_id: str) -> PrivXAPIResponse:
         """
@@ -256,7 +256,7 @@ class UserStoreAPI(BasePrivXAPI):
             UrlEnum.USER_STORE.API_CLIENT,
             path_params={"api_client_id": api_client_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_api_client(
         self, api_client_id: str, api_client_params: dict
@@ -272,4 +272,4 @@ class UserStoreAPI(BasePrivXAPI):
             path_params={"api_client_id": api_client_id},
             body=api_client_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)

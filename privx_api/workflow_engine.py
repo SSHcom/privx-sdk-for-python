@@ -15,7 +15,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.WORKFLOW_ENGINE.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_workflows(
         self,
@@ -36,7 +36,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             UrlEnum.WORKFLOW_ENGINE.WORKFLOWS,
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_workflow(self, workflow_params: dict) -> PrivXAPIResponse:
         """
@@ -51,7 +51,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             UrlEnum.WORKFLOW_ENGINE.WORKFLOWS,
             body=workflow_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_workflow(self, workflow_id: str) -> PrivXAPIResponse:
         """
@@ -63,7 +63,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.WORKFLOW_ENGINE.WORKFLOW, path_params={"workflow_id": workflow_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_workflow(self, workflow_id: str) -> PrivXAPIResponse:
         """
@@ -75,7 +75,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         response_status, data = self._http_delete(
             UrlEnum.WORKFLOW_ENGINE.WORKFLOW, path_params={"workflow_id": workflow_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_workflow(
         self, workflow_id: str, workflow_params: dict
@@ -91,7 +91,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             path_params={"workflow_id": workflow_id},
             body=workflow_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_requests(
         self,
@@ -116,7 +116,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             UrlEnum.WORKFLOW_ENGINE.REQUESTS,
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_request(
         self,
@@ -132,7 +132,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             UrlEnum.WORKFLOW_ENGINE.REQUESTS,
             body=request_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_request(self, request_id: str) -> PrivXAPIResponse:
         """
@@ -145,7 +145,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             UrlEnum.WORKFLOW_ENGINE.REQUEST,
             path_params={"request_id": request_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_request(self, request_id: str) -> PrivXAPIResponse:
         """
@@ -158,7 +158,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             UrlEnum.WORKFLOW_ENGINE.REQUEST,
             path_params={"request_id": request_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def set_request_decision(
         self, request_id: str, decision_params: dict
@@ -176,7 +176,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             path_params={"request_id": request_id},
             body=decision_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def revoke_request_target_role(self, request_id: str) -> PrivXAPIResponse:
         """
@@ -190,7 +190,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             UrlEnum.WORKFLOW_ENGINE.ROLE_REVOKE,
             path_params={"request_id": request_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_requests(
         self,
@@ -219,7 +219,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             query_params=search_params,
             body=request_param,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_workflow_engine_settings(self) -> PrivXAPIResponse:
         """
@@ -229,7 +229,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.WORKFLOW_ENGINE.SETTINGS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_workflow_engine_settings(self, settings_param: dict) -> PrivXAPIResponse:
         """
@@ -241,7 +241,7 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         response_status, data = self._http_put(
             UrlEnum.WORKFLOW_ENGINE.SETTINGS, body=settings_param
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def test_workflow_engine_settings(self, settings_param: dict) -> PrivXAPIResponse:
         """
@@ -253,4 +253,4 @@ class WorkFlowEngineAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.WORKFLOW_ENGINE.TEST_SETTINGS, body=settings_param
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
