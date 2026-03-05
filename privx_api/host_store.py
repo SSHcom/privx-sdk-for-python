@@ -16,7 +16,7 @@ class HostStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.HOST_STORE.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_hosts(
         self,
@@ -46,7 +46,7 @@ class HostStoreAPI(BasePrivXAPI):
             query_params=search_params,
             body=get_value(search_payload, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_hosts(
         self,
@@ -73,7 +73,7 @@ class HostStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.HOST_STORE.HOSTS, query_params=search_params
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_host(self, host: dict) -> PrivXAPIResponse:
         """
@@ -83,7 +83,7 @@ class HostStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(UrlEnum.HOST_STORE.HOSTS, body=host)
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def resolve_host(self, host_resolve_params: dict) -> PrivXAPIResponse:
         """
@@ -96,7 +96,7 @@ class HostStoreAPI(BasePrivXAPI):
             UrlEnum.HOST_STORE.RESOLVE,
             body=host_resolve_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_host(self, host_id: str) -> PrivXAPIResponse:
         """
@@ -109,7 +109,7 @@ class HostStoreAPI(BasePrivXAPI):
             UrlEnum.HOST_STORE.HOST,
             path_params={"host_id": host_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_host(self, host_id: str, host: dict) -> PrivXAPIResponse:
         """
@@ -121,7 +121,7 @@ class HostStoreAPI(BasePrivXAPI):
         response_status, data = self._http_put(
             UrlEnum.HOST_STORE.HOST, path_params={"host_id": host_id}, body=host
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_host(self, host_id: str) -> PrivXAPIResponse:
         """
@@ -133,7 +133,7 @@ class HostStoreAPI(BasePrivXAPI):
         response_status, data = self._http_delete(
             UrlEnum.HOST_STORE.HOST, path_params={"host_id": host_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def set_host_deployable(
         self, host_id: str, deployable_params: dict
@@ -149,7 +149,7 @@ class HostStoreAPI(BasePrivXAPI):
             path_params={"host_id": host_id},
             body=deployable_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_host_tags(
         self,
@@ -174,7 +174,7 @@ class HostStoreAPI(BasePrivXAPI):
             UrlEnum.HOST_STORE.TAGS,
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def set_host_disabled_status(
         self, host_id: str, host_params: dict
@@ -190,7 +190,7 @@ class HostStoreAPI(BasePrivXAPI):
             path_params={"host_id": host_id},
             body=host_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def resolve_host_realm(self, realm_params: dict) -> PrivXAPIResponse:
         """
@@ -204,7 +204,7 @@ class HostStoreAPI(BasePrivXAPI):
             UrlEnum.HOST_STORE.REALM,
             body=realm_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_default_service_options(self) -> PrivXAPIResponse:
         """
@@ -216,7 +216,7 @@ class HostStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.HOST_STORE.SETTINGS,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_command_restriction_whitelists(
         self,
@@ -241,7 +241,7 @@ class HostStoreAPI(BasePrivXAPI):
             UrlEnum.HOST_STORE.WHITELISTS,
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_command_restriction_whitelist(self, whitelist: dict) -> PrivXAPIResponse:
         """
@@ -254,7 +254,7 @@ class HostStoreAPI(BasePrivXAPI):
             UrlEnum.HOST_STORE.WHITELISTS,
             body=whitelist,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_command_restriction_whitelist(self, whitelist_id: str) -> PrivXAPIResponse:
         """
@@ -267,7 +267,7 @@ class HostStoreAPI(BasePrivXAPI):
             UrlEnum.HOST_STORE.WHITELIST,
             path_params={"whitelist_id": whitelist_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_command_restriction_whitelist(
         self, whitelist_id: str
@@ -282,7 +282,7 @@ class HostStoreAPI(BasePrivXAPI):
             UrlEnum.HOST_STORE.WHITELIST,
             path_params={"whitelist_id": whitelist_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_command_restriction_whitelist(
         self, whitelist_id: str, whitelist: dict
@@ -298,7 +298,7 @@ class HostStoreAPI(BasePrivXAPI):
             path_params={"whitelist_id": whitelist_id},
             body=whitelist,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_command_restriction_whitelists(
         self,
@@ -330,7 +330,7 @@ class HostStoreAPI(BasePrivXAPI):
             query_params=search_params,
             body=get_value(search_payload, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def eval_commands_against_whitelist(
         self, whitelist: dict, rshell_variant: str, cmds: [str]
@@ -349,7 +349,7 @@ class HostStoreAPI(BasePrivXAPI):
                 "commands": cmds,
             },
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_session_host_certificates(
         self,
@@ -378,7 +378,7 @@ class HostStoreAPI(BasePrivXAPI):
             path_params={"host_id": host_id},
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_session_host_certificates(self, host_id: str) -> PrivXAPIResponse:
         """
@@ -392,7 +392,7 @@ class HostStoreAPI(BasePrivXAPI):
             UrlEnum.HOST_STORE.SESSION_HOST_CERTS,
             path_params={"host_id": host_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_session_host_certificate(
         self,
@@ -410,4 +410,4 @@ class HostStoreAPI(BasePrivXAPI):
             UrlEnum.HOST_STORE.SESSION_HOST_CERT,
             query_params={"host_id": host_id, "certificate_id": certificate_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)

@@ -15,7 +15,7 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.ROLE_STORE.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_sources(self) -> PrivXAPIResponse:
         """
@@ -25,7 +25,7 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivxAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.ROLE_STORE.SOURCES)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_source(self, source_params: dict) -> PrivXAPIResponse:
         """
@@ -38,7 +38,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.SOURCES, body=source_params
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_source(self, source_id: str) -> PrivXAPIResponse:
         """
@@ -50,7 +50,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.SOURCE, path_params={"source_id": source_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_source(self, source_id: str) -> PrivXAPIResponse:
         """
@@ -62,7 +62,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_delete(
             UrlEnum.ROLE_STORE.SOURCE, path_params={"source_id": source_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_source(self, source_id: str, source_params: dict) -> PrivXAPIResponse:
         """
@@ -76,7 +76,7 @@ class RoleStoreAPI(BasePrivXAPI):
             path_params={"source_id": source_id},
             body=source_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def refresh_source(self, source_ids: list) -> PrivXAPIResponse:
         """
@@ -89,7 +89,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.REFRESH_SOURCES, body=source_ids
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_aws_role_links(self, refresh: bool = False) -> PrivXAPIResponse:
         """
@@ -102,7 +102,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.AWS_ROLES, query_params=search_params
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_aws_role_link(self, aws_role_id: str) -> PrivXAPIResponse:
         """
@@ -114,7 +114,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.AWS_ROLE, path_params={"awsrole_id": aws_role_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_aws_role_link(self, aws_role_id: str) -> PrivXAPIResponse:
         """
@@ -128,7 +128,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_delete(
             UrlEnum.ROLE_STORE.AWS_ROLE, path_params={"awsrole_id": aws_role_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_aws_role_link(
         self, aws_role_id: str, privx_roles: list
@@ -144,7 +144,7 @@ class RoleStoreAPI(BasePrivXAPI):
             path_params={"awsrole_id": aws_role_id},
             body=privx_roles,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_linked_roles(self, aws_role_id: str) -> PrivXAPIResponse:
         """
@@ -157,7 +157,7 @@ class RoleStoreAPI(BasePrivXAPI):
             UrlEnum.ROLE_STORE.AWS_ROLE_PRIVX_ROLES,
             path_params={"awsrole_id": aws_role_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_roles(
         self,
@@ -178,7 +178,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.ROLES, query_params=search_params
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_role(self, role: dict) -> PrivXAPIResponse:
         """
@@ -188,7 +188,7 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(UrlEnum.ROLE_STORE.ROLES, body=role)
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def resolve_roles(self, role_names: list) -> PrivXAPIResponse:
         """
@@ -200,7 +200,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.RESOLVE, body=role_names
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def evaluate_role(self, role_params: dict) -> PrivXAPIResponse:
         """
@@ -212,7 +212,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.EVALUATE, body=role_params
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_role(self, role_id: str) -> PrivXAPIResponse:
         """
@@ -224,7 +224,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.ROLE, path_params={"role_id": role_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_role(self, role_id: str) -> PrivXAPIResponse:
         """
@@ -236,7 +236,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_delete(
             UrlEnum.ROLE_STORE.ROLE, path_params={"role_id": role_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_role(self, role_id: str, role: dict) -> PrivXAPIResponse:
         """
@@ -248,7 +248,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_put(
             UrlEnum.ROLE_STORE.ROLE, path_params={"role_id": role_id}, body=role
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_role_members(
         self,
@@ -272,7 +272,7 @@ class RoleStoreAPI(BasePrivXAPI):
             path_params={"role_id": role_id},
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_aws_token(
         self, aws_role_id: str, ttl: int = 900, token_code: Optional[str] = None
@@ -296,7 +296,7 @@ class RoleStoreAPI(BasePrivXAPI):
             path_params={"awsrole_id": aws_role_id},
             query_params=search_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_principal_keys(self, role_id: str) -> PrivXAPIResponse:
         """
@@ -308,7 +308,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.PRINCIPAL_KEYS, path_params={"role_id": role_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def generate_principal_key(self, role_id: str) -> PrivXAPIResponse:
         """
@@ -320,7 +320,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.GENERATE_PRINCIPAL_KEY, path_params={"role_id": role_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def import_principal_key(self, role_id: str, primary_key: dict) -> PrivXAPIResponse:
         """
@@ -334,7 +334,7 @@ class RoleStoreAPI(BasePrivXAPI):
             path_params={"role_id": role_id},
             body=primary_key,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_principal_key(self, role_id: str, key_id: str) -> PrivXAPIResponse:
         """
@@ -347,7 +347,7 @@ class RoleStoreAPI(BasePrivXAPI):
             UrlEnum.ROLE_STORE.PRINCIPAL_KEY,
             path_params={"role_id": role_id, "key_id": key_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_principal_key(self, role_id: str, key_id: str) -> PrivXAPIResponse:
         """
@@ -360,7 +360,7 @@ class RoleStoreAPI(BasePrivXAPI):
             UrlEnum.ROLE_STORE.PRINCIPAL_KEY,
             path_params={"role_id": role_id, "key_id": key_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_user(self, user_id: str) -> PrivXAPIResponse:
         """
@@ -372,7 +372,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.USERS, path_params={"user_id": user_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_user_settings(self, user_id: str) -> PrivXAPIResponse:
         """
@@ -384,7 +384,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.USER_SETTINGS, path_params={"user_id": user_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def set_user_settings(self, user_id: str, settings: dict) -> PrivXAPIResponse:
         """
@@ -398,7 +398,7 @@ class RoleStoreAPI(BasePrivXAPI):
             path_params={"user_id": user_id},
             body=settings,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_user_roles(self, user_id: str) -> PrivXAPIResponse:
         """
@@ -410,7 +410,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.USER_ROLES, path_params={"user_id": user_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def set_user_roles(self, user_id: str, roles: list) -> PrivXAPIResponse:
         """
@@ -422,7 +422,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_put(
             UrlEnum.ROLE_STORE.USER_ROLES, path_params={"user_id": user_id}, body=roles
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def enable_user_mfa(self, user_ids: list) -> PrivXAPIResponse:
         """
@@ -434,7 +434,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.ENABLE_MFA, body=user_ids
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def disable_user_mfa(self, user_ids: list) -> PrivXAPIResponse:
         """
@@ -446,7 +446,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.DISABLE_MFA, body=user_ids
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def reset_user_mfa(self, user_ids: list) -> PrivXAPIResponse:
         """
@@ -458,7 +458,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.RESET_MFA, body=user_ids
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def resolve_user(self, user_id: str) -> PrivXAPIResponse:
         """
@@ -470,7 +470,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.RESOLVE_USER, path_params={"user_id": user_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_users(
         self,
@@ -490,7 +490,7 @@ class RoleStoreAPI(BasePrivXAPI):
             query_params=search_params,
             body=get_value(search_payload, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_roles(
         self,
@@ -510,7 +510,7 @@ class RoleStoreAPI(BasePrivXAPI):
             query_params=search_params,
             body=get_value(search_payload, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_external_users(self, external_params: dict) -> PrivXAPIResponse:
         """
@@ -519,7 +519,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.EXTERNAL_SEARCH, body=external_params
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_user_authorized_keys(self, user_id: str) -> PrivXAPIResponse:
         """
@@ -531,7 +531,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.USER_AUTHORIZED_KEYS, path_params={"user_id": user_id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_user_authorize_key(
         self, user_id: str, key_params: dict
@@ -544,7 +544,7 @@ class RoleStoreAPI(BasePrivXAPI):
             path_params={"user_id": user_id},
             body=key_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_user_authorized_key(self, user_id: str, key_id: str) -> PrivXAPIResponse:
         """
@@ -557,7 +557,7 @@ class RoleStoreAPI(BasePrivXAPI):
             UrlEnum.ROLE_STORE.USER_AUTHORIZED_KEY_ID,
             path_params={"user_id": user_id, "key_id": key_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_user_authorized_key(
         self, user_id: str, key_id: str, key_params: dict
@@ -573,7 +573,7 @@ class RoleStoreAPI(BasePrivXAPI):
             path_params={"user_id": user_id, "key_id": key_id},
             body=key_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_user_authorized_key(self, user_id: str, key_id: str) -> PrivXAPIResponse:
         """
@@ -586,7 +586,7 @@ class RoleStoreAPI(BasePrivXAPI):
             UrlEnum.ROLE_STORE.USER_AUTHORIZED_KEY_ID,
             path_params={"user_id": user_id, "key_id": key_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_log_collectors(self) -> PrivXAPIResponse:
         """
@@ -596,7 +596,7 @@ class RoleStoreAPI(BasePrivXAPI):
              PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.ROLE_STORE.LOG_CONF_COLLECTORS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_log_collector(self, collector: dict) -> PrivXAPIResponse:
         """
@@ -608,7 +608,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.LOG_CONF_COLLECTORS, body=collector
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def get_log_collector(self, collector_id: str) -> PrivXAPIResponse:
         """
@@ -621,7 +621,7 @@ class RoleStoreAPI(BasePrivXAPI):
             UrlEnum.ROLE_STORE.LOG_CONF_COLLECTOR,
             path_params={"collector_id": collector_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_log_collector(
         self, collector_id: str, collector_params: dict
@@ -637,7 +637,7 @@ class RoleStoreAPI(BasePrivXAPI):
             path_params={"collector_id": collector_id},
             body=collector_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def delete_log_collector(self, collector_id: str) -> PrivXAPIResponse:
         """
@@ -650,7 +650,7 @@ class RoleStoreAPI(BasePrivXAPI):
             UrlEnum.ROLE_STORE.LOG_CONF_COLLECTOR,
             path_params={"collector_id": collector_id},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_all_authorized_keys(
         self,
@@ -671,7 +671,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.ALL_AUTHORIZED_KEYS, query_params=search_params
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def resolve_authorized_keys(self, authorized_keys: dict) -> PrivXAPIResponse:
         """
@@ -683,7 +683,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.RESOLVE_AUTHORIZED_KEYS, body=authorized_keys
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def list_all_idendity_providers(
         self, offset: Optional[int] = None, limit: Optional[int] = None
@@ -698,7 +698,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS, query_params=search_params
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_idendity_provider_by_id(self, id: str) -> PrivXAPIResponse:
         """
@@ -710,7 +710,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS_ID, path_params={"id": id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def create_idendity_provider(
         self, idendity_provider_params: dict
@@ -724,7 +724,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_post(
             UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS, body=idendity_provider_params
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.CREATED, data)
+        return self._api_response(response_status, HTTPStatus.CREATED, data)
 
     def delete_idendity_provider(self, id: str) -> PrivXAPIResponse:
         """
@@ -736,7 +736,7 @@ class RoleStoreAPI(BasePrivXAPI):
         response_status, data = self._http_delete(
             UrlEnum.ROLE_STORE.IDENDITY_PROVIDERS_ID, path_params={"id": id}
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_idendity_provider(
         self, id: str, idendity_provider_params: dict
@@ -752,7 +752,7 @@ class RoleStoreAPI(BasePrivXAPI):
             path_params={"id": id},
             body=idendity_provider_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def search_idendity_providers(
         self,
@@ -778,4 +778,4 @@ class RoleStoreAPI(BasePrivXAPI):
             query_params=search_params,
             body=get_value(keywords, dict()),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)

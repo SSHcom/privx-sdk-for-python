@@ -19,7 +19,7 @@ class SettingsServiceAPI(BasePrivXAPI):
             path_params={"scope": scope},
             body=scope_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_settings_service_status(self) -> PrivXAPIResponse:
         """
@@ -29,7 +29,7 @@ class SettingsServiceAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_get(UrlEnum.SETTINGS.STATUS)
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_scope_settings(
         self, scope: str, merge: Optional[bool] = None
@@ -45,7 +45,7 @@ class SettingsServiceAPI(BasePrivXAPI):
             path_params={"scope": scope},
             query_params=self._get_search_params(merge=merge),
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_scope_settings(self, scope: str, scope_params: dict) -> PrivXAPIResponse:
         """
@@ -59,7 +59,7 @@ class SettingsServiceAPI(BasePrivXAPI):
             path_params={"scope": scope},
             body=scope_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_scope_section_settings(self, scope: str, section: str) -> PrivXAPIResponse:
         """
@@ -72,7 +72,7 @@ class SettingsServiceAPI(BasePrivXAPI):
             UrlEnum.SETTINGS.SCOPE_SECTION,
             path_params={"scope": scope, "section": section},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def update_scope_section_settings(
         self, scope: str, section: str, section_params: dict
@@ -88,7 +88,7 @@ class SettingsServiceAPI(BasePrivXAPI):
             path_params={"scope": scope, "section": section},
             body=section_params,
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_scope_schema(self, scope: str) -> PrivXAPIResponse:
         """
@@ -101,7 +101,7 @@ class SettingsServiceAPI(BasePrivXAPI):
             UrlEnum.SETTINGS.SCOPE_SCHEMA,
             path_params={"scope": scope},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def get_scope_section_schema(self, scope: str, section: str) -> PrivXAPIResponse:
         """
@@ -114,4 +114,4 @@ class SettingsServiceAPI(BasePrivXAPI):
             UrlEnum.SETTINGS.SCOPE_SECTION_SCHEMA,
             path_params={"scope": scope, "section": section},
         )
-        return PrivXAPIResponse(response_status, HTTPStatus.OK, data)
+        return self._api_response(response_status, HTTPStatus.OK, data)
