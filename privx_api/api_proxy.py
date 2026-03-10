@@ -258,6 +258,7 @@ class ApiProxyAPI(BasePrivXAPI):
     def get_current_user_client_credential_secret(
         self,
         credential_id: str,
+        conf_format: Optional[str] = None,
     ) -> PrivXAPIResponse:
         """
         Get a current user's client credential secret.
@@ -265,9 +266,11 @@ class ApiProxyAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
+        query_params = self._get_search_params(format=conf_format)
         response_status, data = self._http_get(
             UrlEnum.API_PROXY.CURRENT_CLIENT_CREDENTIAL_SECRET,
             path_params={"credential_id": credential_id},
+            query_params=query_params,
         )
         return self._api_response(response_status, HTTPStatus.OK, data)
 
@@ -373,6 +376,7 @@ class ApiProxyAPI(BasePrivXAPI):
         self,
         user_id: str,
         credential_id: str,
+        conf_format: Optional[str] = None,
     ) -> PrivXAPIResponse:
         """
         Fetch a user-owned client credential secret by ID.
@@ -380,8 +384,10 @@ class ApiProxyAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
+        query_params = self._get_search_params(format=conf_format)
         response_status, data = self._http_get(
             UrlEnum.API_PROXY.USER_CLIENT_CREDENTIAL_SECRET,
             path_params={"user_id": user_id, "credential_id": credential_id},
+            query_params=query_params,
         )
         return self._api_response(response_status, HTTPStatus.OK, data)
