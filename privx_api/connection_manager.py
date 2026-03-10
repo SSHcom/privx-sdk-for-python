@@ -53,6 +53,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         sort_dir: Optional[str] = None,
         connection_params: Optional[dict] = None,
         fuzzy_count: Optional[bool] = False,
+        verbose: Optional[bool] = False,
     ) -> PrivXAPIResponse:
         """
         Search for connections.
@@ -66,6 +67,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             sortkey=sort_key,
             sortdir=sort_dir,
             fuzzycount=bool(fuzzy_count),
+            verbose=bool(verbose),
         )
 
         response_status, data = self._http_post(
