@@ -232,3 +232,22 @@ class AuthAPI(BasePrivXAPI):
             path_params={"user_id": user_id, "device_id": device_id},
         )
         return self._api_response(response_status, HTTPStatus.OK, data)
+
+    def exchange_external_jwt_token(self, exchange_payload: dict) -> PrivXAPIResponse:
+        """
+        Exchange external jwt token  for privx token
+        Args:
+            exchange_payload:
+        {
+            "token": "string",
+            "scope": "privx-user connections-manual",
+            "client_id": "privx-ui"
+        }
+        Returns:
+            PrivXAPIResponse
+        """
+        response_status, data = self._http_post(
+            UrlEnum.AUTH.EXCHANGE_JWT_TOKEN,
+            body=get_value(exchange_payload, dict()),
+        )
+        return self._api_response(response_status, HTTPStatus.OK, data)

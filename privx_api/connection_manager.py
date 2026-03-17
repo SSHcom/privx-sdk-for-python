@@ -79,16 +79,22 @@ class ConnectionManagerAPI(BasePrivXAPI):
         )
         return self._api_response(response_status, HTTPStatus.OK, data)
 
-    def get_connection(self, connection_id: str) -> PrivXAPIResponse:
+    def get_connection(
+        self,
+        connection_id: str,
+        verbose: Optional[bool] = False,
+    ) -> PrivXAPIResponse:
         """
         Get a single connection.
 
         Returns:
             PrivXAPIResponse
         """
+        search_params = self._get_search_params(verbose=bool(verbose))
         response_status, data = self._http_get(
             UrlEnum.CONNECTION_MANAGER.CONNECTION,
             path_params={"connection_id": connection_id},
+            query_params=search_params,
         )
         return self._api_response(response_status, HTTPStatus.OK, data)
 
