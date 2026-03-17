@@ -20,6 +20,7 @@ class AuthEnum:
     LOGOUT = "AUTH.LOGOUT"
     MGW_USER_DEVICES = "AUTH.MOBILE_GW_USER_DEVICES"
     MGW_USER_DEVICES_UNPAIR = "AUTH.MOBILE_GW_USER_DEVICES_UNPAIR"
+    EXCHANGE_JWT_TOKEN = "AUTH.EXCHANGE_JWT_TOKEN"
 
     urls = {
         AUTHORIZE: "/auth/api/v1/oauth/authorize",
@@ -38,6 +39,7 @@ class AuthEnum:
         LOGOUT: "/auth/api/v1/logout",
         MGW_USER_DEVICES: "/auth/api/v1/users/{user_id}/devices",
         MGW_USER_DEVICES_UNPAIR: "/auth/api/v1/users/{user_id}/devices/{device_id}",
+        EXCHANGE_JWT_TOKEN: "/auth/api/v1/token/login",
     }
 
 
