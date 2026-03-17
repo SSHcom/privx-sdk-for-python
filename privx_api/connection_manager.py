@@ -25,6 +25,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
         sort_key: Optional[str] = None,
         sort_dir: Optional[str] = None,
         fuzzy_count: Optional[bool] = False,
+        verbose: Optional[bool] = False,
     ) -> PrivXAPIResponse:
         """
         Get connections.
@@ -38,6 +39,7 @@ class ConnectionManagerAPI(BasePrivXAPI):
             sortkey=sort_key,
             sortdir=sort_dir,
             fuzzycount=bool(fuzzy_count),
+            verbose=bool(verbose),
         )
         response_status, data = self._http_get(
             UrlEnum.CONNECTION_MANAGER.CONNECTIONS,
