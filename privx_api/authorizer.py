@@ -374,7 +374,7 @@ class AuthorizerAPI(BasePrivXAPI):
             PrivXStreamResponse
         """
         response = self._http_stream(
-            UrlEnum.AUTHORIZER.DOWNLOAD_CARRIER_CONFIG,
+            UrlEnum.AUTHORIZER.DOWNLOAD_WEB_PROXY_CONFIG,
             path_params={
                 "trusted_client_id": trusted_client_id,
                 "session_id": session_id,
