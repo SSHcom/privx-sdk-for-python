@@ -49,7 +49,6 @@ class HostStoreEnum:
     DISABLE = "HOST_STORE.DISABLE"
     HOST = "HOST_STORE.HOST"
     HOSTS = "HOST_STORE.HOSTS"
-    REALM = "HOST_STORE.REALM"
     RESOLVE = "HOST_STORE.RESOLVE"
     SEARCH = "HOST_STORE.SEARCH"
     SETTINGS = "HOST_STORE.SETTINGS"
@@ -68,7 +67,6 @@ class HostStoreEnum:
         DISABLE: "/host-store/api/v1/hosts/{host_id}/disabled",
         HOST: "/host-store/api/v1/hosts/{host_id}",
         HOSTS: "/host-store/api/v1/hosts",
-        REALM: "/host-store/api/v1/realm/resolve",
         RESOLVE: "/host-store/api/v1/hosts/resolve",
         SEARCH: "/host-store/api/v1/hosts/search",
         SETTINGS: "/host-store/api/v1/settings/default_service_options",
@@ -218,7 +216,6 @@ class ConnectionManagerEnum:
     UEBA_DATASET = "CONNECTION_MANAGER.UEBA_DATASET"
     UEBA_TRAIN_DATASET = "CONNECTION_MANAGER.UEBA_TRAIN_DATASET"
     UEBA_CONNECTION_COUNT = "CONNECTION_MANAGER.UEBA_CONNECTION_COUNT"
-    UEBA_INTERNAL_STATUS = "CONNECTION_MANAGER.UEBA_INTERNAL_STATUS"
     UEBA_STATUS = "CONNECTION_MANAGER.UEBA_STATUS"
     CONNECTION_TAGS = "CONNECTION_MANAGER.CONNECTION_TAGS"
     UPDATE_CONNECTION_TAGS = "CONNECTION_MANAGER.UPDATE_CONNECTION_TAGS"
@@ -257,7 +254,6 @@ class ConnectionManagerEnum:
         UEBA_TRAIN_DATASET: "/connection-manager/api/v1/ueba/train/{dataset_id}",
         UEBA_CONNECTION_COUNT: "/connection-manager/api/v1/ueba/query-connection-count",
         UEBA_STATUS: "/connection-manager/api/v1/ueba/status",
-        UEBA_INTERNAL_STATUS: "/connection-manager/api/v1/ueba/status/internal",
         CONNECTION_TAGS: "/connection-manager/api/v1/connections/tags",
         UPDATE_CONNECTION_TAGS: "/connection-manager/api/v1/connections/"
         "{connection_id}/tags",
