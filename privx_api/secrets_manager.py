@@ -275,7 +275,7 @@ class SecretsManagerAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         response_status, data = self._http_post(
-            UrlEnum.SECRETS_MANAGER.TARGET_DOMAIN,
+            UrlEnum.SECRETS_MANAGER.REFRESH_TARGET_DOMAIN,
             path_params={"target_domain_id": target_domain_id},
         )
         return self._api_response(response_status, HTTPStatus.OK, data)
@@ -377,7 +377,7 @@ class SecretsManagerAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status, data = self._http_put(
+        response_status, data = self._http_post(
             UrlEnum.SECRETS_MANAGER.BATH_UPDATE_TARGET_DOMAIN_ACCOUNT,
             path_params={"target_domain_id": target_domain_id},
             body=td_params,
