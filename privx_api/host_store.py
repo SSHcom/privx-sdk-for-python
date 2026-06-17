@@ -192,20 +192,6 @@ class HostStoreAPI(BasePrivXAPI):
         )
         return self._api_response(response_status, HTTPStatus.OK, data)
 
-    def resolve_host_realm(self, realm_params: dict) -> PrivXAPIResponse:
-        """
-        Resolve address to a single host in host store and return web
-        connections for user ID.
-
-        Returns:
-            PrivXAPIResponse
-        """
-        response_status, data = self._http_post(
-            UrlEnum.HOST_STORE.REALM,
-            body=realm_params,
-        )
-        return self._api_response(response_status, HTTPStatus.OK, data)
-
     def get_default_service_options(self) -> PrivXAPIResponse:
         """
         Get the default service options.
