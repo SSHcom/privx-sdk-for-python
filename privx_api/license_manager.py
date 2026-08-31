@@ -93,8 +93,8 @@ class LicenseManagerAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status = self._http_post(UrlEnum.LICENSE.MGW_REGISTER)
-        return self._api_response(response_status, HTTPStatus.OK, "")
+        response_status, data = self._http_post(UrlEnum.LICENSE.MGW_REGISTER)
+        return self._api_response(response_status, HTTPStatus.OK, data)
 
     def unregister_privx_from_mobilegw(self) -> PrivXAPIResponse:
         """
@@ -103,5 +103,5 @@ class LicenseManagerAPI(BasePrivXAPI):
         Returns:
             PrivXAPIResponse
         """
-        response_status = self._http_post(UrlEnum.LICENSE.MGW_UNREGISTER)
-        return self._api_response(response_status, HTTPStatus.OK, "")
+        response_status, data = self._http_post(UrlEnum.LICENSE.MGW_UNREGISTER)
+        return self._api_response(response_status, HTTPStatus.OK, data)
