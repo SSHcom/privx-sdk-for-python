@@ -54,6 +54,12 @@ def test_format_path_components_negative(base_url, args):
             {"limit": 500},
             "/role-store/api/v1/roles/123/members?limit=500",
         ),
+        (
+            UrlEnum.ROLE_STORE.MEMBERS,
+            {"role_id": "123"},
+            {"limit": 500, "max_member_count": 42},
+            "/role-store/api/v1/roles/123/members?limit=500&max_member_count=42",
+        ),
     ],
 )
 def test_build_url(urlname, path_params, query_params, expected):

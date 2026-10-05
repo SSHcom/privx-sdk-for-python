@@ -257,6 +257,7 @@ class RoleStoreAPI(BasePrivXAPI):
         limit: Optional[int] = None,
         sort_key: Optional[str] = None,
         sort_dir: Optional[str] = None,
+        max_member_count: Optional[int] = None,
     ) -> PrivXAPIResponse:
         """
         Get Role Members.
@@ -265,7 +266,11 @@ class RoleStoreAPI(BasePrivXAPI):
             PrivXAPIResponse
         """
         search_params = self._get_search_params(
-            offset=offset, limit=limit, sortkey=sort_key, sortdir=sort_dir
+            offset=offset,
+            limit=limit,
+            sortkey=sort_key,
+            sortdir=sort_dir,
+            max_member_count=max_member_count,
         )
         response_status, data = self._http_get(
             UrlEnum.ROLE_STORE.MEMBERS,
